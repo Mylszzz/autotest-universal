@@ -1,0 +1,37 @@
+{
+  "name": "apptesting",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node out/main.js",
+    "runEquipmentAccount": "node out/equipmentAccount.js",
+    "runReturnRegistration": "node out/returnRegistration.js",
+    "runRufund": "node out/rufund.js",
+    "t": "node out/test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jsrsasign": "^8.0.8",
+    "@types/node": "^13.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "crypto.js": "^2.0.2",
+    "csv-reader": "^1.0.7",
+    "csv-writer": "^1.6.0",
+    "fs-extra": "^9.0.1",
+    "iconv-lite": "^0.6.2",
+    "jsrsasign": "^10.1.4",
+    "log4js": "^6.3.0",
+    "md5-typescript": "^1.0.5",
+    "number-precision": "^1.5.0",
+    "path": "^0.12.7",
+    "ts-export-to-csv": "^0.3.3",
+    "webdriverio": "^6.7.3",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "description": ""
+}
