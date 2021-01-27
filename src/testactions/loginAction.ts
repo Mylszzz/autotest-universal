@@ -1,12 +1,80 @@
-
+import * as wdio from 'webdriverio';
 import {LogUtils} from "../utils/LogUtils";
 // import {GlobalUtil} from "../utils/GlobalUtil";
 const deviceName:string = "a8";  // TODO:需要定义全项目公用变量
 
+
+abstract class Device {
+    public client: wdio.BrowserObject;
+    public usernameText:any;  // 用户名输入框实例
+    public passwordText:any;
+    public username:string|undefined;  // 用户名
+    public password:string|undefined;  // 密码
+    constructor(client: wdio.BrowserObject) {
+        this.client = client;
+    }
+
+    abstract async getDeviceConfig():Promise<wdio.BrowserObject>;  // 根据不同的机器型号得到控件实例和账号密码
+
+    abstract async loginProcess():Promise<wdio.BrowserObject>;  // 执行登录操作
+}
+
+
+export class Device_A8 extends Device {
+    constructor(clinet: wdio.BrowserObject) {
+        super(clinet)
+    }
+
+    async getDeviceConfig(): Promise<wdio.BrowserObject> {
+        await this.client.pause(15000);
+        try {
+            LogUtils.log.info("====开始进行商户登录===");
+            this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
+            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
+            this.username = "ht202011190002802"  // TODO
+            this.password = "Pp88888888";  // TODO
+        } catch (e) {
+            LogUtils.log.error(e);
+        }
+    }
+
+    async loginProcess(): Promise<wdio.BrowserObject> {
+        try {
+            let loginBtn = await this.client.$('//android.widget.Button[@content-desc="登录"]');
+            await this.client.pause(1000);
+            await loginBtn.click();
+            let ele = await this.client.$('//android.view.View[@content-desc="正在登陆,请稍后...."]');
+            LogUtils.log.info(await ele.getAttribute("content-desc"));
+            let eleJudge:boolean = true;
+            while (eleJudge){
+                eleJudge = await this.client.isElementDisplayed(ele.elementId);
+            }
+        } catch (e) {
+            LogUtils.log.error(e);
+        } finally {
+            try {
+                await this.client.pause(1000);
+                // let name = await client.$('//android.view.View[@content-desc="货号:' + Message.storeNumber + '"]');
+                // if (!await client.isElementDisplayed(name.elementId)){
+                //     throw new Error('错误');
+                // }
+                //  LogUtils.log.info('登陆成功---');
+
+            }catch (e){
+                // await client.startActivity(Message.appPackageName,Message.appActivityName);
+                // LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！")
+                // await LoginAction.Login(client);
+            }
+        }
+    }
+}
+
+
 export class LoginAction{
 
-    public static async Login(client: WebdriverIOAsync.BrowserObject){
+    public static async Login(client: wdio.BrowserObject){
         await client.pause(15000);
+
             try {
                 LogUtils.log.info("====开始进行商户登录===");
                 let usernameText, passwordText;  //
