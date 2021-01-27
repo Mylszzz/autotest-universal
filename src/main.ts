@@ -2,18 +2,23 @@ import {SingleDriver} from "./driver";
 import {Device_A8} from "./testactions/loginAction";
 
 // import {GlobalUtil} from "./utils/GlobalUtil";
+import {LoginAction} from "./testactions/loginAction";
+import {GlobalUtil} from "./utils/GlobalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
-
+import {logger} from "./utils/LogUtils";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
 function before() {
-    // GlobalUtil.init();
+    GlobalUtil.init();
     // 读取测试数据
-    // map = ReadCSV.readFile();
+    map = ReadCSV.readFile();
+    let saleContent = map.get('saleContent');
+    logger.info("-------map--------------")
+    logger.info(saleContent);
 }
 
 async function salesSettlement() {
@@ -30,26 +35,8 @@ async function salesSettlement() {
     await device.loginProcess();
     client.pause(1000);
     // await LoginAction.Login(client);  //TODO: 这个是之前的静态方法
-
-    // let saleContent = map.get('saleContent');
-    // let headers:string[] = [];
-    // headers.push("saleTime");
-    // headers.push("orderNo");
-    // headers.push("price");
-    // headers.push(saleContent[0].split(','));
-    // for (let i = 1; i <= map.size-1; i++) {
-    //     let mode = map.get(i);
-    //     if (mode!==undefined){
-    //         let payTree = mode.payTree;
-    //         let otherTree = mode.otherTree;
-    //         await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
-    //
-    //     }else{
-    //
-    //     }
-    //
-    // }
-
+    await client.setImplicitTimeout(20000);
+    await LoginAction.Login(client);
 
 }
 
