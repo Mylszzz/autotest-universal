@@ -1,0 +1,119 @@
+[2021-01-27T10:55:55.650] [INFO] test - ====开始进行商户登录===
+[2021-01-27T10:56:04.375] [INFO] test - 正在登陆,请稍后....
+[2021-01-27T10:56:42.188] [INFO] test - ====开始进行商户登录===
+[2021-01-27T10:56:50.237] [INFO] test - 正在登陆,请稍后....
+[2021-01-27T16:07:26.861] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:07:26.861] [INFO] ZM_TEST - [
+  '润钱包,TTPAY主扫,购物卡,中国银行（备用）,中国银行卡,嘉利扫码-间联,现金-记账,其他,现金,团购券,嘉利扫码,无锡购物卡,TTPay,西瓜买单,退货,取消交易',
+  '0,0,0,0,0,0,0,1,2.5,0,0,0,0,0,Y,N',
+  '0,0,0,0,0,0,7,8,1.2,0,0,0,0,0,Y,Y',
+  '0,0,0,0,0,0,0,2,1.2,0,0,0,0,0,Y,N',
+  ''
+]
+[2021-01-27T16:07:49.447] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:07:49.447] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:13:15.532] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:13:15.533] [INFO] ZM_TEST - [
+  '润钱包,TTPAY主扫,购物卡,中国银行（备用）,中国银行卡,嘉利扫码-间联,现金-记账,其他,现金,团购券,嘉利扫码,无锡购物卡,TTPay,西瓜买单,退货,取消交易',
+  '0,0,0,0,0,0,0,1,2.5,0,0,0,0,0,Y,N',
+  '0,0,0,0,0,0,7,8,1.2,0,0,0,0,0,Y,Y',
+  '0,0,0,0,0,0,0,2,1.2,0,0,0,0,0,Y,N',
+  ''
+]
+[2021-01-27T16:16:32.408] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:16:32.409] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:16:48.026] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:16:48.027] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:17:38.795] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:17:38.796] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:23:49.605] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:23:49.605] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:23:49.606] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:24:01.825] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:24:16.840] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:25:17.842] [ERROR] test - Error: Can't call clearValue on element with selector "//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText" because element wasn't found
+    at Object.implicitWait [as default] (D:\GitHub\autotest-universal\node_modules\webdriverio\build\utils\implicitWait.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Element.elementErrorHandlerCallbackFn (D:\GitHub\autotest-universal\node_modules\webdriverio\build\middlewares.js:13:29)
+    at async Element.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:36:13)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:25:18.846] [INFO] test - 登陆成功---
+[2021-01-27T16:27:16.393] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:27:16.393] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:27:16.393] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:27:25.095] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:27:40.115] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:27:48.353] [INFO] test - 正在登陆,请稍后....
+[2021-01-27T16:27:53.405] [ERROR] test - stale element reference: androidx.test.uiautomator.StaleObjectException
+    at Object.getErrorFromResponseBody (D:\GitHub\autotest-universal\node_modules\webdriver\build\utils.js:94:12)
+    at WebDriverRequest._request (D:\GitHub\autotest-universal\node_modules\webdriver\build\request.js:133:31)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Browser.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:49:28)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:27:54.421] [INFO] test - 登陆成功---
+[2021-01-27T16:28:05.974] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:28:05.975] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:28:05.975] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:28:16.765] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:28:31.780] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:28:39.206] [INFO] test - 正在登陆,请稍后....
+[2021-01-27T16:28:42.290] [ERROR] test - stale element reference: androidx.test.uiautomator.StaleObjectException
+    at Object.getErrorFromResponseBody (D:\GitHub\autotest-universal\node_modules\webdriver\build\utils.js:94:12)
+    at WebDriverRequest._request (D:\GitHub\autotest-universal\node_modules\webdriver\build\request.js:133:31)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Browser.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:49:28)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:28:43.298] [INFO] test - 登陆成功---

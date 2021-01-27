@@ -1,8 +1,7 @@
 import {SingleDriver} from "./driver";
-import {Device_A8} from "./testactions/loginAction";
+import {Device_A8, Device_Elo} from "./testactions/loginAction";
 
 // import {GlobalUtil} from "./utils/GlobalUtil";
-import {LoginAction} from "./testactions/loginAction";
 import {GlobalUtil} from "./utils/GlobalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
@@ -22,21 +21,21 @@ function before() {
 }
 
 async function salesSettlement() {
-
+    logger.info("开始创建client")
     let client = await SingleDriver.createClient();
+    logger.info("成功创建client")
     let deviceName = 'a8';  // TODO
     let device:any;
     if (deviceName == 'a8') {
         device = new Device_A8(client);
     } else {
+        device = new Device_Elo(client);
     }
+    await client.setImplicitTimeout(20000);
     await device.getDeviceConfig();
     client.pause(1000);
     await device.loginProcess();
     client.pause(1000);
-    // await LoginAction.Login(client);  //TODO: 这个是之前的静态方法
-    await client.setImplicitTimeout(20000);
-    await LoginAction.Login(client);
 
 }
 

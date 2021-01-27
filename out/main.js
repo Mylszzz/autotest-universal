@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
 const loginAction_1 = require("./testactions/loginAction");
+// import {GlobalUtil} from "./utils/GlobalUtil";
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
@@ -19,9 +20,22 @@ function before() {
     LogUtils_1.logger.info(saleContent);
 }
 async function salesSettlement() {
+    LogUtils_1.logger.info("开始创建client");
     let client = await driver_1.SingleDriver.createClient();
+    LogUtils_1.logger.info("成功创建client");
+    let deviceName = 'a8'; // TODO
+    let device;
+    if (deviceName == 'a8') {
+        device = new loginAction_1.Device_A8(client);
+    }
+    else {
+        device = new loginAction_1.Device_Elo(client);
+    }
     await client.setImplicitTimeout(20000);
-    await loginAction_1.LoginAction.Login(client);
+    await device.getDeviceConfig();
+    client.pause(1000);
+    await device.loginProcess();
+    client.pause(1000);
 }
 before();
 salesSettlement();
