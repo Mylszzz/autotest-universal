@@ -1,7 +1,11 @@
 import * as wdio from 'webdriverio';
 import {Options} from 'webdriver';
+import {DeviceName} from "./entity/deviceName";
 
 // const chromedriverpath = path.join(__dirname,'../app/chromedriver')
+
+const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
+
 
 export class SingleDriver{
     private static client:wdio.BrowserObject;
@@ -33,27 +37,27 @@ export class SingleDriver{
     /*
     Elo 的配置
      */
-    // public static config:Options = {
-    //
-    //     hostname:'127.0.0.1',
-    //     port:4723,
-    //       path:'/wd/hub',
-    //     logLevel:'info',
-    //     capabilities:{
-    //         automationName:'uiautomator2',
-    //         platformName:'android',
-    //        // chromedriverExecutable:chromedriverpath,
-    //         platformVersion:'7.1.2',
-    //         deviceName:'192.168.102.3:5555',
-    //         unicodeKeyboard:true,
-    //         skipDeviceInitialization:true,
-    //         skipServerInstallation:true,
-    //         noReset:true,
-    //         appPackage:'cn.com.crland.impos',
-    //         appActivity:'cn.com.crland.impos.MainActivity',
-    //         newCommandTimeout:24*3600,
-    //     }
-    // };
+    public static config_elo:Options = {
+
+        hostname:'127.0.0.1',
+        port:4723,
+          path:'/wd/hub',
+        logLevel:'info',
+        capabilities:{
+            automationName:'uiautomator2',
+            platformName:'android',
+           // chromedriverExecutable:chromedriverpath,
+            platformVersion:'7.1.2',
+            deviceName:'192.168.102.3:5555',
+            unicodeKeyboard:true,
+            skipDeviceInitialization:true,
+            skipServerInstallation:true,
+            noReset:true,
+            appPackage:'cn.com.crland.impos',
+            appActivity:'cn.com.crland.impos.MainActivity',
+            newCommandTimeout:24*3600,
+        }
+    };
 
     /*
     * 1.声明一个空的变量 client
@@ -63,7 +67,12 @@ export class SingleDriver{
 
     public static async createClient():Promise<wdio.BrowserObject>{
         if (!this.client){
-            this.client = await wdio.remote(this.config);
+            if (deviceName == 'a8') {
+                this.client = await wdio.remote(this.config);
+            } else if (deviceName == 'elo') {
+                this.client = await wdio.remote(this.config_elo);
+            }
+
         }
         return this.client;
     }

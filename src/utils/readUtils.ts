@@ -2,6 +2,9 @@ import * as fs from 'fs'
 import * as path from "path";
 import  incon from 'iconv-lite'
 import {LogUtils} from "./LogUtils";
+import {DeviceName} from "../entity/deviceName";
+
+const deviceName:string = DeviceName.getDeviceName();
 
 
 export class ReadUtils {
@@ -71,7 +74,13 @@ export class ReadUtils {
         //LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
         this.sleep(2000)
-        let buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig.json"));
+        let buffer:any;
+        if (deviceName=="a8") {
+            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig_elo.json"));
+        } else if (deviceName=='elo'){
+            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig_elo.json"));
+        }
+
         let  data=buffer.toString();
         console.log(JSON.parse(data));
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值

@@ -117,3 +117,96 @@
     at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:49:28)
     at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
 [2021-01-27T16:28:43.298] [INFO] test - 登陆成功---
+[2021-01-27T16:39:33.278] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:39:33.278] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:39:33.278] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:39:45.461] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:40:00.479] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:41:01.227] [ERROR] test - Error: Can't call clearValue on element with selector "//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText" because element wasn't found
+    at Object.implicitWait [as default] (D:\GitHub\autotest-universal\node_modules\webdriverio\build\utils\implicitWait.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Element.elementErrorHandlerCallbackFn (D:\GitHub\autotest-universal\node_modules\webdriverio\build\middlewares.js:13:29)
+    at async Element.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:36:13)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:41:02.232] [INFO] test - 登陆成功---
+[2021-01-27T16:43:37.787] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:43:37.788] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:43:37.789] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:43:50.087] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:44:05.101] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:45:06.565] [ERROR] test - Error: Can't call clearValue on element with selector "//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText" because element wasn't found
+    at Object.implicitWait [as default] (D:\GitHub\autotest-universal\node_modules\webdriverio\build\utils\implicitWait.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Element.elementErrorHandlerCallbackFn (D:\GitHub\autotest-universal\node_modules\webdriverio\build\middlewares.js:13:29)
+    at async Element.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:36:13)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:45:07.572] [INFO] test - 登陆成功---
+[2021-01-27T16:48:17.441] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:48:17.441] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:48:17.441] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:48:29.302] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:48:44.310] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:49:44.697] [ERROR] test - Error: Can't call clearValue on element with selector "//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText" because element wasn't found
+    at Object.implicitWait [as default] (D:\GitHub\autotest-universal\node_modules\webdriverio\build\utils\implicitWait.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Element.elementErrorHandlerCallbackFn (D:\GitHub\autotest-universal\node_modules\webdriverio\build\middlewares.js:13:29)
+    at async Element.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:36:13)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:49:45.713] [INFO] test - 登陆成功---
+[2021-01-27T16:52:08.513] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:52:08.514] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:52:08.514] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:52:20.679] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:52:35.689] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:53:36.732] [ERROR] test - Error: Can't call clearValue on element with selector "//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText" because element wasn't found
+    at Object.implicitWait [as default] (D:\GitHub\autotest-universal\node_modules\webdriverio\build\utils\implicitWait.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+    at async Element.elementErrorHandlerCallbackFn (D:\GitHub\autotest-universal\node_modules\webdriverio\build\middlewares.js:13:29)
+    at async Element.wrapCommandFn (D:\GitHub\autotest-universal\node_modules\@wdio\utils\build\shim.js:63:29)
+    at async Device_A8.loginProcess (D:\GitHub\autotest-universal\out\testactions\loginAction.js:36:13)
+    at async salesSettlement (D:\GitHub\autotest-universal\out\main.js:37:5)
+[2021-01-27T16:53:37.743] [INFO] test - 登陆成功---
+[2021-01-27T16:55:41.157] [INFO] ZM_TEST - -------map--------------
+[2021-01-27T16:55:41.157] [INFO] ZM_TEST - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-01-27T16:55:41.158] [INFO] ZM_TEST - 开始创建client
+[2021-01-27T16:55:53.261] [INFO] ZM_TEST - 成功创建client
+[2021-01-27T16:56:08.269] [INFO] test - ====开始进行商户登录===
+[2021-01-27T16:56:14.974] [INFO] test - ====商户登录成功===

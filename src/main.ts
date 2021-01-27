@@ -7,10 +7,15 @@ import {ReadCSV} from "./utils/ReadCSV";
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
 import {logger} from "./utils/LogUtils";
+import {DeviceName} from "./entity/deviceName";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
+
+
+const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
+
 function before() {
     GlobalUtil.init();
     // 读取测试数据
@@ -24,11 +29,11 @@ async function salesSettlement() {
     logger.info("开始创建client")
     let client = await SingleDriver.createClient();
     logger.info("成功创建client")
-    let deviceName = 'a8';  // TODO
+
     let device:any;
     if (deviceName == 'a8') {
         device = new Device_A8(client);
-    } else {
+    } else if (deviceName == 'elo') {
         device = new Device_Elo(client);
     }
     await client.setImplicitTimeout(20000);

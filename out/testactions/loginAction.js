@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Device_Elo = exports.Device_A8 = void 0;
 const LogUtils_1 = require("../utils/LogUtils");
 const GlobalUtil_1 = require("../utils/GlobalUtil");
-const deviceName = "a8"; // TODO:需要定义全项目公用变量
+const deviceName_1 = require("../entity/deviceName");
+const deviceName = deviceName_1.DeviceName.getDeviceName();
 class Device {
     constructor(client) {
         this.client = client;
@@ -89,6 +90,8 @@ class Device_Elo extends Device {
     }
     async loginProcess() {
         try {
+            this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
+            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
             await this.usernameText.clearValue();
             await this.client.pause(1000);
             await this.usernameText.setValue(this.username);

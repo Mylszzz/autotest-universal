@@ -2,7 +2,9 @@ import * as wdio from 'webdriverio';
 import {LogUtils} from "../utils/LogUtils";
  import {GlobalUtil} from "../utils/GlobalUtil";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
-const deviceName:string = "a8";  // TODO:需要定义全项目公用变量
+import {DeviceName} from "../entity/deviceName";
+
+const deviceName:string = DeviceName.getDeviceName();
 
 
 abstract class Device {
@@ -100,12 +102,10 @@ export class Device_Elo extends Device{
         }
     }
 
-    async loginProcess()
-
-
-
-    {
+    async loginProcess() {
         try {
+            this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
+            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
             await this.usernameText.clearValue();
             await this.client.pause(1000);
             await this.usernameText.setValue(this.username);
