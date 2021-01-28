@@ -3,7 +3,7 @@ import {TouchAction} from "./TouchAction";
 
 export class Screen {
     //筛选条件
-    public static async screenNo(client: any,date:string,) {
+    public static async screenNo(client: any,date:string) {
         await Search.search(client);
         //点击筛选
         let ccBtn = await client.$('//android.widget.Button[@content-desc="funnel"]');

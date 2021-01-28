@@ -1,35 +1,15 @@
 import * as wdio from 'webdriverio';
 import {Options} from 'webdriver';
+import {DeviceName} from "./static/deviceName";
+import {DriverConfig} from "./static/driverConfig";
 
 // const chromedriverpath = path.join(__dirname,'../app/chromedriver')
 
+const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
+
+
 export class SingleDriver{
     private static client:wdio.BrowserObject;
-
-    public static config:Options = {
-
-        hostname:'127.0.0.1',
-        port:4723,
-        path: '/wd/hub',
-        logLevel:'error',
-        capabilities:{
-            automationName:'uiautomator2',
-            platformName:'android',
-            // chromedriverExecutable:chromedriverpath,
-            platformVersion:'5.1.1',
-            deviceName:'192.168.102.7:5555',
-            // unicodeKeyboard:true,
-            skipDeviceInitialization:true,
-            skipServerInstallation:true,
-            noReset:true,
-            fullReset: false,
-            appPackage: 'net.ttoto.grandjoy.hbirdpos',
-            appActivity: 'net.ttoto.grandjoy.hbirdpos.MainActivity',
-            newCommandTimeout:24*3600,
-            // logFile:'C://Users//13527//Desktop//appium//log.txt'
-            // app:'C:/Users/ttebduser/Desktop/app_hk716_202011122139.apk'
-        }
-    };
 
     /*
     * 1.声明一个空的变量 client
@@ -39,7 +19,12 @@ export class SingleDriver{
 
     public static async createClient():Promise<wdio.BrowserObject>{
         if (!this.client){
-            this.client = await wdio.remote(this.config);
+            if (deviceName == 'a8') {
+                this.client = await wdio.remote(DriverConfig.config_a8);
+            } else if (deviceName == 'elo') {
+                this.client = await wdio.remote(DriverConfig.config_elo);
+            }
+
         }
         return this.client;
     }

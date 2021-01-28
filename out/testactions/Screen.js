@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Screen = void 0;
 const Search_1 = require("./Search");
 class Screen {
+    //筛选条件
     static async screenNo(client, date) {
         await Search_1.Search.search(client);
         //点击筛选
@@ -18,10 +19,19 @@ class Screen {
         let okView = await client.$('//android.view.View[@content-desc="确定"]');
         await okView.click();
         //选择条件
-        let typeView = await client.$('//android.view.View[@content-desc="一般销售单"]');
-        await typeView.click();
+        let typeView1 = await client.$('//android.view.View[@content-desc="一般销售单"]');
+        await typeView1.click();
+        let typeView2 = await client.$('//android.view.View[@content-desc="已完成"]');
+        await typeView2.click();
+    }
+    static async okScreen(client) {
         //完成
         let ok = await client.$('////android.widget.Button[@content-desc="完成"]');
+        await ok.click();
+    }
+    static async refScreen(client) {
+        //重置
+        let ok = await client.$('////android.widget.Button[@content-desc="重置"]');
         await ok.click();
     }
 }

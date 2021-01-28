@@ -21,7 +21,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingleDriver = void 0;
 const wdio = __importStar(require("webdriverio"));
+const deviceName_1 = require("./static/deviceName");
+const driverConfig_1 = require("./static/driverConfig");
 // const chromedriverpath = path.join(__dirname,'../app/chromedriver')
+const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 class SingleDriver {
     /*
     * 1.声明一个空的变量 client
@@ -30,30 +33,14 @@ class SingleDriver {
     * */
     static async createClient() {
         if (!this.client) {
-            this.client = await wdio.remote(this.config);
+            if (deviceName == 'a8') {
+                this.client = await wdio.remote(driverConfig_1.DriverConfig.config_a8);
+            }
+            else if (deviceName == 'elo') {
+                this.client = await wdio.remote(driverConfig_1.DriverConfig.config_elo);
+            }
         }
         return this.client;
     }
 }
 exports.SingleDriver = SingleDriver;
-SingleDriver.config = {
-    hostname: '127.0.0.1',
-    port: 4723,
-    path: '/wd/hub',
-    logLevel: 'error',
-    capabilities: {
-        automationName: 'uiautomator2',
-        platformName: 'android',
-        // chromedriverExecutable:chromedriverpath,
-        platformVersion: '5.1.1',
-        deviceName: '192.168.102.7:5555',
-        // unicodeKeyboard:true,
-        skipDeviceInitialization: true,
-        skipServerInstallation: true,
-        noReset: true,
-        fullReset: false,
-        appPackage: 'net.ttoto.grandjoy.hbirdpos',
-        appActivity: 'net.ttoto.grandjoy.hbirdpos.MainActivity',
-        newCommandTimeout: 24 * 3600,
-    }
-};

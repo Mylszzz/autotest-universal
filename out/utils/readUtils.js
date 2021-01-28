@@ -27,6 +27,8 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const LogUtils_1 = require("./LogUtils");
+const deviceName_1 = require("../static/deviceName");
+const deviceName = deviceName_1.DeviceName.getDeviceName();
 class ReadUtils {
     async readTextContent(filePath) {
         let map = [];
@@ -87,11 +89,17 @@ class ReadUtils {
         //LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
         this.sleep(2000);
-        let buffer = fs.readFileSync(path.join(__dirname, "../../globalconfig.json"));
+        let buffer;
+        if (deviceName == "a8") {
+            buffer = fs.readFileSync(path.join(__dirname, "../../globalconfig.json"));
+        }
+        else if (deviceName == 'elo') {
+            buffer = fs.readFileSync(path.join(__dirname, "../../globalconfig_elo.json"));
+        }
         let data = buffer.toString();
         console.log(JSON.parse(data));
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值
-        //let map=new Map();
+        //let map=new Map();ss
         for (let obj of Object.keys(JSON.parse(data))) {
             map.set(obj, JSON.parse(data)[obj]);
         }
