@@ -1,4 +1,5 @@
 import {Options} from 'webdriver';
+import {DeviceName} from "./static/deviceName";
 
 export class DriverConfig {
 
