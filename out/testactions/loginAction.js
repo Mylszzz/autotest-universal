@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Device_Elo = exports.Device_A8 = void 0;
 const LogUtils_1 = require("../utils/LogUtils");
 const GlobalUtil_1 = require("../utils/GlobalUtil");
-const deviceName_1 = require("../entity/deviceName");
+const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class Device {
     constructor(client) {
@@ -25,8 +25,6 @@ class Device_A8 extends Device {
             LogUtils_1.LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
-            // this.username = "ht202011190002802"  // TODO
-            // this.password = "Pp88888888";  // TODO
         }
         catch (e) {
             LogUtils_1.LogUtils.log.error(e);

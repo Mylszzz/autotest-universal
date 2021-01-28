@@ -21,7 +21,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingleDriver = void 0;
 const wdio = __importStar(require("webdriverio"));
-const deviceName_1 = require("./entity/deviceName");
+const deviceName_1 = require("./static/deviceName");
+const driverConfig_1 = require("./static/driverConfig");
 // const chromedriverpath = path.join(__dirname,'../app/chromedriver')
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 class SingleDriver {
@@ -33,58 +34,13 @@ class SingleDriver {
     static async createClient() {
         if (!this.client) {
             if (deviceName == 'a8') {
-                this.client = await wdio.remote(this.config);
+                this.client = await wdio.remote(driverConfig_1.DriverConfig.config_a8);
             }
             else if (deviceName == 'elo') {
-                this.client = await wdio.remote(this.config_elo);
+                this.client = await wdio.remote(driverConfig_1.DriverConfig.config_elo);
             }
         }
         return this.client;
     }
 }
 exports.SingleDriver = SingleDriver;
-/*
-A8 的配置
- */
-SingleDriver.config = {
-    hostname: '127.0.0.1',
-    port: 4723,
-    path: '/wd/hub',
-    logLevel: 'error',
-    capabilities: {
-        automationName: 'uiautomator2',
-        platformName: 'android',
-        platformVersion: '5.1.1',
-        deviceName: '192.168.102.7:5555',
-        skipDeviceInitialization: true,
-        skipServerInstallation: true,
-        noReset: true,
-        fullReset: false,
-        appPackage: 'net.ttoto.grandjoy.hbirdpos',
-        appActivity: 'net.ttoto.grandjoy.hbirdpos.MainActivity',
-        newCommandTimeout: 24 * 3600,
-    }
-};
-/*
-Elo 的配置
- */
-SingleDriver.config_elo = {
-    hostname: '127.0.0.1',
-    port: 4723,
-    path: '/wd/hub',
-    logLevel: 'info',
-    capabilities: {
-        automationName: 'uiautomator2',
-        platformName: 'android',
-        // chromedriverExecutable:chromedriverpath,
-        platformVersion: '7.1.2',
-        deviceName: '192.168.102.3:5555',
-        unicodeKeyboard: true,
-        skipDeviceInitialization: true,
-        skipServerInstallation: true,
-        noReset: true,
-        appPackage: 'cn.com.crland.impos',
-        appActivity: 'cn.com.crland.impos.MainActivity',
-        newCommandTimeout: 24 * 3600,
-    }
-};

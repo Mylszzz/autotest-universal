@@ -8,7 +8,7 @@ const ReadCSV_1 = require("./utils/ReadCSV");
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
 const Tools_1 = require("./utils/Tools");
 const LogUtils_1 = require("./utils/LogUtils");
-const deviceName_1 = require("./entity/deviceName");
+const deviceName_1 = require("./static/deviceName");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + Tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";

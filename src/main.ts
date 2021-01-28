@@ -7,7 +7,7 @@ import {ReadCSV} from "./utils/ReadCSV";
 // import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
 import {logger} from "./utils/LogUtils";
-import {DeviceName} from "./entity/deviceName";
+import {DeviceName} from "./static/deviceName";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";

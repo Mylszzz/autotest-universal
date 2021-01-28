@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from "path";
 import  incon from 'iconv-lite'
 import {LogUtils} from "./LogUtils";
-import {DeviceName} from "../entity/deviceName";
+import {DeviceName} from "../static/deviceName";
 
 const deviceName:string = DeviceName.getDeviceName();
 
@@ -76,7 +76,7 @@ export class ReadUtils {
         this.sleep(2000)
         let buffer:any;
         if (deviceName=="a8") {
-            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig_elo.json"));
+            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig.json"));
         } else if (deviceName=='elo'){
             buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig_elo.json"));
         }

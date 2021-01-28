@@ -2,7 +2,7 @@ import * as wdio from 'webdriverio';
 import {LogUtils} from "../utils/LogUtils";
  import {GlobalUtil} from "../utils/GlobalUtil";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
-import {DeviceName} from "../entity/deviceName";
+import {DeviceName} from "../static/deviceName";
 
 const deviceName:string = DeviceName.getDeviceName();
 
@@ -40,8 +40,6 @@ export class Device_A8 extends Device {
             LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
-            // this.username = "ht202011190002802"  // TODO
-            // this.password = "Pp88888888";  // TODO
         } catch (e) {
             LogUtils.log.error(e);
         }
