@@ -1,13 +1,13 @@
 import {SingleDriver} from "./driver";
 import {Device_A8, Device_Elo} from "./testactions/loginAction";
-
-// import {GlobalUtil} from "./utils/GlobalUtil";
 import {GlobalUtil} from "./utils/GlobalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
 import {logger} from "./utils/LogUtils";
 import {DeviceName} from "./static/deviceName";
+import {Screen} from "./testactions/Screen";
+import {Search} from "./testactions/Search";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -48,22 +48,24 @@ async function salesSettlement() {
     headers.push("orderNo");
     headers.push("price");
     headers.push(saleContent[0].split(','));
-    for (let i = 1; i <= map.size - 1; i++) {
-        let mode = map.get(i);
+     for (let i = 1; i <= map.size - 1; i++) {
+         let mode = map.get(i);
         if (mode !== undefined) {
             let payTree = mode.payTree;
             console.log("payTree[" + i + "]:" + payTree.get('data'));
-            console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
-            let otherTree = mode.otherTree;
+             console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
+             let otherTree = mode.otherTree;
             console.log("otherTree[" + i + "]:" + otherTree.get('data'));
             console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-            await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+             await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
 
-        } else {
+       } else {
 
-        }
+         }
 
-    }
+     }
+
+
 }
 
 before();

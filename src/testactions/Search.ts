@@ -1,8 +1,4 @@
 import {TouchAction} from "./TouchAction";
-import NP from 'number-precision'
-import {GlobalUtil} from "../utils/GlobalUtil";
-import {SaleData} from "../entity/saleData";
-import {LogUtils} from "../utils/LogUtils";
 
 export class Search{
     public static async search(client: any) {
