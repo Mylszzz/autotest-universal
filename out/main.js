@@ -5,7 +5,7 @@ const loginAction_1 = require("./testactions/loginAction");
 // import {GlobalUtil} from "./utils/GlobalUtil";
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
-// import {VipMixedPayment} from "./testactions/VipMixedPayment";
+const VipMixedPayment_1 = require("./testactions/VipMixedPayment");
 const Tools_1 = require("./utils/Tools");
 const LogUtils_1 = require("./utils/LogUtils");
 const deviceName_1 = require("./static/deviceName");
@@ -37,6 +37,26 @@ async function salesSettlement() {
     client.pause(1000);
     await device.loginProcess();
     client.pause(1000);
+    let saleContent = map.get('saleContent');
+    let headers = [];
+    headers.push("saleTime");
+    headers.push("orderNo");
+    headers.push("price");
+    headers.push(saleContent[0].split(','));
+    for (let i = 1; i <= map.size - 1; i++) {
+        let mode = map.get(i);
+        if (mode !== undefined) {
+            let payTree = mode.payTree;
+            console.log("payTree[" + i + "]:" + payTree.get('data'));
+            console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
+            let otherTree = mode.otherTree;
+            console.log("otherTree[" + i + "]:" + otherTree.get('data'));
+            console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
+            await VipMixedPayment_1.VipMixedPayment.test(client, payTree, otherTree, i, headers, saleContent[i].split(','), fileName);
+        }
+        else {
+        }
+    }
 }
 before();
 salesSettlement();
