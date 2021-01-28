@@ -46,12 +46,15 @@ class VipMixedPayment {
             LogUtils_1.LogUtils.log.info("测试" + payMethods);
             //
             await this.sleep(2000);
-            //输入会员手机号
+            // Vip登录
             // TODO： 输入手机号有时有错误
             await LoginVip_1.LoginVip.loginVip(client);
+            LogUtils_1.LogUtils.log.info("VIP登录成功！");
             //点击选取货品
             let toSale = await client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get('storeNumber') + '"]');
+            await client.pause(1000);
             await toSale.click();
+            await client.pause(1000);
             //计算总价
             let p = 0;
             for (let i = 0; i < prices.length; i++) {
@@ -60,12 +63,15 @@ class VipMixedPayment {
             price = number_precision_1.default.strip(p);
             //输入价格
             await TouchAction_1.TouchAction.touchPriceAction(client, price.toString());
+            await client.pause(1000);
             //确定
             let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
             await confirm.click();
+            await client.pause(1000);
             //去结算
             let settlement = await client.$('//android.widget.Button[@content-desc="去结算"]');
             await settlement.click();
+            await client.pause(1000);
             let up_down = 0;
             // 订单取消
             if (cancel === 'Y') {

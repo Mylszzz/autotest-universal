@@ -11,8 +11,10 @@ export class LoginVip {
         await vip.click();
         //输入会员号码
         await TouchAction.phoneNum(client, GlobalUtil.map.get('vipPhone'));
+        await client.pause(1000);
         //点击确定
         let ok = await client.$('//android.widget.Button[@content-desc="确定"]');
         await ok.click();
+        await client.pause(3000);
     }
 }

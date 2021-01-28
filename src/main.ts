@@ -28,7 +28,7 @@ function before() {
 async function salesSettlement() {
     logger.info("开始创建client")
     let client = await SingleDriver.createClient();
-    logger.info("成功创建client")
+    logger.info("成功创建["+deviceName+"]client")
 
     let device:any;
     if (deviceName == 'a8') {
