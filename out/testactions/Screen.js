@@ -14,24 +14,36 @@ class Screen {
         await calBtn.click();
         let dat = date.split('-');
         let nowDate = new Date();
-        let dateView = await client.$('//android.view.View[@content-desc="' + dat[3] + '"]');
-        await dateView.click();
+        let dat1 = nowDate.getMonth(); //当前月份
+        //判断测试月份是否小于当前月份，如果是，则去到上一月份日历直至到测试月份日历
+        while (Number.parseInt(dat[1]) < dat1) {
+            let backBtn = await client.$('//android.widget.Button[@content-desc="arrow back"]');
+            await backBtn.click();
+        }
+        if (Number.parseInt(dat[2]) > 20) {
+            let dateView = await client.$('(//android.view.View[@content-desc="' + dat[2] + '"])[2]');
+            await dateView.click();
+        }
+        else {
+            let dateView = await client.$('(//android.view.View[@content-desc="' + dat[2] + '"])[1]');
+            await dateView.click();
+        }
         let okView = await client.$('//android.view.View[@content-desc="确定"]');
         await okView.click();
         //选择条件
-        let typeView1 = await client.$('//android.view.View[@content-desc="一般销售单"]');
+        let typeView1 = await client.$('//android.view.View[@content-desc="取消退货单"]');
         await typeView1.click();
-        let typeView2 = await client.$('//android.view.View[@content-desc="已完成"]');
+        let typeView2 = await client.$('//android.view.View[@content-desc="已取消"]');
         await typeView2.click();
     }
     static async okScreen(client) {
         //完成
-        let ok = await client.$('////android.widget.Button[@content-desc="完成"]');
+        let ok = await client.$('//android.widget.Button[@content-desc="完成"]');
         await ok.click();
     }
     static async refScreen(client) {
         //重置
-        let ok = await client.$('////android.widget.Button[@content-desc="重置"]');
+        let ok = await client.$('//android.widget.Button[@content-desc="重置"]');
         await ok.click();
     }
 }

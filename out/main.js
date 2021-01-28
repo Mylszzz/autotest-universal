@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
 const loginAction_1 = require("./testactions/loginAction");
-// import {GlobalUtil} from "./utils/GlobalUtil";
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
 const VipMixedPayment_1 = require("./testactions/VipMixedPayment");
