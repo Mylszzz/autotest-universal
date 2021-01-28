@@ -1,7 +1,7 @@
 import {DeviceName} from "../static/deviceName";
 
 export class ValidateOrderInfo {
-    deviceName:string = DeviceName.getDeviceName();
-
+    public deviceName:string = DeviceName.getDeviceName();
+    public infoMap:any = new Map();  // 用于保存订单信息
 
 }
