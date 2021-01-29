@@ -6,6 +6,7 @@ import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
 import {logger} from "./utils/LogUtils";
 import {DeviceName} from "./static/deviceName";
+import {ValidateOrderInfo} from "./testactions/validateOrderInfo";
 import {Screen} from "./testactions/Screen";
 import {Search} from "./testactions/Search";
 
@@ -21,14 +22,17 @@ function before() {
     // 读取测试数据
     map = ReadCSV.readFile();
     let saleContent = map.get('saleContent');
-    logger.info("-------map--------------")
+    logger.info("-------map--------------");
     logger.info(saleContent);
 }
 
 async function salesSettlement() {
-    logger.info("开始创建client")
+    /*
+    登录
+     */
+    logger.info("开始创建client");
     let client = await SingleDriver.createClient();
-    logger.info("成功创建["+deviceName+"]client")
+    logger.info("成功创建["+deviceName+"]client");
 
     let device:any;
     if (deviceName == 'a8') {
@@ -42,6 +46,9 @@ async function salesSettlement() {
     await device.loginProcess();
     client.pause(1000);
 
+    /*
+
+     */
     let saleContent = map.get('saleContent');
     let headers: string[] = [];
     headers.push("saleTime");

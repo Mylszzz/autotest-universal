@@ -29,6 +29,12 @@ const GlobalUtil_1 = require("./GlobalUtil");
 const path = __importStar(require("path"));
 const Tools_1 = require("./Tools");
 class ExportCsv {
+    /**
+     *
+     * @param options: 输出csv的配置，在csvOptions.ts中配置
+     * @param data:
+     * @param {string} fileName: 输出的文件名
+     */
     static printSaleData(options, data, fileName) {
         const csvExporter = new ts_export_to_csv_1.ExportToCsv(options);
         const csvData = csvExporter.generateCsv(data, true);

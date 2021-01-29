@@ -9,6 +9,12 @@ import {createObjectCsvWriter} from 'csv-writer'
 
 export class ExportCsv {
 
+    /**
+     *
+     * @param options: 输出csv的配置，在csvOptions.ts中配置
+     * @param data:
+     * @param {string} fileName: 输出的文件名
+     */
     public static printSaleData(options:any,data:any,fileName:string) {
         const csvExporter = new ExportToCsv(options);
 

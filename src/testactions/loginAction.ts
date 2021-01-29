@@ -7,6 +7,11 @@ import {DeviceName} from "../static/deviceName";
 const deviceName:string = DeviceName.getDeviceName();
 
 
+/**
+ * device 的抽象类
+ * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
+ * 需要实现2个抽象方法
+ */
 abstract class Device {
     public client: wdio.BrowserObject;
     public usernameText:any;  // 用户名输入框实例
@@ -38,8 +43,10 @@ export class Device_A8 extends Device {
         await this.client.pause(15000);
         try {
             LogUtils.log.info("====开始进行商户登录===");
-            this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
-            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
+            // this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
+            // this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
+            this.usernameText = await this.client.$('//android.widget.EditText[@content-desc="tht202011190002807"]');
+            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[7]/android.widget.EditText');
         } catch (e) {
             LogUtils.log.error(e);
         }
@@ -47,10 +54,10 @@ export class Device_A8 extends Device {
 
     async loginProcess() {
         try {
-            await this.usernameText.clearValue();
-            await this.client.pause(1000);
-            await this.usernameText.setValue(this.username);
-            await this.client.pause(1000);
+            // await this.usernameText.clearValue();
+            // await this.client.pause(1000);
+            // await this.usernameText.setValue(this.username);
+            // await this.client.pause(1000);
             await this.passwordText.setValue(this.password);
             await this.client.pause(1000);
             let loginBtn = await this.client.$('//android.widget.Button[@content-desc="登录"]');

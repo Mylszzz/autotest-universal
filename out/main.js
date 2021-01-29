@@ -21,6 +21,9 @@ function before() {
     LogUtils_1.logger.info(saleContent);
 }
 async function salesSettlement() {
+    /*
+    登录
+     */
     LogUtils_1.logger.info("开始创建client");
     let client = await driver_1.SingleDriver.createClient();
     LogUtils_1.logger.info("成功创建[" + deviceName + "]client");
@@ -36,6 +39,9 @@ async function salesSettlement() {
     client.pause(1000);
     await device.loginProcess();
     client.pause(1000);
+    /*
+
+     */
     let saleContent = map.get('saleContent');
     let headers = [];
     headers.push("saleTime");
