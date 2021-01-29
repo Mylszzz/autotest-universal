@@ -4,10 +4,10 @@ const driver_1 = require("./driver");
 const loginAction_1 = require("./testactions/loginAction");
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
-const VipMixedPayment_1 = require("./testactions/VipMixedPayment");
 const Tools_1 = require("./utils/Tools");
 const LogUtils_1 = require("./utils/LogUtils");
 const deviceName_1 = require("./static/deviceName");
+const Rufund_1 = require("./testactions/Rufund");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + Tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
@@ -42,20 +42,23 @@ async function salesSettlement() {
     headers.push("orderNo");
     headers.push("price");
     headers.push(saleContent[0].split(','));
-    for (let i = 1; i <= map.size - 1; i++) {
-        let mode = map.get(i);
-        if (mode !== undefined) {
-            let payTree = mode.payTree;
-            console.log("payTree[" + i + "]:" + payTree.get('data'));
-            console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
-            let otherTree = mode.otherTree;
-            console.log("otherTree[" + i + "]:" + otherTree.get('data'));
-            console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-            await VipMixedPayment_1.VipMixedPayment.test(client, payTree, otherTree, i, headers, saleContent[i].split(','), fileName);
-        }
-        else {
-        }
-    }
+    // for (let i = 1; i <= map.size - 1; i++) {
+    //     let mode = map.get(i);
+    //     if (mode !== undefined) {
+    //         let payTree = mode.payTree;
+    //         console.log("payTree[" + i + "]:" + payTree.get('data'));
+    //         console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
+    //         let otherTree = mode.otherTree;
+    //         console.log("otherTree[" + i + "]:" + otherTree.get('data'));
+    //         console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
+    //         await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+    //
+    //     } else {
+    //
+    //     }
+    //
+    // }
+    await Rufund_1.Refund.Refund(client);
 }
 before();
 salesSettlement();

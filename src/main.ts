@@ -8,6 +8,7 @@ import {logger} from "./utils/LogUtils";
 import {DeviceName} from "./static/deviceName";
 import {Screen} from "./testactions/Screen";
 import {Search} from "./testactions/Search";
+import {Refund} from "./testactions/Rufund"
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -51,20 +52,20 @@ async function salesSettlement() {
      for (let i = 1; i <= map.size - 1; i++) {
          let mode = map.get(i);
         if (mode !== undefined) {
-            let payTree = mode.payTree;
-            console.log("payTree[" + i + "]:" + payTree.get('data'));
-             console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
+             let payTree = mode.payTree;
+             console.log("payTree[" + i + "]:" + payTree.get('data'));
+            console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
              let otherTree = mode.otherTree;
-            console.log("otherTree[" + i + "]:" + otherTree.get('data'));
+             console.log("otherTree[" + i + "]:" + otherTree.get('data'));
             console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-             await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+            await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
 
-       } else {
+        } else {
 
-         }
-
+        }
      }
-
+   //退货
+   //  await Refund.Refund(client);
 
 }
 

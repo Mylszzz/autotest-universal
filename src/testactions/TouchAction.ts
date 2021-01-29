@@ -1,6 +1,8 @@
 import {SingleDriver} from "../driver";
 import {Position} from "../utils/Position";
 import {LogUtils} from "../utils/LogUtils";
+import {RefundOrder} from "./RefundOrder";
+import {GlobalUtil} from "../utils/GlobalUtil";
 
 export class TouchAction{
     //价格输入按键
@@ -15,8 +17,8 @@ export class TouchAction{
          { x: 93, y: 1076 },
          { x: 270, y: 1038 },
          { x: 450, y: 1038 },//9
-         { x : 364, y: 1206}, //0
-         {  x: 84, y: 1194},//.
+         { x: 364, y: 1206}, //0
+         { x: 84, y: 1194},//.
     ];
      //退货密码输入按键
     static ArrPathGood = [
@@ -30,8 +32,8 @@ export class TouchAction{
         { x: 93, y: 1076 },
         { x: 270, y: 1038 },
         { x: 450, y: 1038 },//9
-        { x : 364, y: 1206}, //0
-        {  x: 84, y: 1194},//.
+        { x: 364, y: 1206}, //0
+        { x: 84, y: 1194},//.
     ];
 
     //输入手机号
@@ -42,6 +44,58 @@ export class TouchAction{
             await n.click();
         }
     }
+//输入权限码
+    public static async input(client:any) {
+        try {
+            let num:string = GlobalUtil.map.get('backGoods');
+            let strings = Object.keys(num);
+            LogUtils.log.info('-----------------输入授权码-------------');
+            for (const s of strings) {
+                let a=num.charAt(Number.parseInt(s));
+                if (a=="0"){
+                    await client.touchAction([{
+                            action:'tap',
+                            x:this.ArrPath[9].x,
+                            y:this.ArrPath[9].y
+                        }]
+                    );
+                }
+                else {
+                    let num:number=Number.parseInt(a);
+                    await client.touchAction([{
+                            action:'tap',
+                            x:this.ArrPath[num-1].x,
+                            y:this.ArrPath[num-1].y
+                        }]
+                    );
+                }
+            }
+            let con = await client.$('//android.widget.Button[@content-desc="确定"]');
+            con.click();
+            await client.pause(1000);
+        }
+        catch (e) {
+         LogUtils.log.info(e);
+         LogUtils.log.info('订单退货输入授权码时出错----------');
+        try {
+            LogUtils.log.info("监测是否为不支持供应商错误");
+            if (
+                await client.isElementDisplayed((await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]')).elementId)) {
+                // let tip = await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]');
+                let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
+                await confirm.click();
+                await client.pause(500);
+                let back = await client.$('//android.widget.Button[@content-desc="arrow back "]');
+                await back.click();
+                RefundOrder.isFind = true;
+                LogUtils.log.info('-----------------订单支付行包含指定支付供应商, 不支持退货-------------');
+            }
+        } catch (e) {
+            LogUtils.log.info("不是支持供应商的错误");
+        }
+    }
+    }
+
     public static async sleep(ms: number) {
         return new Promise((resolve) => {
             setTimeout(() => {
