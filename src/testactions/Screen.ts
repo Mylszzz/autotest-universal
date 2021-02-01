@@ -1,6 +1,9 @@
 import {Search} from "./Search";
-import {TouchAction} from "./TouchAction";
 
+
+/*
+* 选择筛选条件
+* */
 export class Screen {
     //筛选条件
     public static async screenNo(client: any,date:string) {
@@ -13,12 +16,14 @@ export class Screen {
         await calBtn.click();
         let dat =date.split('-');
         let nowDate: Date = new Date();
-        let dat1 =nowDate.getMonth();//当前月份
+        let dat1 =nowDate.getMonth()+1;//当前月份
         //判断测试月份是否小于当前月份，如果是，则去到上一月份日历直至到测试月份日历
-        while (Number.parseInt(dat[1])<dat1){
+        while( dat1-Number.parseInt(dat[1])>0){
           let backBtn = await client.$('//android.widget.Button[@content-desc="arrow back"]');
           await backBtn.click();
+          dat1--;
         }
+        //日期大于20时，选择第二个日期
         if(Number.parseInt(dat[2])>20){
             let dateView = await client.$('(//android.view.View[@content-desc="'+dat[2]+'"])[2]');
             await dateView.click();
@@ -37,6 +42,7 @@ export class Screen {
         await typeView2.click();
     }
 
+    //点击完成筛选条件
     public static async okScreen(client:any){
         //完成
         let ok = await client.$('//android.widget.Button[@content-desc="完成"]');

@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Screen = void 0;
 const Search_1 = require("./Search");
+/*
+* 选择筛选条件
+* */
 class Screen {
     //筛选条件
     static async screenNo(client, date) {
@@ -14,12 +17,14 @@ class Screen {
         await calBtn.click();
         let dat = date.split('-');
         let nowDate = new Date();
-        let dat1 = nowDate.getMonth(); //当前月份
+        let dat1 = nowDate.getMonth() + 1; //当前月份
         //判断测试月份是否小于当前月份，如果是，则去到上一月份日历直至到测试月份日历
-        while (Number.parseInt(dat[1]) < dat1) {
+        while (dat1 - Number.parseInt(dat[1]) > 0) {
             let backBtn = await client.$('//android.widget.Button[@content-desc="arrow back"]');
             await backBtn.click();
+            dat1--;
         }
+        //日期大于20时，选择第二个日期
         if (Number.parseInt(dat[2]) > 20) {
             let dateView = await client.$('(//android.view.View[@content-desc="' + dat[2] + '"])[2]');
             await dateView.click();
@@ -36,6 +41,7 @@ class Screen {
         let typeView2 = await client.$('//android.view.View[@content-desc="已取消"]');
         await typeView2.click();
     }
+    //点击完成筛选条件
     static async okScreen(client) {
         //完成
         let ok = await client.$('//android.widget.Button[@content-desc="完成"]');

@@ -58,22 +58,20 @@ async function salesSettlement() {
              let otherTree = mode.otherTree;
              console.log("otherTree[" + i + "]:" + otherTree.get('data'));
             console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-            await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+         //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
 
         } else {
 
         }
      }
+   //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
+   //  await Screen.okScreen(client);
    //退货
-   //  await Refund.Refund(client);
+    await Refund.Refund(client);
 
 }
 
 before();
 salesSettlement();
 
-// (function (){
-//     console.log(fileName)            2021-1-25-60cbe1f9-cdcd-4d49-a437-eac92b0e3617.csv
-//     console.log(fileName2)           2021/1/25-892c8de0-0997-407b-8aa5-3f80e0baee04.csv
-// })()
 

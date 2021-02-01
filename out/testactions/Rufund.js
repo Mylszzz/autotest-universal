@@ -12,6 +12,7 @@ const Search_1 = require("./Search");
 class Refund {
     static async Refund(client) {
         let filename = Tools_1.Tools.guid();
+        //读取售卖记录
         let s = readUtils_1.ReadUtils.readForRefund();
         //console.log(s);
         let strings = s.split('\r\n');

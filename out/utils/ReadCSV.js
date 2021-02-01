@@ -7,12 +7,15 @@ exports.ReadCSV = void 0;
 const fs_1 = __importDefault(require("fs"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const GlobalUtil_1 = require("./GlobalUtil");
+//读取测试数据信息
 class ReadCSV {
     static readFile() {
         let myMap = new Map();
         let data = fs_1.default.readFileSync(GlobalUtil_1.GlobalUtil.map.get('csv'));
+        //设置编码格式
         let buffer = iconv_lite_1.default.decode(data, "gbk");
         let string = buffer.toString();
+        //读取每一行的数据
         let line_list = string.split('\r\n');
         myMap.set("saleContent", line_list);
         //获取首行

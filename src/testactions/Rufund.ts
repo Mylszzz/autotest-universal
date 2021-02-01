@@ -6,7 +6,6 @@ import {LogUtils} from "../utils/LogUtils";
 import {RefundOrder} from "./RefundOrder";
 import {RefundData} from "../entity/refundData";
 import {ExportCsv} from "../utils/ExportCsv";
-import {Title} from "../entity/title";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
 import {Tools} from "../utils/Tools";
 import {Search} from "./Search";
@@ -14,6 +13,7 @@ import {Search} from "./Search";
 export class Refund {
     public static async Refund(client:any) {
         let filename = Tools.guid();
+        //读取售卖记录
         let s: string = ReadUtils.readForRefund();
         //console.log(s);
         let strings = s.split('\r\n');
@@ -114,6 +114,8 @@ export class Refund {
 
     }
 }
+
+
 // (function (){
 //     var s = new Date().toLocaleDateString();
 //     let time : String = "2021/1/22"

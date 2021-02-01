@@ -2,12 +2,15 @@ import fs from 'fs'
 import iconv from 'iconv-lite'
 import {GlobalUtil} from "./GlobalUtil";
 
+//读取测试数据信息
 export class ReadCSV {
     public static readFile() {
         let myMap = new Map();
         let data = fs.readFileSync(GlobalUtil.map.get('csv'));
+        //设置编码格式
         let buffer = iconv.decode(data, "gbk");
         let string = buffer.toString();
+        //读取每一行的数据
         let line_list = string.split('\r\n');
         myMap.set("saleContent",line_list);
 

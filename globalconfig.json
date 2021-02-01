@@ -2,7 +2,7 @@
   "username": "ht202011190002802",
   "password": "Pp88888888",
   "vipPhone": "13994849811",
-  "returnGoodPassword": "12345678",
+  "backGoods": "12345678",
   "storeNumber":"HT202011190002801",
   "orderId": "0100200003210128020010",
   "date": "2021-1-27",
@@ -10,7 +10,7 @@
   "cardNo": "1000012032800003",
   "key": "DnV5nqGZruvybv6wPagJrxQo34FG0Bwz",
   "csv": "C:\\lina\\Android\\mm\\autotest-universal\\src\\static\\test.csv",
-  "refundDataPath": "../../csvData/sale/2021-1-22-993836df-b334-4426-aec1-2dba9be488e3.csv",
+  "refundDataPath": "../../csvData/sale/2021-2-1-347826-ffs1.csv",
   "TTPAYMethod": "微信",
   "CardType": "电子卡",
   "crossStoreLogin": {
