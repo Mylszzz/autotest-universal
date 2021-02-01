@@ -24,18 +24,24 @@ async function salesSettlement() {
     LogUtils_1.logger.info("开始创建client");
     let client = await driver_1.SingleDriver.createClient();
     LogUtils_1.logger.info("成功创建[" + deviceName + "]client");
-    let device;
-    if (deviceName == 'a8') {
-        device = new loginAction_1.Device_A8(client);
-    }
-    else if (deviceName == 'elo') {
-        device = new loginAction_1.Device_Elo(client);
-    }
-    await client.setImplicitTimeout(20000);
-    await device.getDeviceConfig();
-    client.pause(1000);
-    await device.loginProcess();
-    client.pause(1000);
+    /*
+    登录(A8和Elo通用。)
+     */
+    await login(client);
+    // /*
+    //  For Test Only
+    //  测试打印屏幕上显示的销售信息
+    //   */
+    // await client.pause(30000);
+    // console.log('------------测试：打印销售信息------------');
+    // try {
+    //     await ValidateOrderInfo.saveOrderInfoToCsv(client);
+    // } catch (e) {
+    //     console.log(e);
+    // }
+    /*
+
+     */
     let saleContent = map.get('saleContent');
     let headers = [];
     headers.push("saleTime");
@@ -60,6 +66,24 @@ async function salesSettlement() {
     //  await Screen.okScreen(client);
     //退货
     await Rufund_1.Refund.Refund(client);
+    /**
+     * 登录方法，重新登录时请直接调用次方法
+     * @param client
+     */
+    async function login(client) {
+        let device;
+        if (deviceName == 'a8') {
+            device = new loginAction_1.Device_A8(client);
+        }
+        else if (deviceName == 'elo') {
+            device = new loginAction_1.Device_Elo(client);
+        }
+        await client.setImplicitTimeout(20000);
+        await device.getDeviceConfig();
+        client.pause(1000);
+        await device.loginProcess();
+        client.pause(1000);
+    }
+    before();
+    salesSettlement();
 }
-before();
-salesSettlement();
