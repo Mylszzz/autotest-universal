@@ -69,33 +69,6 @@ export class RefundOrder {
         await client.pause(1000);
     }
 
-    public static async inputOneToE(orderNo:string,client:any) {
-
-            let number: string = GlobalUtil.map.get('backGoods');
-            for (let n = 0; n < number.length; n++) {
-                let i = number.charAt(n);
-                if (i === '1') {
-                    let one = await client.$('(//android.view.View[@content-desc="1"])[3]');
-                    if (await client.isElementDisplayed(one.elementId)) {
-                        await client.pause(500);
-                        one.click();
-                        await client.pause(1000);
-                    } else {
-                        logger.error('没找到元素');
-                    }
-
-                } else {
-                    let it = await client.$('//android.view.View[@content-desc=' + i + ']');
-                    if (await client.isElementDisplayed(it.elementId)) {
-                        await client.pause(500);
-                        it.click();
-                        await client.pause(500);
-                    } else {
-                        logger.error('没找到元素');
-                    }
-                }
-            }
-        }
 
 
     /**
@@ -114,13 +87,14 @@ export class RefundOrder {
             await RefundOrder.refundfirst(client, orderNo);
             //判断授权码
                 //    请输入授权码
-                try {
-                    logger.info('输入授权码');
-                    await client.pause(1000);
-                    await RefundOrder.inputOneToE(orderNo, client);
-                }catch (e){
-                    logger.error('-----------------输入授权码出错2------------');
-                }
+            try {
+                logger.info('输入授权码');
+                let number: string = GlobalUtil.map.get('backGoods');
+                await client.pause(1000);
+                await TouchAction.input(client, number);
+            }catch (e){
+                logger.error('-----------------输入授权码出错2------------');
+            }
             logger.info("授权码填写结束-----------")
 
             if (!RefundOrder.isFind){

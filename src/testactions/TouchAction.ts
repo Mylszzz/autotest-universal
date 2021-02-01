@@ -47,20 +47,16 @@ export class TouchAction {
     }
 
 //输入权限码
-    public static async input(client: any) {
-        let number: string = GlobalUtil.map.get('backGoods');
-        let strings = Object.keys(number);
-        strings.forEach(s=>{
-            console.log(number.charAt(Number.parseInt(s)));
-            let a=number.charAt(Number.parseInt(s));
-            if (a=="0"){
-                this.touchAction(Position.returnAuthorization[9].x,Position.returnAuthorization[9].y);
+    public static async input(client: any,num:string) {
+        for (let i = 0; i < num.length; i++) {
+            if(num=="1"){
+                let n = await client.$('(//android.view.View[@content-desc="' + num.charAt(i) + '"])[3]');
+                await n.click();
+            }else{
+            let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
+            await n.click();
             }
-            else {
-                let num:number=Number.parseInt(a);
-                this.touchAction(Position.returnAuthorization[num-1].x,Position.returnAuthorization[num-1].y);
-            }
-        });
+        }
         await client.pause(500);
         let con = await client.$('//android.widget.Button[@content-desc="确定"]');
         await client.pause(500);

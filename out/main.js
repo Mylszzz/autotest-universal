@@ -57,7 +57,7 @@ async function salesSettlement() {
             let otherTree = mode.otherTree;
             console.log("otherTree[" + i + "]:" + otherTree.get('data'));
             console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-            //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+            //    await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
         }
         else {
         }
@@ -66,24 +66,24 @@ async function salesSettlement() {
     //  await Screen.okScreen(client);
     //退货
     await Rufund_1.Refund.Refund(client);
-    /**
-     * 登录方法，重新登录时请直接调用次方法
-     * @param client
-     */
-    async function login(client) {
-        let device;
-        if (deviceName == 'a8') {
-            device = new loginAction_1.Device_A8(client);
-        }
-        else if (deviceName == 'elo') {
-            device = new loginAction_1.Device_Elo(client);
-        }
-        await client.setImplicitTimeout(20000);
-        await device.getDeviceConfig();
-        client.pause(1000);
-        await device.loginProcess();
-        client.pause(1000);
-    }
-    before();
-    salesSettlement();
 }
+/**
+ * 登录方法，重新登录时请直接调用次方法
+ * @param client
+ */
+async function login(client) {
+    let device;
+    if (deviceName == 'a8') {
+        device = new loginAction_1.Device_A8(client);
+    }
+    else if (deviceName == 'elo') {
+        device = new loginAction_1.Device_Elo(client);
+    }
+    await client.setImplicitTimeout(20000);
+    await device.getDeviceConfig();
+    client.pause(1000);
+    await device.loginProcess();
+    client.pause(1000);
+}
+before();
+salesSettlement();

@@ -59,34 +59,6 @@ class RefundOrder {
         await chooseSale.click();
         await client.pause(1000);
     }
-    static async inputOneToE(orderNo, client) {
-        let number = GlobalUtil_1.GlobalUtil.map.get('backGoods');
-        for (let n = 0; n < number.length; n++) {
-            let i = number.charAt(n);
-            if (i === '1') {
-                let one = await client.$('(//android.view.View[@content-desc="1"])[3]');
-                if (await client.isElementDisplayed(one.elementId)) {
-                    await client.pause(500);
-                    one.click();
-                    await client.pause(1000);
-                }
-                else {
-                    LogUtils_1.logger.error('没找到元素');
-                }
-            }
-            else {
-                let it = await client.$('//android.view.View[@content-desc=' + i + ']');
-                if (await client.isElementDisplayed(it.elementId)) {
-                    await client.pause(500);
-                    it.click();
-                    await client.pause(500);
-                }
-                else {
-                    LogUtils_1.logger.error('没找到元素');
-                }
-            }
-        }
-    }
     /**
      * 当日订单退款
      * @author Daniel_Li
@@ -104,8 +76,9 @@ class RefundOrder {
             //    请输入授权码
             try {
                 LogUtils_1.logger.info('输入授权码');
+                let number = GlobalUtil_1.GlobalUtil.map.get('backGoods');
                 await client.pause(1000);
-                await RefundOrder.inputOneToE(orderNo, client);
+                await TouchAction_1.TouchAction.input(client, number);
             }
             catch (e) {
                 LogUtils_1.logger.error('-----------------输入授权码出错2------------');

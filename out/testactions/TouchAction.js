@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TouchAction = void 0;
 const driver_1 = require("../driver");
 const Position_1 = require("../utils/Position");
-const GlobalUtil_1 = require("../utils/GlobalUtil");
 class TouchAction {
     //输入手机号
     static async phoneNum(client, num) {
@@ -14,20 +13,17 @@ class TouchAction {
         }
     }
     //输入权限码
-    static async input(client) {
-        let number = GlobalUtil_1.GlobalUtil.map.get('backGoods');
-        let strings = Object.keys(number);
-        strings.forEach(s => {
-            console.log(number.charAt(Number.parseInt(s)));
-            let a = number.charAt(Number.parseInt(s));
-            if (a == "0") {
-                this.touchAction(Position_1.Position.returnAuthorization[9].x, Position_1.Position.returnAuthorization[9].y);
+    static async input(client, num) {
+        for (let i = 0; i < num.length; i++) {
+            if (num == "1") {
+                let n = await client.$('(//android.view.View[@content-desc="' + num.charAt(i) + '"])[3]');
+                await n.click();
             }
             else {
-                let num = Number.parseInt(a);
-                this.touchAction(Position_1.Position.returnAuthorization[num - 1].x, Position_1.Position.returnAuthorization[num - 1].y);
+                let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
+                await n.click();
             }
-        });
+        }
         await client.pause(500);
         let con = await client.$('//android.widget.Button[@content-desc="确定"]');
         await client.pause(500);
