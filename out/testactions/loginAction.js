@@ -39,7 +39,7 @@ class Device_A8 extends Device {
     }
     async loginProcess() {
         try {
-            await this.usernameText.clearValue();
+            await this.usernameText.clearValue(); //
             await this.client.pause(1000);
             await this.usernameText.setValue(this.username);
             await this.client.pause(1000);
@@ -61,15 +61,13 @@ class Device_A8 extends Device {
             finally {
                 try {
                     await this.client.pause(1000);
-                    let name = await this.client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get("storeNumber") + '"]');
-                    if (!await this.client.isElementDisplayed(name.elementId)) {
-                        throw new Error('错误');
-                    }
-                    console.log("============login funish=============" + new Date());
+                    await this.client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get("storeNumber") + '"]');
+                    console.log("============login finish=============" + new Date());
                     LogUtils_1.LogUtils.log.info("====商户登录成功===");
                 }
                 catch (e) {
-                    await this.client.startActivity();
+                    // 重新启动程序
+                    await this.client.startActivity(this.client.getCurrentPackage, this.client.getCurrentActivity);
                     LogUtils_1.LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！");
                     await this.loginProcess();
                 }
@@ -114,7 +112,7 @@ class Device_Elo extends Device {
                 }]);
             // 缓冲
             await this.client.$('//android.view.View[@content-desc="会员"]');
-            console.log("============login funish=============" + new Date());
+            console.log("============login finish=============" + new Date());
             LogUtils_1.LogUtils.log.info("====商户登录成功===");
         }
         catch (e) {

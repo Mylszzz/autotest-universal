@@ -12,7 +12,7 @@ export class ExportCsv {
     /**
      *
      * @param options: 输出csv的配置，在csvOptions.ts中配置
-     * @param data:
+     * @param data: 二元数组 string[][]
      * @param {string} fileName: 输出的文件名
      */
     public static printSaleData(options:any,data:any,fileName:string) {

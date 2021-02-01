@@ -6,7 +6,7 @@ import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
 import {logger} from "./utils/LogUtils";
 import {DeviceName} from "./static/deviceName";
-import {ValidateOrderInfo} from "./testactions/validateOrderInfo";
+import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/Screen";
 import {Search} from "./testactions/Search";
 
@@ -27,24 +27,27 @@ function before() {
 }
 
 async function salesSettlement() {
-    /*
-    登录
-     */
     logger.info("开始创建client");
     let client = await SingleDriver.createClient();
     logger.info("成功创建["+deviceName+"]client");
 
-    let device:any;
-    if (deviceName == 'a8') {
-        device = new Device_A8(client);
-    } else if (deviceName == 'elo') {
-        device = new Device_Elo(client);
-    }
-    await client.setImplicitTimeout(20000);
-    await device.getDeviceConfig();
-    client.pause(1000);
-    await device.loginProcess();
-    client.pause(1000);
+    /*
+    登录(A8和Elo通用。)
+     */
+    await login(client);
+
+    // /*
+    //  For Test Only
+    //  测试打印屏幕上显示的销售信息
+    //   */
+    // await client.pause(30000);
+    // console.log('------------测试：打印销售信息------------');
+    // try {
+    //     await ValidateOrderInfo.saveOrderInfoToCsv(client);
+    // } catch (e) {
+    //     console.log(e);
+    // }
+
 
     /*
 
@@ -72,7 +75,24 @@ async function salesSettlement() {
 
      }
 
+}
 
+/**
+ * 登录方法，重新登录时请直接调用次方法
+ * @param client
+ */
+async function login(client:any) {
+    let device:any;
+    if (deviceName == 'a8') {
+        device = new Device_A8(client);
+    } else if (deviceName == 'elo') {
+        device = new Device_Elo(client);
+    }
+    await client.setImplicitTimeout(20000);
+    await device.getDeviceConfig();
+    client.pause(1000);
+    await device.loginProcess();
+    client.pause(1000);
 }
 
 before();
