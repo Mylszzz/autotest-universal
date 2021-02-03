@@ -59,11 +59,13 @@ class TouchAction {
             console.log(s1.charAt(Number.parseInt(s)));
             let a = s1.charAt(Number.parseInt(s));
             if (a == "0") {
-                this.touchAction(Position_1.Position.returnAuthorization[9].x, Position_1.Position.returnAuthorization[9].y);
+                this.touchAction(this.ArrPath[9].x, this.ArrPath[9].y);
+            }
+            else if (a == ".") {
             }
             else {
                 let num = Number.parseInt(a);
-                this.touchAction(Position_1.Position.returnAuthorization[num - 1].x, Position_1.Position.returnAuthorization[num - 1].y);
+                this.touchAction(this.ArrPath[num - 1].x, this.ArrPath[num - 1].y);
             }
         });
     }

@@ -9,7 +9,7 @@
   "app_id": "102188995770",
   "cardNo": "1000012032800003",
   "key": "DnV5nqGZruvybv6wPagJrxQo34FG0Bwz",
-  "csv": "C:\\lina\\Android\\mm\\autotest-universal\\src\\static\\test.csv",
+  "csv": "src/static/test.csv",
   "refundDataPath": "../../csvData/sale/2021-2-3-gyu452546-54524.csv",
   "TTPAYMethod": "微信",
   "CardType": "电子卡",

@@ -82,7 +82,7 @@ export class RefundOrder {
                 LogUtils.log.info("请输入授权码");
                 let number: string = GlobalUtil.map.get('backGoods');
                 await client.pause(1000);
-                await TouchAction.touchPriceAction(client, number);
+                await TouchAction.touchPasswordAction(client, number);
                 LogUtils.log.info("====授权码填写结束=====");
                 let confirmTip = await client.$('//android.widget.Button[@content-desc="确定"]');
                 confirmTip.click();

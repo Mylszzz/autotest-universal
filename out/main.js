@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
-const loginAction_1 = require("./testactions/login/loginAction");
+const deviceActions_1 = require("./testactions/deviceActions");
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
 const Tools_1 = require("./utils/Tools");
@@ -27,7 +27,7 @@ async function salesSettlement() {
     /*
     登录(A8和Elo通用。)
      */
-    await loginAction_1.LoginAction.login(client);
+    await deviceActions_1.LoginAction.login(client);
     // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息

@@ -71,7 +71,7 @@ class RefundOrder {
             LogUtils_1.LogUtils.log.info("请输入授权码");
             let number = GlobalUtil_1.GlobalUtil.map.get('backGoods');
             await client.pause(1000);
-            await TouchAction_1.TouchAction.touchPriceAction(client, number);
+            await TouchAction_1.TouchAction.touchPasswordAction(client, number);
             LogUtils_1.LogUtils.log.info("====授权码填写结束=====");
             let confirmTip = await client.$('//android.widget.Button[@content-desc="确定"]');
             confirmTip.click();

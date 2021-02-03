@@ -1,5 +1,5 @@
 import {SingleDriver} from "./driver";
-import {LoginAction} from "./testactions/login/loginAction";
+import {LoginAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/GlobalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 import {VipMixedPayment} from "./testactions/VipMixedPayment";

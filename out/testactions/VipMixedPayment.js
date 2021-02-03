@@ -13,7 +13,7 @@ const PaymentProcessing_1 = require("./PaymentProcessing");
 const ExportCsv_1 = require("../utils/ExportCsv");
 const CsvOptions_1 = require("../utils/CsvOptions");
 const ScreenShotUtil_1 = require("../utils/ScreenShotUtil");
-const loginAction_1 = require("./login/loginAction");
+const deviceActions_1 = require("./deviceActions");
 const LoginVip_1 = require("./LoginVip");
 class VipMixedPayment {
     static async test(client, payTree, otherTree, frequency, headers, saleContent, fileName) {
@@ -122,7 +122,7 @@ class VipMixedPayment {
             await ExportCsv_1.ExportCsv.printSaleData(option, saleOrderData, fileName);
             // 重启
             await client.launchApp();
-            await loginAction_1.LoginAction.login(client);
+            await deviceActions_1.LoginAction.login(client);
         }
     }
     static async sleep(ms) {

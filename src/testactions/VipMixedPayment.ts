@@ -7,7 +7,7 @@ import {PaymentProcessing} from "./PaymentProcessing";
 import {ExportCsv} from "../utils/ExportCsv";
 import {CsvOptions} from "../utils/CsvOptions";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
-import {LoginAction} from "./login/loginAction";
+import {LoginAction} from "./deviceActions";
 import {LoginVip} from "./LoginVip";
 
 export class VipMixedPayment {
