@@ -82,11 +82,12 @@ export class TouchAction {
             console.log(s1.charAt(Number.parseInt(s)));
             let a=s1.charAt(Number.parseInt(s));
             if (a=="0"){
-                 this.touchAction(Position.returnAuthorization[9].x,Position.returnAuthorization[9].y);
-            }
-            else {
+                this.touchAction(this.ArrPath[9].x,this.ArrPath[9].y);
+            }else if (a=="."){
+
+            }else {
                 let num:number=Number.parseInt(a);
-                this.touchAction(Position.returnAuthorization[num-1].x,Position.returnAuthorization[num-1].y);
+                this.touchAction(this.ArrPath[num-1].x,this.ArrPath[num-1].y);
             }
         });
     }
