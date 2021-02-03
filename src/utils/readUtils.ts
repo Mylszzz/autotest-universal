@@ -56,6 +56,7 @@ export class ReadUtils {
         LogUtils.log.info("获取的自动化测试数据====>>"+data)
         return data;
     }
+
     public static readForRefund():string{
         let map=new Map();
         this.readTest(map);
@@ -70,7 +71,7 @@ export class ReadUtils {
     }
 
     //读取json文件，获得配置参数的map集合
-    public  static readTest(map:any){
+    public static readTest(map:any){
         //LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
         this.sleep(2000)
@@ -90,7 +91,8 @@ export class ReadUtils {
         }
         //LogUtils.log.info("===获取自动化测试的配置参数完成===");
     }
-    public static  sleep(ms: number) {
+
+    public static sleep(ms: number) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve('');

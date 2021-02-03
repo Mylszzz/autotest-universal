@@ -11,5 +11,5 @@ class GlobalUtil {
 exports.GlobalUtil = GlobalUtil;
 GlobalUtil.saleOrderData = [];
 GlobalUtil.refundData = [];
-GlobalUtil.testData = [];
+GlobalUtil.testData = []; // 没用的可以删掉了
 GlobalUtil.map = new Map();

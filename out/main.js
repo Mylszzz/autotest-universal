@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
-const loginAction_1 = require("./testactions/loginAction");
+const loginAction_1 = require("./testactions/login/loginAction");
 const GlobalUtil_1 = require("./utils/GlobalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
 const Tools_1 = require("./utils/Tools");
@@ -27,7 +27,7 @@ async function salesSettlement() {
     /*
     登录(A8和Elo通用。)
      */
-    await login(client);
+    await loginAction_1.LoginAction.login(client);
     // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
@@ -62,28 +62,30 @@ async function salesSettlement() {
         else {
         }
     }
+    await refund(client);
+}
+// /**
+//  * 登录方法，重新登录时请直接调用此方法
+//  * @param client
+//  */
+// export async function login(client:any) {
+//     let device:any;
+//     if (deviceName == 'a8') {
+//         device = new Device_A8(client);
+//     } else if (deviceName == 'elo') {
+//         device = new Device_Elo(client);
+//     }
+//     await client.setImplicitTimeout(20000);
+//     await device.getDeviceConfig();
+//     client.pause(1000);
+//     await device.loginProcess();
+//     client.pause(1000);
+// }
+async function refund(client) {
     //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
     //  await Screen.okScreen(client);
     //退货
     await Rufund_1.Refund.Refund(client);
-    /**
-     * 登录方法，重新登录时请直接调用次方法
-     * @param client
-     */
-    async function login(client) {
-        let device;
-        if (deviceName == 'a8') {
-            device = new loginAction_1.Device_A8(client);
-        }
-        else if (deviceName == 'elo') {
-            device = new loginAction_1.Device_Elo(client);
-        }
-        await client.setImplicitTimeout(20000);
-        await device.getDeviceConfig();
-        client.pause(1000);
-        await device.loginProcess();
-        client.pause(1000);
-    }
-    before();
-    salesSettlement();
 }
+before();
+salesSettlement();

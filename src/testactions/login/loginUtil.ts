@@ -1,10 +1,7 @@
 import * as wdio from 'webdriverio';
-import {LogUtils} from "../utils/LogUtils";
-import {GlobalUtil} from "../utils/GlobalUtil";
-import {ScreenShotUtil} from "../utils/ScreenShotUtil";
-import {DeviceName} from "../static/deviceName";
-
-const deviceName:string = DeviceName.getDeviceName();
+import {LogUtils} from "../../utils/LogUtils";
+import {GlobalUtil} from "../../utils/GlobalUtil";
+import {ScreenShotUtil} from "../../utils/ScreenShotUtil";
 
 
 /**

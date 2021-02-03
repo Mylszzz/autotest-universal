@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Device_Elo = exports.Device_A8 = void 0;
-const LogUtils_1 = require("../utils/LogUtils");
-const GlobalUtil_1 = require("../utils/GlobalUtil");
+const LogUtils_1 = require("../../utils/LogUtils");
+const GlobalUtil_1 = require("../../utils/GlobalUtil");
 /**
  * device 的抽象类
  * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
