@@ -3,3 +3,6 @@
 *.xml
 *.xml
 .idea/workspace.xml
+*.png
+*.csv
+*.log

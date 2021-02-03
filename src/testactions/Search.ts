@@ -3,7 +3,7 @@ import {LogUtils} from "../utils/LogUtils";
 
 //进入查询/退货页面
 export class Search{
-    public static async search(client: any) {
+      static async search(client: any) {
         let menu = await client.$('//android.widget.Button[@content-desc="menu "]');
         await menu.click();
         await client.pause(1000);
@@ -14,7 +14,7 @@ export class Search{
     }
 
     //查询具体的订单
-    public static async searchNo(client: any,num:string) {
+     static async searchNo(client: any,num:string) {
         //  查询订单号或会员号
         let codeNoText = await client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.widget.EditText');
         await codeNoText.click();

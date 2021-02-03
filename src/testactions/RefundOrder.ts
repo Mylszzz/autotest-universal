@@ -17,7 +17,6 @@ export class RefundOrder {
         let apply = await client.$('//android.widget.Button[@content-desc="申请退货"]');
         await apply.click();
         await client.pause(1000);
-
         //    点击确认退货
         let reConfirm = await client.$('//android.widget.Button[@content-desc="确认"]');
         await reConfirm.click();
