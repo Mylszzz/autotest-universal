@@ -7,7 +7,7 @@ import {PaymentProcessing} from "./PaymentProcessing";
 import {ExportCsv} from "../utils/ExportCsv";
 import {CsvOptions} from "../utils/CsvOptions";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
-import {LoginAction} from "./loginAction";
+import {LoginAction} from "./login/loginAction";
 import {LoginVip} from "./LoginVip";
 
 export class VipMixedPayment {
@@ -121,7 +121,7 @@ export class VipMixedPayment {
             await ExportCsv.printSaleData(option, saleOrderData, fileName);
             // 重启
             await client.launchApp();
-            await LoginAction.Login(client);
+            await LoginAction.login(client);
         }
 
     }

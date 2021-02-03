@@ -38,6 +38,7 @@ export class ExportCsv {
         // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
         // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
     }
+
     public static printTestData(options:any) {
         const csvExporter = new ExportToCsv(options);
         const csvData = csvExporter.generateCsv(GlobalUtil.testData, true);

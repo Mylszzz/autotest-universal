@@ -1,5 +1,5 @@
 import {SingleDriver} from "./driver";
-import {Device_A8, Device_Elo} from "./testactions/loginAction";
+import {LoginAction} from "./testactions/login/loginAction";
 import {GlobalUtil} from "./utils/GlobalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 import {VipMixedPayment} from "./testactions/VipMixedPayment";
@@ -35,7 +35,7 @@ async function salesSettlement() {
     /*
     登录(A8和Elo通用。)
      */
-    await login(client);
+    await LoginAction.login(client);
 
     // /*
     //  For Test Only
@@ -68,35 +68,39 @@ async function salesSettlement() {
             let otherTree = mode.otherTree;
             console.log("otherTree[" + i + "]:" + otherTree.get('data'));
             console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-           //    await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+            //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
 
         } else {
 
         }
     }
+    await refund(client);
+}
 
+
+// /**
+//  * 登录方法，重新登录时请直接调用此方法
+//  * @param client
+//  */
+// export async function login(client:any) {
+//     let device:any;
+//     if (deviceName == 'a8') {
+//         device = new Device_A8(client);
+//     } else if (deviceName == 'elo') {
+//         device = new Device_Elo(client);
+//     }
+//     await client.setImplicitTimeout(20000);
+//     await device.getDeviceConfig();
+//     client.pause(1000);
+//     await device.loginProcess();
+//     client.pause(1000);
+// }
+
+async function refund(client:any) {
     //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
     //  await Screen.okScreen(client);
     //退货
     await Refund.Refund(client);
-}
-
-/**
- * 登录方法，重新登录时请直接调用次方法
- * @param client
- */
-async function login(client:any) {
-    let device:any;
-    if (deviceName == 'a8') {
-        device = new Device_A8(client);
-    } else if (deviceName == 'elo') {
-        device = new Device_Elo(client);
-    }
-    await client.setImplicitTimeout(20000);
-    await device.getDeviceConfig();
-    client.pause(1000);
-    await device.loginProcess();
-    client.pause(1000);
 }
 
 before();
