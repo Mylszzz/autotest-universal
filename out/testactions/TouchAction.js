@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TouchAction = void 0;
 const driver_1 = require("../driver");
 const Position_1 = require("../utils/Position");
-const GlobalUtil_1 = require("../utils/GlobalUtil");
 class TouchAction {
     //输入手机号
     static async phoneNum(client, num) {
@@ -13,27 +12,23 @@ class TouchAction {
             await n.click();
         }
     }
-    //输入权限码
-    static async input(client) {
-        let number = GlobalUtil_1.GlobalUtil.map.get('backGoods');
-        let strings = Object.keys(number);
-        strings.forEach(s => {
-            console.log(number.charAt(Number.parseInt(s)));
-            let a = number.charAt(Number.parseInt(s));
-            if (a == "0") {
-                this.touchAction(Position_1.Position.returnAuthorization[9].x, Position_1.Position.returnAuthorization[9].y);
-            }
-            else {
-                let num = Number.parseInt(a);
-                this.touchAction(Position_1.Position.returnAuthorization[num - 1].x, Position_1.Position.returnAuthorization[num - 1].y);
-            }
-        });
-        await client.pause(500);
-        let con = await client.$('//android.widget.Button[@content-desc="确定"]');
-        await client.pause(500);
-        con.click();
-        await client.pause(1000);
-    }
+    // //输入权限码
+    //     public static async input(client: any,num:string) {
+    //         for (let i = 0; i < num.length; i++) {
+    //             if(num=="1"){
+    //                 let n = await client.$('(//android.view.View[@content-desc="' + num.charAt(i) + '"])[3]');
+    //                 await n.click();
+    //             }else{
+    //             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
+    //             await n.click();
+    //             }
+    //         }
+    //         await client.pause(500);
+    //         let con = await client.$('//android.widget.Button[@content-desc="确定"]');
+    //         await client.pause(500);
+    //         con.click();
+    //         await client.pause(1000);
+    //     }
     static async sleep(ms) {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -132,20 +127,6 @@ class TouchAction {
 exports.TouchAction = TouchAction;
 //价格输入按键
 TouchAction.ArrPath = [
-    { x: 78, y: 810 },
-    { x: 270, y: 787 },
-    { x: 450, y: 829 },
-    { x: 88, y: 957 },
-    { x: 270, y: 954 },
-    { x: 450, y: 954 },
-    { x: 93, y: 1076 },
-    { x: 270, y: 1038 },
-    { x: 450, y: 1038 },
-    { x: 364, y: 1206 },
-    { x: 84, y: 1194 },
-];
-//退货密码输入按键
-TouchAction.ArrPathGood = [
     { x: 78, y: 810 },
     { x: 270, y: 787 },
     { x: 450, y: 829 },

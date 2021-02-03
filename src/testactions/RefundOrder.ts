@@ -11,34 +11,28 @@ export class RefundOrder {
     public static async refundfirst(client:any,orderNo:string){
         //  点击第一项
         let codeNo = await client.$('//android.view.View[@content-desc='+orderNo+']');
-        await client.pause(500);
         await codeNo.click();
         await client.pause(1000);
         //    点击申请退货
         let apply = await client.$('//android.widget.Button[@content-desc="申请退货"]');
-        await client.pause(500);
         await apply.click();
         await client.pause(1000);
 
         //    点击确认退货
         let reConfirm = await client.$('//android.widget.Button[@content-desc="确认"]');
-        await client.pause(500);
         await reConfirm.click();
         await client.pause(1000);
     }
 
     public static async refundlast(client:any){
-
-        //    确认
-        let confirm = await client.$('//android.widget.Button[@content-desc="确认"]');
-        confirm.click();
-        await client.pause(1000);
-
         //    最后一次提示是否确认退货
         let lastConfirm = await client.$('//android.widget.Button[@content-desc="确定"]');
         lastConfirm.click();
         await client.pause(1000);
 
+        let confirm = await client.$('//android.widget.Button[@content-desc="确认"]');
+        confirm.click();
+         await client.pause(1000);
         //  打印订单耗时
         await client.pause(2000);
         //    确认提示
@@ -69,33 +63,6 @@ export class RefundOrder {
         await client.pause(1000);
     }
 
-    public static async inputOneToE(orderNo:string,client:any) {
-
-            let number: string = GlobalUtil.map.get('backGoods');
-            for (let n = 0; n < number.length; n++) {
-                let i = number.charAt(n);
-                if (i === '1') {
-                    let one = await client.$('(//android.view.View[@content-desc="1"])[3]');
-                    if (await client.isElementDisplayed(one.elementId)) {
-                        await client.pause(500);
-                        one.click();
-                        await client.pause(1000);
-                    } else {
-                        logger.error('没找到元素');
-                    }
-
-                } else {
-                    let it = await client.$('//android.view.View[@content-desc=' + i + ']');
-                    if (await client.isElementDisplayed(it.elementId)) {
-                        await client.pause(500);
-                        it.click();
-                        await client.pause(500);
-                    } else {
-                        logger.error('没找到元素');
-                    }
-                }
-            }
-        }
 
 
     /**
@@ -111,24 +78,16 @@ export class RefundOrder {
         await Search.searchNo(client,orderNo);
         try{
 
-            await RefundOrder.refundfirst(client, orderNo);
-            //判断授权码
-                //    请输入授权码
-                try {
-                    logger.info('输入授权码');
-                    await client.pause(1000);
-                    await RefundOrder.inputOneToE(orderNo, client);
-                }catch (e){
-                    logger.error('-----------------输入授权码出错2------------');
-                }
-            logger.info("授权码填写结束-----------")
-
-            if (!RefundOrder.isFind){
+                await RefundOrder.refundfirst(client, orderNo);
+                LogUtils.log.info("请输入授权码");
+                let number: string = GlobalUtil.map.get('backGoods');
+                await client.pause(1000);
+                await TouchAction.touchPriceAction(client, number);
+                LogUtils.log.info("====授权码填写结束=====");
                 let confirmTip = await client.$('//android.widget.Button[@content-desc="确定"]');
                 confirmTip.click();
                 await client.pause(1000);
              await RefundOrder.refundlast(client);
-            }
         }catch (e){
             logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------")
 
