@@ -24,26 +24,27 @@ export class RefundOrder {
     }
 
     public static async refundlast(client:any){
+
+        let confirm = await client.$('//android.widget.Button[@content-desc="确认"]');
+        confirm.click();
+        await client.pause(1000);
         //    最后一次提示是否确认退货
         let lastConfirm = await client.$('//android.widget.Button[@content-desc="确定"]');
         lastConfirm.click();
         await client.pause(1000);
 
-        let confirm = await client.$('//android.widget.Button[@content-desc="确认"]');
-        confirm.click();
-         await client.pause(1000);
         //  打印订单耗时
-        await client.pause(2000);
+        await client.pause(5000);
         //    确认提示
         let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
-        await client.pause(500);
+        await client.pause(1000);
         tip.click();
         //    第二次打印
         // client.setImplicitTimeout(5000);
-        await client.pause(2000);
+        await client.pause(5000);
         //    点击返回
         let back = await client.$('//android.widget.Button[@content-desc="返回"]');
-        await client.pause(500);
+        await client.pause(1000);
         await back.click();
         await client.pause(1000);
         let finish = await client.$('//android.widget.Button[@content-desc="完成"]');
@@ -70,7 +71,6 @@ export class RefundOrder {
      * @param client
      * @param orderNo
      */
-    // @ts-ignore
     public static async refundOrderToday(client:any,orderNo:string){
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作=====");
         //查询订单,并判断是否成功
@@ -79,17 +79,23 @@ export class RefundOrder {
 
                 await RefundOrder.refundfirst(client, orderNo);
                 LogUtils.log.info("请输入授权码");
-                let number: string = GlobalUtil.map.get('backGoods');
+                let number: string = await GlobalUtil.map.get('backGoods');
                 await client.pause(1000);
                 await TouchAction.touchPasswordAction(client, number);
                 LogUtils.log.info("====授权码填写结束=====");
+                //密码确定
                 let confirmTip = await client.$('//android.widget.Button[@content-desc="确定"]');
-                confirmTip.click();
+                await confirmTip.click();
                 await client.pause(1000);
-             await RefundOrder.refundlast(client);
+                //提示确定
+                let confirmTip1 = await client.$('//android.widget.Button[@content-desc="确定"]');
+                await confirmTip1.click();
+                await client.pause(1000);
+                await RefundOrder.refundlast(client);
+                return true;
         }catch (e){
             logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------")
-
+            return false;
         }
     }
 

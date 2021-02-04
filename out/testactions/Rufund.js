@@ -86,7 +86,6 @@ class Refund {
                             refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
                         }
                         else {
-                            // @ts-ignore
                             //进行今日订单退货，并判断是否成功
                             refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
                         }

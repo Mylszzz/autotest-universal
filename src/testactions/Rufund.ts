@@ -84,7 +84,7 @@ export class Refund {
                           //进行隔日订单退货，并判断是否成功
                             refunddata.isSuccess = await RefundOrder.refundBeforeOrder(client, orderNo);
                         } else {
-                            // @ts-ignore
+
                            //进行今日订单退货，并判断是否成功
                             refunddata.isSuccess = await RefundOrder.refundOrderToday(client, orderNo);
                         }
