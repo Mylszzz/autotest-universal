@@ -12,6 +12,10 @@ let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + Tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
+/**
+ * 执行脚本流程之前的一些准备工作
+ * 包括读取配置到Map中
+ */
 function before() {
     GlobalUtil_1.GlobalUtil.init();
     // 读取测试数据
@@ -67,28 +71,5 @@ async function salesSettlement() {
     }
     await Rufund_1.Refund.Refund(client);
 }
-// /**
-//  * 登录方法，重新登录时请直接调用此方法
-//  * @param client
-//  */
-// export async function login(client:any) {
-//     let device:any;
-//     if (deviceName == 'a8') {
-//         device = new Device_A8(client);
-//     } else if (deviceName == 'elo') {
-//         device = new Device_Elo(client);
-//     }
-//     await client.setImplicitTimeout(20000);
-//     await device.getDeviceConfig();
-//     client.pause(1000);
-//     await device.loginProcess();
-//     client.pause(1000);
-// }
-// async function refund(client:any) {
-//     //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
-//     //  await Screen.okScreen(client);
-//     //退货
-//     await Refund.Refund(client);
-// }
 before();
 salesSettlement();

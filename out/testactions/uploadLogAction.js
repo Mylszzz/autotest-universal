@@ -2,11 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadLogAction_Elo = exports.UploadLogAction_A8 = void 0;
 const LogUtils_1 = require("../utils/LogUtils");
+const buttonXPaths_1 = require("../static/buttonXPaths");
 /**
  * 上传日志
  * 分为上传当日和上传其他日期日志
  */
 class UploadLogAction {
+    /*
+    xPaths: IXPaths对象，包括了四个按键的xPath
+     */
     constructor(client, xPaths) {
         this.client = client;
         this.menuBtnXPath = xPaths.menuBtnXPath;
@@ -48,10 +52,10 @@ class UploadLogAction {
  * A8
  */
 const xPaths_a8 = {
-    menuBtnXPath: '//android.widget.Button[@content-desc="menu "]',
-    uploadLogBtnXPath: '//android.widget.Button[@content-desc="cloud upload 上传日志"]',
-    uploadTodayLogBtnXPath: '//android.widget.Button[@content-desc="上传当天日志"]',
-    uploadOtherDayLogBtnXPath: '//android.widget.Button[@content-desc="上传其他日期日志"]'
+    menuBtnXPath: buttonXPaths_1.ButtonXPaths_A8.MENU,
+    uploadLogBtnXPath: buttonXPaths_1.ButtonXPaths_A8.UPLOADLOG,
+    uploadTodayLogBtnXPath: buttonXPaths_1.ButtonXPaths_A8.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath: buttonXPaths_1.ButtonXPaths_A8.UPLOADOTHERDAYLOG
 };
 class UploadLogAction_A8 extends UploadLogAction {
     constructor(client, xPaths = xPaths_a8) {
@@ -63,10 +67,10 @@ exports.UploadLogAction_A8 = UploadLogAction_A8;
  * Elo
  */
 const xPaths_elo = {
-    menuBtnXPath: '//android.widget.Button[@content-desc="menu"]',
-    uploadLogBtnXPath: '//android.widget.Button[@content-desc="上传日志"]',
-    uploadTodayLogBtnXPath: '//android.widget.Button[@content-desc="上传当天日志"]',
-    uploadOtherDayLogBtnXPath: '//android.widget.Button[@content-desc="上传其他日期日志"]'
+    menuBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.MENU,
+    uploadLogBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.UPLOADLOG,
+    uploadTodayLogBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.UPLOADOTHERDAYLOG
 };
 class UploadLogAction_Elo extends UploadLogAction {
     constructor(client, xPaths = xPaths_elo) {

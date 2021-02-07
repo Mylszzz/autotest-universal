@@ -18,6 +18,10 @@ let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"
 
 const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
 
+/**
+ * 执行脚本流程之前的一些准备工作
+ * 包括读取配置到Map中
+ */
 function before() {
     GlobalUtil.init();
     // 读取测试数据

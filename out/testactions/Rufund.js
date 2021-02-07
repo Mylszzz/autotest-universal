@@ -93,7 +93,7 @@ class Refund {
                             }
                             else {
                                 //进行隔日订单退货，并判断是否成功
-                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
+                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundBeforeOrder(client, orderNo);
                             }
                         }
                         else {
