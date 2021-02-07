@@ -98,11 +98,13 @@ export class TouchAction {
             let a=s1.charAt(Number.parseInt(s));
             if (a=="0"){
                 this.touchAction(this.ArrPath[9].x,this.ArrPath[9].y);
+
             }else if (a=="."){
 
             }else {
                 let num:number=Number.parseInt(a);
                 this.touchAction(this.ArrPath[num-1].x,this.ArrPath[num-1].y);
+
             }
         });
     }
