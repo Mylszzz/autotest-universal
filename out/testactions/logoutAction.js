@@ -9,7 +9,7 @@ class LogoutAction_A8 {
     }
     // 退出登录
     async accountLogout() {
-        let menuBtn = await this.client.$('//android.widget.Button[@content-desc="menu"]');
+        let menuBtn = await this.client.$('//android.widget.Button[@content-desc="menu "]');
         await menuBtn.click();
         await this.client.pause(1000);
         let accountLogoutBtn = await this.client.$('//android.widget.Button[@content-desc="退出登录"]');
@@ -20,7 +20,7 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
     }
     async sysLogout() {
-        let menu = await this.client.$('//android.widget.Button[@content-desc="menu"]');
+        let menu = await this.client.$('//android.widget.Button[@content-desc="menu "]');
         await menu.click();
         await this.client.pause(1000);
         let sysLogout = await this.client.$('//android.widget.Button[@content-desc="退出程序"]');

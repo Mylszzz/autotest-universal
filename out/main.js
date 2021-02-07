@@ -28,6 +28,9 @@ async function salesSettlement() {
     登录(A8和Elo通用。)
      */
     await deviceActions_1.LoginAction.login(client);
+    await deviceActions_1.UploadLogAction.uploadTodayLogAction(client);
+    await deviceActions_1.RefreshAction.refreshAction(client);
+    await deviceActions_1.LogoutAction.accountLogout(client);
     // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
@@ -62,7 +65,7 @@ async function salesSettlement() {
         else {
         }
     }
-    await refund(client);
+    await Rufund_1.Refund.Refund(client);
 }
 // /**
 //  * 登录方法，重新登录时请直接调用此方法
@@ -81,11 +84,11 @@ async function salesSettlement() {
 //     await device.loginProcess();
 //     client.pause(1000);
 // }
-async function refund(client) {
-    //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
-    //  await Screen.okScreen(client);
-    //退货
-    await Rufund_1.Refund.Refund(client);
-}
+// async function refund(client:any) {
+//     //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
+//     //  await Screen.okScreen(client);
+//     //退货
+//     await Refund.Refund(client);
+// }
 before();
 salesSettlement();

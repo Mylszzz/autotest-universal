@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Device_Elo = exports.Device_A8 = void 0;
+exports.Device_Elo = exports.Device_A8 = exports.Device = void 0;
 const LogUtils_1 = require("../../utils/LogUtils");
 const GlobalUtil_1 = require("../../utils/GlobalUtil");
 /**
@@ -18,6 +18,7 @@ class Device {
         this.password = GlobalUtil_1.GlobalUtil.map.get("password"); // 从map中得到用户名
     }
 }
+exports.Device = Device;
 class Device_A8 extends Device {
     constructor(clinet) {
         super(clinet);

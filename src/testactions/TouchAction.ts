@@ -78,16 +78,18 @@ export class TouchAction {
      */
     public static async touchPasswordAction(client:WebdriverIO.BrowserObject,s1: string) {
         let strings = Object.keys(s1);
-        strings.forEach(s=>{
+        await  strings.forEach(s=>{
             console.log(s1.charAt(Number.parseInt(s)));
             let a=s1.charAt(Number.parseInt(s));
             if (a=="0"){
                 this.touchAction(this.ArrPath[9].x,this.ArrPath[9].y);
+
             }else if (a=="."){
 
             }else {
                 let num:number=Number.parseInt(a);
                 this.touchAction(this.ArrPath[num-1].x,this.ArrPath[num-1].y);
+
             }
         });
     }

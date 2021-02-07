@@ -9,7 +9,7 @@ import {ScreenShotUtil} from "../../utils/ScreenShotUtil";
  * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
  * 需要实现2个抽象方法
  */
-abstract class Device {
+export abstract class Device {
     public client: wdio.BrowserObject;
     public usernameText:any;  // 用户名输入框实例
     public passwordText:any;

@@ -55,7 +55,7 @@ class TouchAction {
      */
     static async touchPasswordAction(client, s1) {
         let strings = Object.keys(s1);
-        strings.forEach(s => {
+        await strings.forEach(s => {
             console.log(s1.charAt(Number.parseInt(s)));
             let a = s1.charAt(Number.parseInt(s));
             if (a == "0") {
