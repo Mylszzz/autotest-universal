@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Search = void 0;
+exports.Search_elo = exports.Search_a8 = exports.Search = void 0;
 const TouchAction_1 = require("./TouchAction");
 const LogUtils_1 = require("../utils/LogUtils");
 //进入查询/退货页面
@@ -26,6 +26,15 @@ class Search {
             let ok = await client.$('//android.widget.Button[@content-desc="确定"]');
             await ok.click();
             await client.pause(1000);
+            //查询订单号
+            if (num.length > 15) {
+                let codeNo = await client.$('//android.view.View[@content-desc=' + num + ']');
+                await codeNo.click();
+                await client.pause(1000);
+            }
+            //查询会员号
+            else {
+            }
             LogUtils_1.LogUtils.log.info("=====" + num + "查询符合预期==");
             LogUtils_1.LogUtils.log.info("=====查询结束====");
         }
@@ -34,5 +43,37 @@ class Search {
             LogUtils_1.LogUtils.log.info("=====查询结束====");
         }
     }
+    //扫码查询订单
+    static async searchOrder(client) {
+        //手动扫码
+        let qr = await client.$('//android.widget.Button[@content-desc="qr scanner"]');
+        await qr.click();
+        await client.pause(10000);
+        try {
+            let theTopOrder = await client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[3]/android.view.View[5]/following-sibling::android.view.View');
+            await theTopOrder.click();
+            await client.pause(1000);
+            LogUtils_1.LogUtils.log.info("=====查询符合预期==");
+            LogUtils_1.LogUtils.log.info("=====查询结束====");
+        }
+        catch (e) {
+            LogUtils_1.LogUtils.log.info("=====查询无结果==");
+            LogUtils_1.LogUtils.log.info("=====查询结束====");
+        }
+    }
 }
 exports.Search = Search;
+class Search_a8 extends Search {
+}
+exports.Search_a8 = Search_a8;
+class Search_elo extends Search {
+    static async search(client) {
+        let menu = await client.$('//android.widget.Button[@content-desc="menu"]');
+        await menu.click();
+        await client.pause(1000);
+        let search_back = await client.$('//android.widget.Button[@content-desc="查询/退货"]');
+        await search_back.click();
+        await client.pause(1000);
+    }
+}
+exports.Search_elo = Search_elo;

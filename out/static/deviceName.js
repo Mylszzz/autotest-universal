@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeviceNameEnum = exports.DeviceName = void 0;
-const deviceName = 'a8';
-// const deviceName:string = 'elo';
+// const deviceName:string = 'a8';
+const deviceName = 'elo';
 class DeviceName {
     static getDeviceName() {
         return deviceName;

@@ -55,7 +55,7 @@ class TouchAction {
      */
     static async touchPasswordAction(client, s1) {
         let strings = Object.keys(s1);
-        strings.forEach(s => {
+        await strings.forEach(s => {
             console.log(s1.charAt(Number.parseInt(s)));
             let a = s1.charAt(Number.parseInt(s));
             if (a == "0") {
@@ -66,6 +66,22 @@ class TouchAction {
             else {
                 let num = Number.parseInt(a);
                 this.touchAction(this.ArrPath[num - 1].x, this.ArrPath[num - 1].y);
+            }
+        });
+    }
+    static async touchPasswordAction1(client, s1) {
+        let strings = Object.keys(s1);
+        await strings.forEach(s => {
+            console.log(s1.charAt(Number.parseInt(s)));
+            let a = s1.charAt(Number.parseInt(s));
+            if (a == "0") {
+                this.touchAction(this.ArrPath1[9].x, this.ArrPath1[9].y);
+            }
+            else if (a == ".") {
+            }
+            else {
+                let num = Number.parseInt(a);
+                this.touchAction(this.ArrPath1[num - 1].x, this.ArrPath1[num - 1].y);
             }
         });
     }
@@ -140,4 +156,17 @@ TouchAction.ArrPath = [
     { x: 450, y: 1038 },
     { x: 364, y: 1206 },
     { x: 84, y: 1194 },
+];
+//价格输入按键
+TouchAction.ArrPath1 = [
+    { x: 744, y: 595 },
+    { x: 888, y: 595 },
+    { x: 1031, y: 595 },
+    { x: 744, y: 705 },
+    { x: 888, y: 705 },
+    { x: 1031, y: 705 },
+    { x: 744, y: 815 },
+    { x: 888, y: 815 },
+    { x: 1031, y: 815 },
+    { x: 956, y: 922 },
 ];

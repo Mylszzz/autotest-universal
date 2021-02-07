@@ -9,6 +9,8 @@ const ExportCsv_1 = require("../utils/ExportCsv");
 const ScreenShotUtil_1 = require("../utils/ScreenShotUtil");
 const Tools_1 = require("../utils/Tools");
 const Search_1 = require("./Search");
+const deviceName_1 = require("../static/deviceName");
+const deviceName = deviceName_1.DeviceName.getDeviceName();
 class Refund {
     static async Refund(client) {
         let filename = Tools_1.Tools.guid();
@@ -47,8 +49,11 @@ class Refund {
                     //打印每一行的测试数据
                     LogUtils_1.LogUtils.log.info(titleList[j] + '===>' + data[j]);
                     if (titleList[j].includes('saleTime')) {
-                        //判断测试数据日期是否等于当前日期
-                        if (data[j] != new Date().toLocaleDateString()) {
+                        //判断测试数据日期是否不等于当前日期
+                        data[j] = data[j].replace("/", "").replace("/", "");
+                        let date = new Date().toLocaleDateString().replace("-", "").replace("-", "");
+                        if (Number.parseInt(data[j]) == Number.parseInt(date)) {
+                            LogUtils_1.LogUtils.log.info(data[j], date);
                             isbefore = true;
                         }
                     }
@@ -79,15 +84,26 @@ class Refund {
                 let refunddata = new refundData_1.RefundData();
                 if (!cancelDeal && isRefund) {
                     try {
-                        //点击查询订单
-                        await Search_1.Search.search(client);
+                        //点击进入查询/退货页面
+                        await Search_1.Search_elo.search(client);
+                        LogUtils_1.LogUtils.log.info(isbefore);
                         if (isbefore) {
-                            //进行隔日订单退货，并判断是否成功
-                            refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
+                            if (deviceName == 'a8') {
+                                refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
+                            }
+                            else {
+                                //进行隔日订单退货，并判断是否成功
+                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
+                            }
                         }
                         else {
-                            //进行今日订单退货，并判断是否成功
-                            refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
+                            if (deviceName == 'a8') {
+                                //进行今日订单退货，并判断是否成功
+                                refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
+                            }
+                            else {
+                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
+                            }
                         }
                     }
                     catch (e) {
