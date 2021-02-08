@@ -1,15 +1,15 @@
 import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
-import {ReadCSV} from "./utils/ReadCSV";
-import {VipMixedPayment} from "./testactions/VipMixedPayment";
-import {Tools} from "./utils/Tools";
-import {logger} from "./utils/LogUtils";
+import {ReadCSV} from "./utils/readCSV";
+import {VipMixedPayment} from "./testactions/vipMixedPayment";
+import {Tools} from "./utils/tools";
+import {logger} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
-import {Screen} from "./testactions/Screen";
-import {Search} from "./testactions/Search";
-import {Refund} from "./testactions/Rufund"
+import {Screen} from "./testactions/screen";
+import {Search} from "./testactions/search";
+import {Refund} from "./testactions/refund"
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefreshAction_Elo = exports.RefreshAction_A8 = void 0;
-const LogUtils_1 = require("../utils/LogUtils");
+const logUtils_1 = require("../utils/logUtils");
 const buttonXPaths_1 = require("../static/buttonXPaths");
 /**
  * 刷新店铺
@@ -23,7 +23,7 @@ class RefreshAction {
     }
     // 刷新店铺的流程
     async refresh() {
-        LogUtils_1.LogUtils.log.info("=====开始执行刷新店铺====");
+        logUtils_1.LogUtils.log.info("=====开始执行刷新店铺====");
         await this.client.pause(1000);
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
@@ -31,7 +31,7 @@ class RefreshAction {
         let refreshBtn = await this.client.$(this.refreshBtnXPath);
         await refreshBtn.click();
         await this.client.pause(5000); // 刷新店铺要等比较久
-        LogUtils_1.LogUtils.log.info("=====刷新店铺符合预期====");
+        logUtils_1.LogUtils.log.info("=====刷新店铺符合预期====");
     }
 }
 /**

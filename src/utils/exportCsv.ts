@@ -1,10 +1,6 @@
 import fs from "fs";
 import {ExportToCsv, Options} from "ts-export-to-csv";
-import {GlobalUtil} from "./globalUtil";
 import * as path from "path";
-import {Tools} from "./Tools";
-import {Title} from "../entity/title";
-import {createObjectCsvWriter} from 'csv-writer'
 
 
 export class ExportCsv {

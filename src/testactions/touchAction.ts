@@ -1,7 +1,7 @@
 import {SingleDriver} from "../driver";
-import {Position} from "../utils/Position";
-import {LogUtils} from "../utils/LogUtils";
-import {RefundOrder} from "./RefundOrder";
+import {Position} from "../utils/position";
+import {LogUtils} from "../utils/logUtils";
+import {RefundOrder} from "./refundOrder";
 import {GlobalUtil} from "../utils/globalUtil";
 
 export class TouchAction {

@@ -26,7 +26,7 @@ exports.ReadUtils = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
-const LogUtils_1 = require("./LogUtils");
+const logUtils_1 = require("./logUtils");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class ReadUtils {
@@ -69,7 +69,7 @@ class ReadUtils {
         let buffer = new Buffer(fileStr, 'binary');
         let data = iconv_lite_1.default.decode(buffer, 'GBK');
         //console.log(data);
-        LogUtils_1.LogUtils.log.info("获取的自动化测试数据====>>" + data);
+        logUtils_1.LogUtils.log.info("获取的自动化测试数据====>>" + data);
         return data;
     }
     static readForRefund() {
@@ -81,7 +81,7 @@ class ReadUtils {
         let buffer = new Buffer(fileStr, 'binary');
         let data = iconv_lite_1.default.decode(buffer, 'utf8');
         //console.log(data);
-        LogUtils_1.LogUtils.log.info("获取的退款的自动化测试数据====>>" + data);
+        logUtils_1.LogUtils.log.info("获取的退款的自动化测试数据====>>" + data);
         return data;
     }
     //读取json文件，获得配置参数的map集合

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestPay = void 0;
 const number_precision_1 = __importDefault(require("number-precision"));
-const TouchAction_1 = require("../TouchAction");
+const touchAction_1 = require("../touchAction");
 class TestPay {
     static async test(client, payTree, frequency, headers, fileName) {
         let price = 0;
@@ -29,7 +29,7 @@ class TestPay {
             total += prices[i];
         }
         price = number_precision_1.default.strip(total);
-        await TouchAction_1.TouchAction.touchPriceAction(client, price.toString());
+        await touchAction_1.TouchAction.touchPriceAction(client, price.toString());
         await client.pause(1000);
         //确定
         let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');

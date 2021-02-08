@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidateOrderInfo = void 0;
 const initOrderInfoMap_1 = require("../../utils/initOrderInfoMap");
-const LogUtils_1 = require("../../utils/LogUtils");
-const CsvOptions_1 = require("../../utils/CsvOptions");
-const ExportCsv_1 = require("../../utils/ExportCsv");
+const logUtils_1 = require("../../utils/logUtils");
+const csvOptions_1 = require("../../utils/csvOptions");
+const exportCsv_1 = require("../../utils/exportCsv");
 class ValidateOrderInfo {
     // 获取储存了订单信息的Map
     static async getOrderInfo(client) {
@@ -18,10 +18,10 @@ class ValidateOrderInfo {
                 await infoMap.set(key, tempValue); // 更新信息储存map
             }
             catch (e) {
-                LogUtils_1.LogUtils.log.info(e);
+                logUtils_1.LogUtils.log.info(e);
             }
         }
-        LogUtils_1.LogUtils.log.info('订单信息获取成功！');
+        logUtils_1.LogUtils.log.info('订单信息获取成功！');
         return infoMap;
     }
     /**
@@ -40,9 +40,9 @@ class ValidateOrderInfo {
         }
         let data = []; // 储存需要打印信息的二元数组
         // 输出csv配置，需要打印的内容出去header只有1行
-        let option = CsvOptions_1.CsvOptions.configurationOption(1, headers);
+        let option = csvOptions_1.CsvOptions.configurationOption(1, headers);
         data.push(values);
-        ExportCsv_1.ExportCsv.printSaleData(option, data, fileName);
+        exportCsv_1.ExportCsv.printSaleData(option, data, fileName);
     }
 }
 exports.ValidateOrderInfo = ValidateOrderInfo;

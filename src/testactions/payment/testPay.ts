@@ -1,5 +1,5 @@
 import NP from 'number-precision'
-import {TouchAction} from "../TouchAction";
+import {TouchAction} from "../touchAction";
 import {SaleData} from "../../entity/saleData";
 
 export class TestPay {

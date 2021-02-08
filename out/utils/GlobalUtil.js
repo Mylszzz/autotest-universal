@@ -24,7 +24,7 @@ const readUtils_1 = require("./readUtils");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const deviceName_1 = require("../static/deviceName");
-const LogUtils_1 = require("./LogUtils");
+const logUtils_1 = require("./logUtils");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 /**
  * 获取机器配置信息并且保存在一个Map中
@@ -35,7 +35,7 @@ class GlobalUtil {
     constructor() {
         GlobalUtil.configMap = new Map();
         GlobalUtil.readTest();
-        LogUtils_1.LogUtils.log.info(GlobalUtil.configMap);
+        logUtils_1.LogUtils.log.info(GlobalUtil.configMap);
     }
     static getConfigMap() {
         if (GlobalUtil.instance == null) {
@@ -45,7 +45,7 @@ class GlobalUtil {
     }
     //读取json文件，获得配置参数的map集合
     static readTest() {
-        LogUtils_1.LogUtils.log.info("===开始获取自动化测试的配置参数===");
+        logUtils_1.LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
         let buffer;
         if (deviceName == "a8") {
@@ -60,7 +60,7 @@ class GlobalUtil {
         for (let obj of Object.keys(JSON.parse(data))) {
             GlobalUtil.configMap.set(obj, JSON.parse(data)[obj]);
         }
-        LogUtils_1.LogUtils.log.info("===获取自动化测试的配置参数完成===");
+        logUtils_1.LogUtils.log.info("===获取自动化测试的配置参数完成===");
     }
     // 初始化，获取配置信息
     static init() {

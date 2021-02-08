@@ -1,4 +1,4 @@
-import {TouchAction} from "./TouchAction";
+import {TouchAction} from "./touchAction";
 import {GlobalUtil} from "../utils/globalUtil";
 
 /*

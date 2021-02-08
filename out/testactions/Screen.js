@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Screen = void 0;
-const Search_1 = require("./Search");
-const DateUtil_1 = require("../utils/DateUtil");
-const LogUtils_1 = require("../utils/LogUtils");
+const search_1 = require("./search");
+const dateUtil_1 = require("../utils/dateUtil");
+const logUtils_1 = require("../utils/logUtils");
 /*
 * 选择筛选条件
 * */
 class Screen {
     //筛选条件
     static async screenNo(client, date, orderType, orderState) {
-        await Search_1.Search.search(client);
+        await search_1.Search.search(client);
         //点击筛选
         let ccBtn = await client.$('//android.widget.Button[@content-desc="funnel"]');
         await ccBtn.click();
         //选择日期
-        await DateUtil_1.DateUtil.selectDate(client, date);
+        await dateUtil_1.DateUtil.selectDate(client, date);
         //选择条件
         // 清空默认的订单类型
         let chooseAll_1 = await client.$('(//android.widget.CheckBox[@content-desc="全选"])[1]');
@@ -40,7 +40,7 @@ class Screen {
         await ok.click();
     }
     static async refScreen(client) {
-        await Search_1.Search.search(client);
+        await search_1.Search.search(client);
         //点击筛选
         let ccBtn = await client.$('//android.widget.Button[@content-desc="funnel"]');
         await ccBtn.click();
@@ -56,14 +56,14 @@ class Screen {
             if (isCompleted) {
                 let complete = await client.$('//android.widget.Button[@content-desc="完成"]');
                 await complete.click();
-                LogUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件符合预期==");
+                logUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件符合预期==");
             }
             else {
-                LogUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件不符预期==");
+                logUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件不符预期==");
             }
         }
         else {
-            LogUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件不符预期==");
+            logUtils_1.LogUtils.log.info("=====订单查询--》重置筛选条件不符预期==");
         }
     }
 }

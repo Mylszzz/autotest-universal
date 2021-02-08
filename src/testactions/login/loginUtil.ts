@@ -1,7 +1,7 @@
 import * as wdio from 'webdriverio';
-import {LogUtils} from "../../utils/LogUtils";
+import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
-import {ScreenShotUtil} from "../../utils/ScreenShotUtil";
+import {ScreenShotUtil} from "../../utils/screenShotUtil";
 
 
 /**

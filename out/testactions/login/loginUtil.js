@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Device_Elo = exports.Device_A8 = exports.Device = void 0;
-const LogUtils_1 = require("../../utils/LogUtils");
+const logUtils_1 = require("../../utils/logUtils");
 const globalUtil_1 = require("../../utils/globalUtil");
 /**
  * device 的抽象类
@@ -26,12 +26,12 @@ class Device_A8 extends Device {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils_1.LogUtils.log.info("====开始进行商户登录===");
+            logUtils_1.LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.error(e);
+            logUtils_1.LogUtils.log.error(e);
         }
     }
     async loginProcess() {
@@ -47,7 +47,7 @@ class Device_A8 extends Device {
             await loginBtn.click();
             try {
                 let ele = await this.client.$('//android.view.View[@content-desc="正在登陆,请稍后...."]');
-                LogUtils_1.LogUtils.log.info(await ele.getAttribute("content-desc"));
+                logUtils_1.LogUtils.log.info(await ele.getAttribute("content-desc"));
                 let eleJudge = true;
                 while (eleJudge) {
                     eleJudge = await this.client.isElementDisplayed(ele.elementId);
@@ -68,19 +68,19 @@ class Device_A8 extends Device {
                         globalUtil_1.GlobalUtil.getConfigMap().get("storeNumber") + '"]');
                     if (this.client.isElementDisplayed(msg.elementId)) {
                         console.log("============login finish=============" + new Date());
-                        LogUtils_1.LogUtils.log.info("====商户登录成功===");
+                        logUtils_1.LogUtils.log.info("====商户登录成功===");
                     }
                 }
                 catch (e) {
                     // 重新启动程序
                     await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
-                    LogUtils_1.LogUtils.log.error("----------设备重新启动了！！！！");
+                    logUtils_1.LogUtils.log.error("----------设备重新启动了！！！！");
                     await this.loginProcess();
                 }
             }
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.error(e);
+            logUtils_1.LogUtils.log.error(e);
         }
     }
 }
@@ -92,12 +92,12 @@ class Device_Elo extends Device {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils_1.LogUtils.log.info("====开始进行商户登录===");
+            logUtils_1.LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.error(e);
+            logUtils_1.LogUtils.log.error(e);
         }
     }
     async loginProcess() {
@@ -119,10 +119,10 @@ class Device_Elo extends Device {
             // 缓冲
             await this.client.$('//android.view.View[@content-desc="会员"]');
             console.log("============login finish=============" + new Date());
-            LogUtils_1.LogUtils.log.info("====商户登录成功===");
+            logUtils_1.LogUtils.log.info("====商户登录成功===");
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.error(e);
+            logUtils_1.LogUtils.log.error(e);
         }
     }
 }

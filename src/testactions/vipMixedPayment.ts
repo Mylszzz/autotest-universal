@@ -1,14 +1,14 @@
-import {TouchAction} from "./TouchAction";
+import {TouchAction} from "./touchAction";
 import NP from 'number-precision'
 import {GlobalUtil} from "../utils/globalUtil";
 import {SaleData} from "../entity/saleData";
-import {LogUtils} from "../utils/LogUtils";
-import {PaymentProcessing} from "./PaymentProcessing";
-import {ExportCsv} from "../utils/ExportCsv";
-import {CsvOptions} from "../utils/CsvOptions";
-import {ScreenShotUtil} from "../utils/ScreenShotUtil";
+import {LogUtils} from "../utils/logUtils";
+import {PaymentProcessing} from "./paymentProcessing";
+import {ExportCsv} from "../utils/exportCsv";
+import {CsvOptions} from "../utils/csvOptions";
+import {ScreenShotUtil} from "../utils/screenShotUtil";
 import {LoginAction} from "./deviceActions";
-import {LoginVip} from "./LoginVip";
+import {LoginVip} from "./loginVip";
 
 export class VipMixedPayment {
     public static async test(client: any, payTree: any, otherTree: any, frequency: number, headers?: any, saleContent?: any, fileName?: any) {

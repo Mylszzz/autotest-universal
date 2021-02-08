@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from "path";
 import  incon from 'iconv-lite'
-import {LogUtils} from "./LogUtils";
+import {LogUtils} from "./logUtils";
 import {DeviceName} from "../static/deviceName";
 
 const deviceName:string = DeviceName.getDeviceName();

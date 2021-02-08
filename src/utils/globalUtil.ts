@@ -2,7 +2,7 @@ import {ReadUtils} from "./readUtils";
 import * as fs from 'fs'
 import * as path from "path";
 import {DeviceName} from "../static/deviceName";
-import {LogUtils} from "./LogUtils";
+import {LogUtils} from "./logUtils";
 
 const deviceName:string = DeviceName.getDeviceName();
 

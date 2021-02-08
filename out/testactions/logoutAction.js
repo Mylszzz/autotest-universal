@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogoutAction_Elo = exports.LogoutAction_A8 = void 0;
-const LogUtils_1 = require("../utils/LogUtils");
-const Position_1 = require("../utils/Position");
+const logUtils_1 = require("../utils/logUtils");
+const position_1 = require("../utils/position");
 const buttonXPaths_1 = require("../static/buttonXPaths");
 /**
  * A8
@@ -21,7 +21,7 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
         let confirmBtn = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
         await this.client.pause(5000);
     }
     async sysLogout() {
@@ -30,7 +30,7 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
         let sysLogout = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
         await this.client.pause(5000);
     }
 }
@@ -51,24 +51,24 @@ class LogoutAction_Elo {
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: Position_1.Position.exit_account[0].x,
-                y: Position_1.Position.exit_account[0].y,
+                x: position_1.Position.exit_account[0].x,
+                y: position_1.Position.exit_account[0].y,
             },
         ]);
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: Position_1.Position.exit_account[1].x,
-                y: Position_1.Position.exit_account[1].y,
+                x: position_1.Position.exit_account[1].x,
+                y: position_1.Position.exit_account[1].y,
             },
         ]);
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
-            LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
             await this.client.pause(5000);
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
+            logUtils_1.LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
         }
     }
     // 退出系统

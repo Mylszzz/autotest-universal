@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadLogAction_Elo = exports.UploadLogAction_A8 = void 0;
-const LogUtils_1 = require("../utils/LogUtils");
+const logUtils_1 = require("../utils/logUtils");
 const buttonXPaths_1 = require("../static/buttonXPaths");
 /**
  * 上传日志
@@ -20,7 +20,7 @@ class UploadLogAction {
     }
     // 上传当天日志
     async uploadTodayLog() {
-        LogUtils_1.LogUtils.log.info('=====上传日志--》上传当天日志开始====');
+        logUtils_1.LogUtils.log.info('=====上传日志--》上传当天日志开始====');
         let menuBtn = await this.client.$(this.menuBtnXPath); // 菜单按钮的实例
         await menuBtn.click(); // 点击
         await this.client.pause(1000); // 等待点击后系统响应
@@ -29,7 +29,7 @@ class UploadLogAction {
         await this.client.pause(1000);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath); // 上传当日日志的实例
         await uploadTodayLogBtn.click();
-        LogUtils_1.LogUtils.log.info("=====上传日志--》上传当天日志符合预期=="); // TODO: 缺少判断
+        logUtils_1.LogUtils.log.info("=====上传日志--》上传当天日志符合预期=="); // TODO: 缺少判断
         await this.client.pause(5000); // 需要等比较久
     }
     // 上传其他日日志

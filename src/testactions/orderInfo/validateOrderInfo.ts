@@ -1,9 +1,9 @@
 import {DeviceName} from "../../static/deviceName";
 import {OrderInfoMap} from "../../utils/initOrderInfoMap";
-import {LogUtils} from "../../utils/LogUtils";
+import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
-import {CsvOptions} from "../../utils/CsvOptions";
-import {ExportCsv} from "../../utils/ExportCsv";
+import {CsvOptions} from "../../utils/csvOptions";
+import {ExportCsv} from "../../utils/exportCsv";
 
 export class ValidateOrderInfo {
 
