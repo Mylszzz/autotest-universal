@@ -1,6 +1,6 @@
 import {TouchAction} from "./TouchAction";
 import NP from 'number-precision'
-import {GlobalUtil} from "../utils/GlobalUtil";
+import {GlobalUtil} from "../utils/globalUtil";
 import {SaleData} from "../entity/saleData";
 import {LogUtils} from "../utils/LogUtils";
 import {PaymentProcessing} from "./PaymentProcessing";

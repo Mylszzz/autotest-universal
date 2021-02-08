@@ -1,6 +1,6 @@
 import fs from 'fs'
 import iconv from 'iconv-lite'
-import {GlobalUtil} from "./GlobalUtil";
+import {GlobalUtil} from "./globalUtil";
 
 //读取测试数据信息
 export class ReadCSV {

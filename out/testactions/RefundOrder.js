@@ -5,7 +5,7 @@ const LogUtils_1 = require("../utils/LogUtils");
 const Search_1 = require("./Search");
 const Search_2 = require("./Search");
 const TouchAction_1 = require("./TouchAction");
-const GlobalUtil_1 = require("../utils/GlobalUtil");
+const globalUtil_1 = require("../utils/globalUtil");
 const ScreenShotUtil_1 = require("../utils/ScreenShotUtil");
 const refundButton_1 = require("../entity/refundButton");
 const refundButton_2 = require("../entity/refundButton");
@@ -82,7 +82,7 @@ class RefundOrder {
             await RefundOrder.refundFirst(client, orderNo, refBtn_a8.confirm);
             // 输入退货的固定密码
             LogUtils_1.LogUtils.log.info("请输入授权码");
-            let number = await GlobalUtil_1.GlobalUtil.map.get('backGoods');
+            let number = await globalUtil_1.GlobalUtil.map.get('backGoods');
             await RefundOrder.refundPass(client, refBtn_a8.determine, number);
             //提示确定
             let confirmTip1 = await client.$(refBtn_a8.determine);
@@ -174,7 +174,7 @@ class RefundOrder_elo extends RefundOrder {
             // 输入退货的固定密码
             let fixedpwd = await client.$('//android.view.View[@content-desc="固定密码"] ');
             await fixedpwd.click();
-            let number = await GlobalUtil_1.GlobalUtil.map.get('backGoods');
+            let number = await globalUtil_1.GlobalUtil.map.get('backGoods');
             await RefundOrder.refundPass(client, refBtn_elo.determine, number);
             //提示确定
             let confirmTip1 = await client.$(refBtn_elo.determine2);
@@ -188,7 +188,7 @@ class RefundOrder_elo extends RefundOrder {
         }
         catch (e) {
             LogUtils_1.logger.error("----------控件元素未找到--退货程序执行失败--重新启动" + "----------");
-            let pwd = GlobalUtil_1.GlobalUtil.map.get('backGoods2');
+            let pwd = globalUtil_1.GlobalUtil.map.get('backGoods2');
             await RefundOrder.refundPass(client, refBtn_elo.determine, pwd);
             //  打印订单耗时
             await client.pause(10000);
@@ -206,7 +206,7 @@ class RefundOrder_elo extends RefundOrder {
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_elo.confirm);
             await RefundOrder.refundThen(client, refBtn_elo.confirm, refBtn_elo.determine2);
-            let number = await GlobalUtil_1.GlobalUtil.map.get('backGoods2');
+            let number = await globalUtil_1.GlobalUtil.map.get('backGoods2');
             await RefundOrder.refundPass(client, refBtn_elo.determine, number);
             await client.pause(10000);
             LogUtils_1.LogUtils.log.info("====订单" + orderNo + "隔日整单退款成功");

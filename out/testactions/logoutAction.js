@@ -21,7 +21,8 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
         let confirmBtn = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        await this.client.pause(1000);
+        LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
     async sysLogout() {
         let menu = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.MENU);
@@ -29,7 +30,8 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
         let sysLogout = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
 }
 exports.LogoutAction_A8 = LogoutAction_A8;
@@ -63,6 +65,7 @@ class LogoutAction_Elo {
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            await this.client.pause(5000);
         }
         catch (e) {
             LogUtils_1.LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
@@ -75,7 +78,7 @@ class LogoutAction_Elo {
         await this.client.pause(1000);
         let sysLogout = await this.client.$(buttonXPaths_1.ButtonXPaths_Elo.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        await this.client.pause(5000);
     }
 }
 exports.LogoutAction_Elo = LogoutAction_Elo;

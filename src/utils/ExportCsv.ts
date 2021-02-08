@@ -1,6 +1,6 @@
 import fs from "fs";
 import {ExportToCsv, Options} from "ts-export-to-csv";
-import {GlobalUtil} from "./GlobalUtil";
+import {GlobalUtil} from "./globalUtil";
 import * as path from "path";
 import {Tools} from "./Tools";
 import {Title} from "../entity/title";
@@ -38,21 +38,4 @@ export class ExportCsv {
         // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
         // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
     }
-
-    public static printTestData(options:any) {
-        const csvExporter = new ExportToCsv(options);
-        const csvData = csvExporter.generateCsv(GlobalUtil.testData, true);
-        let path1='../../csvData/refund/'+new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDay()+'-'+Tools.guid()+'.csv';
-        fs.writeFileSync(path.join(__dirname, path1), csvData, {
-            flag: 'a',
-            encoding: 'utf8'
-        });
-        // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
-        // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
-    }
-
-
-
-
-
 }

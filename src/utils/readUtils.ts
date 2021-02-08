@@ -74,7 +74,7 @@ export class ReadUtils {
     public static readTest(map:any){
         //LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
-        this.sleep(2000)
+        this.sleep(2000);
         let buffer:any;
         if (deviceName=="a8") {
             buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig.json"));

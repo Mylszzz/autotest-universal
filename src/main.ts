@@ -1,6 +1,6 @@
 import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
-import {GlobalUtil} from "./utils/GlobalUtil";
+import {GlobalUtil} from "./utils/globalUtil";
 import {ReadCSV} from "./utils/ReadCSV";
 import {VipMixedPayment} from "./testactions/VipMixedPayment";
 import {Tools} from "./utils/Tools";
@@ -44,6 +44,8 @@ async function salesSettlement() {
     await UploadLogAction.uploadTodayLogAction(client);
     await RefreshAction.refreshAction(client);
     await LogoutAction.accountLogout(client);
+
+    await LoginAction.login(client);
 
         // /*
     //  For Test Only

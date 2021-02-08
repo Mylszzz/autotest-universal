@@ -35,7 +35,8 @@ export class LogoutAction_A8 implements ILogout {
         await this.client.pause(1000);
         let confirmBtn=await this.client.$(ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        await this.client.pause(1000);
+        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
 
     public async sysLogout() {
@@ -44,7 +45,8 @@ export class LogoutAction_A8 implements ILogout {
         await this.client.pause(1000);
         let sysLogout=await this.client.$(ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
 }
 
@@ -82,6 +84,7 @@ export class LogoutAction_Elo implements ILogout {
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            await this.client.pause(5000);
         }catch (e) {
             LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
         }
@@ -94,7 +97,7 @@ export class LogoutAction_Elo implements ILogout {
         await this.client.pause(1000);
         let sysLogout=await this.client.$(ButtonXPaths_Elo.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        await this.client.pause(5000);
     }
 
 }

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentProcessing = void 0;
-const GlobalUtil_1 = require("../utils/GlobalUtil");
+const globalUtil_1 = require("../utils/globalUtil");
 /**
  * 销售支付细节处理
  */
@@ -16,13 +16,13 @@ class PaymentProcessing {
         try {
             let cardType = await client.$('//android.view.View[@content-desc="请选择卡类型"]');
             await cardType.getAttribute('content-desc');
-            if (GlobalUtil_1.GlobalUtil.map.get('CardType') === '电子卡') {
+            if (globalUtil_1.GlobalUtil.map.get('CardType') === '电子卡') {
                 let electronicCard = await client.$('//android.widget.Button[@content-desc="电子卡"]');
                 await electronicCard.click();
                 // 等待扫码
                 await this.scanCode(client);
             }
-            else if (GlobalUtil_1.GlobalUtil.map.get('CardType') === '实体卡') {
+            else if (globalUtil_1.GlobalUtil.map.get('CardType') === '实体卡') {
                 let physicalCard = await client.$('//android.widget.Button[@content-desc="实体卡"]');
                 await physicalCard.click();
             }
@@ -37,11 +37,11 @@ class PaymentProcessing {
         try {
             let payMethod = await client.$('//android.view.View[@content-desc="选择支付方式"]');
             await payMethod.getAttribute('content-desc');
-            if (GlobalUtil_1.GlobalUtil.map.get('TTPAYMethod') === '微信') {
+            if (globalUtil_1.GlobalUtil.map.get('TTPAYMethod') === '微信') {
                 let weChat = await client.$('//android.widget.RadioButton[@content-desc="微信"]');
                 await weChat.click();
             }
-            else if (GlobalUtil_1.GlobalUtil.map.get('TTPAYMethod') === '支付宝') {
+            else if (globalUtil_1.GlobalUtil.map.get('TTPAYMethod') === '支付宝') {
                 let alipay = await client.$('//android.widget.RadioButton[@content-desc="支付宝"]');
                 await alipay.click();
             }

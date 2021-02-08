@@ -1,7 +1,7 @@
 export enum ButtonXPaths_A8 {
     MENU = '//android.widget.Button[@content-desc="menu "]',  // 菜单键
     REFRESH = '//android.widget.Button[@content-desc="refresh circle 刷新店铺"]',  // 刷新店铺键
-    ACCOUNTLOGOUT = '//android.widget.Button[@content-desc="退出登录"]',
+    ACCOUNTLOGOUT = '//android.widget.Button[@content-desc="exit 退出登录"]',
     CONFIRM = '//android.widget.Button[@content-desc="确认"]',  //
     SYSTEMLOGOUT = '//android.widget.Button[@content-desc="退出程序"]',
     UPLOADLOG = '//android.widget.Button[@content-desc="cloud upload 上传日志"]',

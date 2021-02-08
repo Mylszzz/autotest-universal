@@ -25,9 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExportCsv = void 0;
 const fs_1 = __importDefault(require("fs"));
 const ts_export_to_csv_1 = require("ts-export-to-csv");
-const GlobalUtil_1 = require("./GlobalUtil");
 const path = __importStar(require("path"));
-const Tools_1 = require("./Tools");
 class ExportCsv {
     /**
      *
@@ -49,17 +47,6 @@ class ExportCsv {
         const csvExporter = new ts_export_to_csv_1.ExportToCsv(options);
         const csvData = csvExporter.generateCsv(refundData, true);
         let path1 = '../../csvData/refund/' + new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + '-' + Date.now() + '-' + fileName + '.csv';
-        fs_1.default.writeFileSync(path.join(__dirname, path1), csvData, {
-            flag: 'a',
-            encoding: 'utf8'
-        });
-        // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
-        // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
-    }
-    static printTestData(options) {
-        const csvExporter = new ts_export_to_csv_1.ExportToCsv(options);
-        const csvData = csvExporter.generateCsv(GlobalUtil_1.GlobalUtil.testData, true);
-        let path1 = '../../csvData/refund/' + new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDay() + '-' + Tools_1.Tools.guid() + '.csv';
         fs_1.default.writeFileSync(path.join(__dirname, path1), csvData, {
             flag: 'a',
             encoding: 'utf8'

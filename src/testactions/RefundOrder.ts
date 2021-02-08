@@ -2,7 +2,7 @@ import {logger, LogUtils} from "../utils/LogUtils";
 import {Search_a8} from "./Search";
 import {Search_elo} from "./Search";
 import {TouchAction} from "./TouchAction";
-import {GlobalUtil} from "../utils/GlobalUtil";
+import {GlobalUtil} from "../utils/globalUtil";
 import {ScreenShotUtil} from "../utils/ScreenShotUtil";
 import {RefundBut_a8} from "../entity/refundButton";
 import {RefundBut_elo} from "../entity/refundButton";

@@ -1,6 +1,6 @@
 import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/LogUtils";
-import {GlobalUtil} from "../../utils/GlobalUtil";
+import {GlobalUtil} from "../../utils/globalUtil";
 import {ScreenShotUtil} from "../../utils/ScreenShotUtil";
 
 
@@ -17,11 +17,11 @@ export abstract class Device {
     public password:string|undefined;  // 密码
     constructor(client: wdio.BrowserObject) {
         this.client = client;
-        this.username =  GlobalUtil.map.get("username");  // 从map中得到用户名
+        this.username = GlobalUtil.getConfigMap().get("username");  // 从map中得到用户名
         if (this.username == "" || this.username == undefined) {
             GlobalUtil.init();
         }
-        this.password = GlobalUtil.map.get("password");  // 从map中得到用户名
+        this.password = GlobalUtil.getConfigMap().get("password");  // 从map中得到密码
 
     }
 
@@ -42,8 +42,6 @@ export class Device_A8 extends Device {
             LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
-            // this.usernameText = await this.client.$('//android.widget.EditText[@content-desc="tht202011190002807"]');
-            // this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[7]/android.widget.EditText');
         } catch (e) {
             LogUtils.log.error(e);
         }
@@ -72,14 +70,23 @@ export class Device_A8 extends Device {
 
             } finally {
                 try {
-                    await this.client.pause(1000);
-                    await this.client.$('//android.view.View[@content-desc="货号:' + GlobalUtil.map.get("storeNumber") + '"]');
-                    console.log("============login finish=============" + new Date());
-                    LogUtils.log.info("====商户登录成功===");
+                    // await this.client.pause(1000);
+                    // let timeoutMsg = await this.client.$('//android.view.View[@content-desc="登陆超时,请检查网络或稍后重试"]');
+                    // if (this.client.isElementDisplayed(timeoutMsg.elementId)) {
+                    //     await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
+                    //     LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！");
+                    //     await this.loginProcess();
+                    // }
+                    let msg = await this.client.$('//android.view.View[@content-desc="货号:' +
+                        GlobalUtil.getConfigMap().get("storeNumber") + '"]');
+                    if (this.client.isElementDisplayed(msg.elementId)) {
+                        console.log("============login finish=============" + new Date());
+                        LogUtils.log.info("====商户登录成功===");
+                    }
                 } catch (e) {
                     // 重新启动程序
-                    await this.client.startActivity(this.client.getCurrentPackage, this.client.getCurrentActivity);
-                    LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！");
+                    await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
+                    LogUtils.log.error("----------设备重新启动了！！！！");
                     await this.loginProcess();
                 }
             }

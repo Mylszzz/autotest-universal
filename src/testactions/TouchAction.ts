@@ -2,7 +2,7 @@ import {SingleDriver} from "../driver";
 import {Position} from "../utils/Position";
 import {LogUtils} from "../utils/LogUtils";
 import {RefundOrder} from "./RefundOrder";
-import {GlobalUtil} from "../utils/GlobalUtil";
+import {GlobalUtil} from "../utils/globalUtil";
 
 export class TouchAction {
     //价格输入按键
@@ -38,7 +38,7 @@ export class TouchAction {
 
     //输入手机号
     public static async phoneNum(client: any, num: string) {
-        await this.sleep(2000)
+        await this.sleep(2000);
         for (let i = 0; i < num.length; i++) {
             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
             await n.click();

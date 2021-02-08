@@ -23,14 +23,14 @@ class RefreshAction {
     }
     // 刷新店铺的流程
     async refresh() {
+        LogUtils_1.LogUtils.log.info("=====开始执行刷新店铺====");
+        await this.client.pause(1000);
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
         await this.client.pause(1000);
         let refreshBtn = await this.client.$(this.refreshBtnXPath);
         await refreshBtn.click();
-        await this.client.pause(1000);
-        await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(5000); // 刷新店铺要等比较久
         LogUtils_1.LogUtils.log.info("=====刷新店铺符合预期====");
     }
 }

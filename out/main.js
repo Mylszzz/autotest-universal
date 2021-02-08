@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
 const deviceActions_1 = require("./testactions/deviceActions");
-const GlobalUtil_1 = require("./utils/GlobalUtil");
+const globalUtil_1 = require("./utils/globalUtil");
 const ReadCSV_1 = require("./utils/ReadCSV");
 const Tools_1 = require("./utils/Tools");
 const LogUtils_1 = require("./utils/LogUtils");
@@ -17,7 +17,7 @@ const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
  * 包括读取配置到Map中
  */
 function before() {
-    GlobalUtil_1.GlobalUtil.init();
+    globalUtil_1.GlobalUtil.init();
     // 读取测试数据
     map = ReadCSV_1.ReadCSV.readFile();
     let saleContent = map.get('saleContent');
@@ -35,6 +35,7 @@ async function salesSettlement() {
     await deviceActions_1.UploadLogAction.uploadTodayLogAction(client);
     await deviceActions_1.RefreshAction.refreshAction(client);
     await deviceActions_1.LogoutAction.accountLogout(client);
+    await deviceActions_1.LoginAction.login(client);
     // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Device_Elo = exports.Device_A8 = exports.Device = void 0;
 const LogUtils_1 = require("../../utils/LogUtils");
-const GlobalUtil_1 = require("../../utils/GlobalUtil");
+const globalUtil_1 = require("../../utils/globalUtil");
 /**
  * device 的抽象类
  * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
@@ -11,11 +11,11 @@ const GlobalUtil_1 = require("../../utils/GlobalUtil");
 class Device {
     constructor(client) {
         this.client = client;
-        this.username = GlobalUtil_1.GlobalUtil.map.get("username"); // 从map中得到用户名
+        this.username = globalUtil_1.GlobalUtil.getConfigMap().get("username"); // 从map中得到用户名
         if (this.username == "" || this.username == undefined) {
-            GlobalUtil_1.GlobalUtil.init();
+            globalUtil_1.GlobalUtil.init();
         }
-        this.password = GlobalUtil_1.GlobalUtil.map.get("password"); // 从map中得到用户名
+        this.password = globalUtil_1.GlobalUtil.getConfigMap().get("password"); // 从map中得到密码
     }
 }
 exports.Device = Device;
@@ -29,8 +29,6 @@ class Device_A8 extends Device {
             LogUtils_1.LogUtils.log.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
-            // this.usernameText = await this.client.$('//android.widget.EditText[@content-desc="tht202011190002807"]');
-            // this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[7]/android.widget.EditText');
         }
         catch (e) {
             LogUtils_1.LogUtils.log.error(e);
@@ -59,15 +57,24 @@ class Device_A8 extends Device {
             }
             finally {
                 try {
-                    await this.client.pause(1000);
-                    await this.client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get("storeNumber") + '"]');
-                    console.log("============login finish=============" + new Date());
-                    LogUtils_1.LogUtils.log.info("====商户登录成功===");
+                    // await this.client.pause(1000);
+                    // let timeoutMsg = await this.client.$('//android.view.View[@content-desc="登陆超时,请检查网络或稍后重试"]');
+                    // if (this.client.isElementDisplayed(timeoutMsg.elementId)) {
+                    //     await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
+                    //     LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！");
+                    //     await this.loginProcess();
+                    // }
+                    let msg = await this.client.$('//android.view.View[@content-desc="货号:' +
+                        globalUtil_1.GlobalUtil.getConfigMap().get("storeNumber") + '"]');
+                    if (this.client.isElementDisplayed(msg.elementId)) {
+                        console.log("============login finish=============" + new Date());
+                        LogUtils_1.LogUtils.log.info("====商户登录成功===");
+                    }
                 }
                 catch (e) {
                     // 重新启动程序
-                    await this.client.startActivity(this.client.getCurrentPackage, this.client.getCurrentActivity);
-                    LogUtils_1.LogUtils.log.error("--------由于网络原因--设备重新启动了！！！！");
+                    await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
+                    LogUtils_1.LogUtils.log.error("----------设备重新启动了！！！！");
                     await this.loginProcess();
                 }
             }

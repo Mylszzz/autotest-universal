@@ -35,10 +35,8 @@ class UploadLogAction {
         await this.client.pause(1000);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath);  // 上传当日日志的实例
         await uploadTodayLogBtn.click();
-        await this.client.pause(1000);
-        await menuBtn.click();  // 再次点击菜单键可以回到主界面
-        await this.client.pause(1000);
         LogUtils.log.info("=====上传日志--》上传当天日志符合预期==");  // TODO: 缺少判断
+        await this.client.pause(5000);  // 需要等比较久
     }
 
     // 上传其他日日志
