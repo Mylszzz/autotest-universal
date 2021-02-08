@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VipMixedPayment = void 0;
 const TouchAction_1 = require("./TouchAction");
 const number_precision_1 = __importDefault(require("number-precision"));
-const GlobalUtil_1 = require("../utils/GlobalUtil");
+const globalUtil_1 = require("../utils/globalUtil");
 const saleData_1 = require("../entity/saleData");
 const LogUtils_1 = require("../utils/LogUtils");
 const PaymentProcessing_1 = require("./PaymentProcessing");
@@ -51,7 +51,7 @@ class VipMixedPayment {
             await LoginVip_1.LoginVip.loginVip(client);
             LogUtils_1.LogUtils.log.info("VIP登录成功！");
             //点击选取货品
-            let toSale = await client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get('storeNumber') + '"]');
+            let toSale = await client.$('//android.view.View[@content-desc="货号:' + globalUtil_1.GlobalUtil.map.get('storeNumber') + '"]');
             await client.pause(1000);
             await toSale.click();
             await client.pause(1000);
