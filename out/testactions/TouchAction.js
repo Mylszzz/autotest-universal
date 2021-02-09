@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TouchAction = void 0;
 const driver_1 = require("../driver");
-const Position_1 = require("../utils/Position");
+const position_1 = require("../utils/position");
 class TouchAction {
     //输入手机号
     static async phoneNum(client, num) {
@@ -136,8 +136,8 @@ class TouchAction {
         await client.touchAction([
             {
                 action: 'tap',
-                x: Position_1.Position.pay[num - 1].x,
-                y: Position_1.Position.pay[num - 1].y
+                x: position_1.Position.pay[num - 1].x,
+                y: position_1.Position.pay[num - 1].y
             }
         ]);
     }

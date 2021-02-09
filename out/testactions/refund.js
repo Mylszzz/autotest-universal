@@ -2,18 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Refund = void 0;
 const readUtils_1 = require("../utils/readUtils");
-const LogUtils_1 = require("../utils/LogUtils");
-const RefundOrder_1 = require("./RefundOrder");
+const logUtils_1 = require("../utils/logUtils");
+const refundOrder_1 = require("./refundOrder");
 const refundData_1 = require("../entity/refundData");
-const ExportCsv_1 = require("../utils/ExportCsv");
-const ScreenShotUtil_1 = require("../utils/ScreenShotUtil");
-const Tools_1 = require("../utils/Tools");
-const Search_1 = require("./Search");
+const exportCsv_1 = require("../utils/exportCsv");
+const screenShotUtil_1 = require("../utils/screenShotUtil");
+const tools_1 = require("../utils/tools");
+const search_1 = require("./search");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class Refund {
     static async Refund(client) {
-        let filename = Tools_1.Tools.guid();
+        let filename = tools_1.Tools.guid();
         //读取售卖记录
         let s = readUtils_1.ReadUtils.readForRefund();
         //console.log(s);
@@ -47,13 +47,13 @@ class Refund {
                     //console.log(titleList[j] + '===>' + data[j]);
                     //进行退货操作
                     //打印每一行的测试数据
-                    LogUtils_1.LogUtils.log.info(titleList[j] + '===>' + data[j]);
+                    logUtils_1.LogUtils.log.info(titleList[j] + '===>' + data[j]);
                     if (titleList[j].includes('saleTime')) {
                         //判断测试数据日期是否不等于当前日期
                         data[j] = data[j].replace("/", "").replace("/", "");
                         let date = new Date().toLocaleDateString().replace("-", "").replace("-", "");
                         if (Number.parseInt(data[j]) == Number.parseInt(date)) {
-                            LogUtils_1.LogUtils.log.info(data[j], date);
+                            logUtils_1.LogUtils.log.info(data[j], date);
                             isbefore = true;
                         }
                     }
@@ -85,11 +85,11 @@ class Refund {
                 if (!cancelDeal && isRefund) {
                     try {
                         //点击进入查询/退货页面
-                        await Search_1.Search_elo.search(client);
-                        LogUtils_1.LogUtils.log.info(isbefore);
+                        await search_1.Search_elo.search(client);
+                        logUtils_1.LogUtils.log.info(isbefore);
                         if (isbefore) {
                             if (deviceName == 'a8') {
-                                refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
+                                refunddata.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
                             }
                             else {
                                 //进行隔日订单退货，并判断是否成功
@@ -99,28 +99,28 @@ class Refund {
                         else {
                             if (deviceName == 'a8') {
                                 //进行今日订单退货，并判断是否成功
-                                refunddata.isSuccess = await RefundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
+                                refunddata.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
                             }
                             else {
-                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
+                                refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
                             }
                         }
                     }
                     catch (e) {
-                        LogUtils_1.LogUtils.log.info("===退货出错，执行截屏操作===");
-                        await ScreenShotUtil_1.ScreenShotUtil.takeScreenShot(client, orderNo);
+                        logUtils_1.LogUtils.log.info("===退货出错，执行截屏操作===");
+                        await screenShotUtil_1.ScreenShotUtil.takeScreenShot(client, orderNo);
                     }
                     //退货数据的赋值，用于输出退货测试数据
                     refunddata.refundPrice = money;
                     refunddata.refundOrderNo = "'" + orderNo;
                     refunddata.refundTime = new Date().toLocaleDateString();
                     refundDatas.push(refunddata);
-                    ExportCsv_1.ExportCsv.printRefundData(options, refundDatas, filename);
+                    exportCsv_1.ExportCsv.printRefundData(options, refundDatas, filename);
                 }
             }
         }
         //ExportCsv.printRefundData();
-        LogUtils_1.LogUtils.log.info("=====输出完成退货操作的csv文件===");
+        logUtils_1.LogUtils.log.info("=====输出完成退货操作的csv文件===");
     }
 }
 exports.Refund = Refund;

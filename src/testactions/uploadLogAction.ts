@@ -1,5 +1,6 @@
-import {LogUtils} from "../utils/LogUtils";
+import {LogUtils} from "../utils/logUtils";
 import * as wdio from "webdriverio";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../static/buttonXPaths";
 
 /**
  * 上传日志
@@ -34,10 +35,8 @@ class UploadLogAction {
         await this.client.pause(1000);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath);  // 上传当日日志的实例
         await uploadTodayLogBtn.click();
-        await this.client.pause(1000);
-        await menuBtn.click();  // 再次点击菜单键可以回到主界面
-        await this.client.pause(1000);
         LogUtils.log.info("=====上传日志--》上传当天日志符合预期==");  // TODO: 缺少判断
+        await this.client.pause(5000);  // 需要等比较久
     }
 
     // 上传其他日日志
@@ -53,41 +52,16 @@ class UploadLogAction {
         await this.client.pause(1000);
         // TODO: 接下来还没做
     }
-
-    // // 上传当天日志
-    // public static async uploadTheDailyLog(client:wdio.BrowserObject){
-    //     try {
-    //         await this.sleep(2000);
-    //         let menu=await client.$('//android.widget.Button[@content-desc="menu"]');
-    //         await menu.click();
-    //         let log=await client.$('//android.widget.Button[@content-desc="上传日志"]');
-    //         await log.click();
-    //         let currLog = await client.$('//android.widget.Button[@content-desc="上传当天日志"]');
-    //         await currLog.click();
-    //         try {
-    //             await client.setImplicitTimeout(500);
-    //             await client.$('//android.view.View[@content-desc="DB上传成功"]');
-    //             await client.setImplicitTimeout(10000);
-    //             LogUtils.log.info("=====上传日志--》上传当天日志符合预期==");
-    //         }catch (e) {
-    //             await client.setImplicitTimeout(10000);
-    //             LogUtils.log.info("=====上传日志--》上传当天日志不符合预期==");
-    //         }
-    //     }catch (e) {
-    //
-    //     }
-    //
-    // }
 }
 
 /**
  * A8
  */
 const xPaths_a8:IXPaths = {
-    menuBtnXPath:'//android.widget.Button[@content-desc="menu "]',
-    uploadLogBtnXPath:'//android.widget.Button[@content-desc="cloud upload 上传日志"]',
-    uploadTodayLogBtnXPath:'//android.widget.Button[@content-desc="上传当天日志"]',
-    uploadOtherDayLogBtnXPath:'//android.widget.Button[@content-desc="上传其他日期日志"]'
+    menuBtnXPath:ButtonXPaths_A8.MENU,
+    uploadLogBtnXPath:ButtonXPaths_A8.UPLOADLOG,
+    uploadTodayLogBtnXPath:ButtonXPaths_A8.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath:ButtonXPaths_A8.UPLOADOTHERDAYLOG
 };
 
 export class UploadLogAction_A8 extends UploadLogAction {
@@ -100,10 +74,10 @@ export class UploadLogAction_A8 extends UploadLogAction {
  * Elo
  */
 const xPaths_elo:IXPaths = {
-    menuBtnXPath:'//android.widget.Button[@content-desc="menu"]',
-    uploadLogBtnXPath:'//android.widget.Button[@content-desc="上传日志"]',
-    uploadTodayLogBtnXPath:'//android.widget.Button[@content-desc="上传当天日志"]',
-    uploadOtherDayLogBtnXPath:'//android.widget.Button[@content-desc="上传其他日期日志"]'
+    menuBtnXPath:ButtonXPaths_Elo.MENU,
+    uploadLogBtnXPath:ButtonXPaths_Elo.UPLOADLOG,
+    uploadTodayLogBtnXPath:ButtonXPaths_Elo.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath:ButtonXPaths_Elo.UPLOADOTHERDAYLOG
 };
 
 export class UploadLogAction_Elo extends UploadLogAction {

@@ -2,28 +2,32 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const driver_1 = require("./driver");
 const deviceActions_1 = require("./testactions/deviceActions");
-const GlobalUtil_1 = require("./utils/GlobalUtil");
-const ReadCSV_1 = require("./utils/ReadCSV");
-const Tools_1 = require("./utils/Tools");
-const LogUtils_1 = require("./utils/LogUtils");
+const globalUtil_1 = require("./utils/globalUtil");
+const readCSV_1 = require("./utils/readCSV");
+const tools_1 = require("./utils/tools");
+const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
 const CancelReturns_1 = require("./testactions/CancelReturns");
 let map = new Map();
-let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + Tools_1.Tools.guid() + ".csv";
+let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
+/**
+ * 执行脚本流程之前的一些准备工作
+ * 包括读取配置到Map中
+ */
 function before() {
-    GlobalUtil_1.GlobalUtil.init();
+    globalUtil_1.GlobalUtil.init();
     // 读取测试数据
-    map = ReadCSV_1.ReadCSV.readFile();
+    map = readCSV_1.ReadCSV.readFile();
     let saleContent = map.get('saleContent');
-    LogUtils_1.logger.info("-------map--------------");
-    LogUtils_1.logger.info(saleContent);
+    logUtils_1.logger.info("-------map--------------");
+    logUtils_1.logger.info(saleContent);
 }
 async function salesSettlement() {
-    LogUtils_1.logger.info("开始创建client");
+    logUtils_1.logger.info("开始创建client");
     let client = await driver_1.SingleDriver.createClient();
-    LogUtils_1.logger.info("成功创建[" + deviceName + "]client");
+    logUtils_1.logger.info("成功创建[" + deviceName + "]client");
     /*
     登录(A8和Elo通用。)
      */

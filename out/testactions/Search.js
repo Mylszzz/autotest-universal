@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Search_elo = exports.Search_a8 = exports.Search = void 0;
-const TouchAction_1 = require("./TouchAction");
-const LogUtils_1 = require("../utils/LogUtils");
+const touchAction_1 = require("./touchAction");
+const logUtils_1 = require("../utils/logUtils");
 //进入查询/退货页面
 class Search {
     static async search(client) {
@@ -20,7 +20,7 @@ class Search {
         let codeNoText = await client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.widget.EditText');
         await codeNoText.click();
         await client.pause(1000);
-        await TouchAction_1.TouchAction.phoneNum(client, num);
+        await touchAction_1.TouchAction.phoneNum(client, num);
         await client.pause(10000);
         try {
             let ok = await client.$('//android.widget.Button[@content-desc="确定"]');
@@ -35,12 +35,12 @@ class Search {
             //查询会员号
             else {
             }
-            LogUtils_1.LogUtils.log.info("=====" + num + "查询符合预期==");
-            LogUtils_1.LogUtils.log.info("=====查询结束====");
+            logUtils_1.LogUtils.log.info("=====" + num + "查询符合预期==");
+            logUtils_1.LogUtils.log.info("=====查询结束====");
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.info("=====" + num + "查询无结果==");
-            LogUtils_1.LogUtils.log.info("=====查询结束====");
+            logUtils_1.LogUtils.log.info("=====" + num + "查询无结果==");
+            logUtils_1.LogUtils.log.info("=====查询结束====");
         }
     }
     //扫码查询订单
@@ -53,12 +53,12 @@ class Search {
             let theTopOrder = await client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[3]/android.view.View[5]/following-sibling::android.view.View');
             await theTopOrder.click();
             await client.pause(1000);
-            LogUtils_1.LogUtils.log.info("=====查询符合预期==");
-            LogUtils_1.LogUtils.log.info("=====查询结束====");
+            logUtils_1.LogUtils.log.info("=====查询符合预期==");
+            logUtils_1.LogUtils.log.info("=====查询结束====");
         }
         catch (e) {
-            LogUtils_1.LogUtils.log.info("=====查询无结果==");
-            LogUtils_1.LogUtils.log.info("=====查询结束====");
+            logUtils_1.LogUtils.log.info("=====查询无结果==");
+            logUtils_1.LogUtils.log.info("=====查询结束====");
         }
     }
 }

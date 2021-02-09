@@ -4,17 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VipMixedPayment = void 0;
-const TouchAction_1 = require("./TouchAction");
+const touchAction_1 = require("./touchAction");
 const number_precision_1 = __importDefault(require("number-precision"));
-const GlobalUtil_1 = require("../utils/GlobalUtil");
+const globalUtil_1 = require("../utils/globalUtil");
 const saleData_1 = require("../entity/saleData");
-const LogUtils_1 = require("../utils/LogUtils");
-const PaymentProcessing_1 = require("./PaymentProcessing");
-const ExportCsv_1 = require("../utils/ExportCsv");
-const CsvOptions_1 = require("../utils/CsvOptions");
-const ScreenShotUtil_1 = require("../utils/ScreenShotUtil");
+const logUtils_1 = require("../utils/logUtils");
+const paymentProcessing_1 = require("./paymentProcessing");
+const exportCsv_1 = require("../utils/exportCsv");
+const csvOptions_1 = require("../utils/csvOptions");
+const screenShotUtil_1 = require("../utils/screenShotUtil");
 const deviceActions_1 = require("./deviceActions");
-const LoginVip_1 = require("./LoginVip");
+const loginVip_1 = require("./loginVip");
 class VipMixedPayment {
     static async test(client, payTree, otherTree, frequency, headers, saleContent, fileName) {
         // 订单号
@@ -43,15 +43,15 @@ class VipMixedPayment {
             // 支付方式对应金额 [1,2]
             let prices = payTree.get("data")[1];
             // 日志信息
-            LogUtils_1.LogUtils.log.info("测试" + payMethods);
+            logUtils_1.LogUtils.log.info("测试" + payMethods);
             //
             await this.sleep(2000);
             // Vip登录
             // TODO： 输入手机号有时有错误
-            await LoginVip_1.LoginVip.loginVip(client);
-            LogUtils_1.LogUtils.log.info("VIP登录成功！");
+            await loginVip_1.LoginVip.loginVip(client);
+            logUtils_1.LogUtils.log.info("VIP登录成功！");
             //点击选取货品
-            let toSale = await client.$('//android.view.View[@content-desc="货号:' + GlobalUtil_1.GlobalUtil.map.get('storeNumber') + '"]');
+            let toSale = await client.$('//android.view.View[@content-desc="货号:' + globalUtil_1.GlobalUtil.map.get('storeNumber') + '"]');
             await client.pause(1000);
             await toSale.click();
             await client.pause(1000);
@@ -62,7 +62,7 @@ class VipMixedPayment {
             }
             price = number_precision_1.default.strip(p);
             //输入价格
-            await TouchAction_1.TouchAction.touchPriceAction(client, price.toString());
+            await touchAction_1.TouchAction.touchPriceAction(client, price.toString());
             await client.pause(1000);
             //确定
             let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
@@ -83,12 +83,12 @@ class VipMixedPayment {
                 for (let j = 0; j < payMethods.length; j++) {
                     //第几步取消
                     if (i === j) {
-                        orderNoValue = await PaymentProcessing_1.PaymentProcessing.cancelTheDeal(client);
-                        LogUtils_1.LogUtils.log.info("取消交易：" + payMethods + "  符合预期");
+                        orderNoValue = await paymentProcessing_1.PaymentProcessing.cancelTheDeal(client);
+                        logUtils_1.LogUtils.log.info("取消交易：" + payMethods + "  符合预期");
                         break;
                     }
                     else {
-                        LogUtils_1.LogUtils.log.info("+++++++进入sales_cancelled");
+                        logUtils_1.LogUtils.log.info("+++++++进入sales_cancelled");
                         await this.sales_cancelled(client, payMethods, prices, j, up_down);
                     }
                 }
@@ -96,7 +96,7 @@ class VipMixedPayment {
             // 订单不取消
             else {
                 orderNoValue = await this.normalSales(client, payMethods, prices, up_down);
-                LogUtils_1.LogUtils.log.info("销售：" + payMethods + "  符合预期");
+                logUtils_1.LogUtils.log.info("销售：" + payMethods + "  符合预期");
             }
             //创建销售数据
             let saleData = new saleData_1.SaleData();
@@ -105,12 +105,12 @@ class VipMixedPayment {
             saleData.price = price;
             saleData.saleContent = saleContent;
             saleOrderData.push(saleData);
-            let option = CsvOptions_1.CsvOptions.configurationOption(frequency, headers);
-            await ExportCsv_1.ExportCsv.printSaleData(option, saleOrderData, fileName);
+            let option = csvOptions_1.CsvOptions.configurationOption(frequency, headers);
+            await exportCsv_1.ExportCsv.printSaleData(option, saleOrderData, fileName);
         }
         catch (e) {
             // 出错截图
-            await ScreenShotUtil_1.ScreenShotUtil.takeScreenShot(client, orderNoValue);
+            await screenShotUtil_1.ScreenShotUtil.takeScreenShot(client, orderNoValue);
             //创建销售数据
             let saleData = new saleData_1.SaleData();
             saleData.saleTime = new Date().toLocaleDateString();
@@ -118,8 +118,8 @@ class VipMixedPayment {
             saleData.price = price;
             saleData.saleContent = saleContent;
             saleOrderData.push(saleData);
-            let option = CsvOptions_1.CsvOptions.configurationOption(frequency, headers);
-            await ExportCsv_1.ExportCsv.printSaleData(option, saleOrderData, fileName);
+            let option = csvOptions_1.CsvOptions.configurationOption(frequency, headers);
+            await exportCsv_1.ExportCsv.printSaleData(option, saleOrderData, fileName);
             // 重启
             await client.launchApp();
             await deviceActions_1.LoginAction.login(client);
@@ -149,14 +149,14 @@ class VipMixedPayment {
             }
             if (i <= 6) {
                 if (up_down === 0) {
-                    await TouchAction_1.TouchAction.clickPay(client, i);
+                    await touchAction_1.TouchAction.clickPay(client, i);
                 }
                 else {
                     for (let x = 0; x < up_down; x++) {
                         let up = await client.$('//android.widget.Button[@content-desc="arrow dropup"]');
                         await up.click();
                     }
-                    await TouchAction_1.TouchAction.clickPay(client, i);
+                    await touchAction_1.TouchAction.clickPay(client, i);
                 }
             }
             else {
@@ -176,15 +176,15 @@ class VipMixedPayment {
                     }
                     if (payss.length - 6 * downCount < 3) {
                         num += 4;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                     else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                         num += 2;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                         // console.log("点击第几个：" + num);
                     }
                     else if (payss.length - 6 * downCount >= 6) {
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                 }
                 else if (up_down > downCount) {
@@ -197,38 +197,38 @@ class VipMixedPayment {
                     }
                     if (payss.length - 6 * downCount < 3) {
                         num += 4;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                     else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                         num += 2;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                         // console.log("点击第几个：" + num);
                     }
                     else if (payss.length - 6 * downCount >= 6) {
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                 }
                 else {
                     if (payss.length - 6 * downCount < 3) {
                         num += 4;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                     else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                         num += 2;
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                         // console.log("点击第几个：" + num);
                     }
                     else if (payss.length - 6 * downCount >= 6) {
-                        await TouchAction_1.TouchAction.clickPay(client, num);
+                        await touchAction_1.TouchAction.clickPay(client, num);
                     }
                 }
             }
             // 输入该支付方式的价格
-            await TouchAction_1.TouchAction.touchPriceAction(client, prices[j].toString());
+            await touchAction_1.TouchAction.touchPriceAction(client, prices[j].toString());
             let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
             await confirm.click();
             // 各种支付方式的处理
-            await PaymentProcessing_1.PaymentProcessing.handle(client);
+            await paymentProcessing_1.PaymentProcessing.handle(client);
         }
         // 恢复正常等待时间
         await client.setImplicitTimeout(20000);
@@ -268,14 +268,14 @@ class VipMixedPayment {
         }
         if (i <= 6) {
             if (up_down === 0) {
-                await TouchAction_1.TouchAction.clickPay(client, i);
+                await touchAction_1.TouchAction.clickPay(client, i);
             }
             else {
                 for (let x = 0; x < up_down; x++) {
                     let up = await client.$('//android.widget.Button[@content-desc="arrow dropup"]');
                     await up.click();
                 }
-                await TouchAction_1.TouchAction.clickPay(client, i);
+                await touchAction_1.TouchAction.clickPay(client, i);
             }
         }
         else {
@@ -295,15 +295,15 @@ class VipMixedPayment {
                 }
                 if (payss.length - 6 * downCount < 3) {
                     num += 4;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
                 else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                     num += 2;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                     // console.log("点击第几个：" + num);
                 }
                 else if (payss.length - 6 * downCount >= 6) {
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
             }
             else if (up_down > downCount) {
@@ -316,38 +316,38 @@ class VipMixedPayment {
                 }
                 if (payss.length - 6 * downCount < 3) {
                     num += 4;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
                 else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                     num += 2;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                     // console.log("点击第几个：" + num);
                 }
                 else if (payss.length - 6 * downCount >= 6) {
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
             }
             else {
                 if (payss.length - 6 * downCount < 3) {
                     num += 4;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
                 else if (payss.length - 6 * downCount >= 3 && payss.length - 6 * downCount < 5) {
                     num += 2;
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                     // console.log("点击第几个：" + num);
                 }
                 else if (payss.length - 6 * downCount >= 6) {
-                    await TouchAction_1.TouchAction.clickPay(client, num);
+                    await touchAction_1.TouchAction.clickPay(client, num);
                 }
             }
         }
         // 输入该支付方式的价格
-        await TouchAction_1.TouchAction.touchPriceAction(client, prices[j].toString());
+        await touchAction_1.TouchAction.touchPriceAction(client, prices[j].toString());
         let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
         await confirm.click();
         // 各种支付方式的处理
-        await PaymentProcessing_1.PaymentProcessing.handle(client);
+        await paymentProcessing_1.PaymentProcessing.handle(client);
     }
 }
 exports.VipMixedPayment = VipMixedPayment;

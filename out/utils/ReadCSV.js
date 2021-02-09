@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReadCSV = void 0;
 const fs_1 = __importDefault(require("fs"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
-const GlobalUtil_1 = require("./GlobalUtil");
+const globalUtil_1 = require("./globalUtil");
 //读取测试数据信息
 class ReadCSV {
     static readFile() {
         let myMap = new Map();
-        let data = fs_1.default.readFileSync(GlobalUtil_1.GlobalUtil.map.get('csv'));
+        let data = fs_1.default.readFileSync(globalUtil_1.GlobalUtil.map.get('csv'));
         //设置编码格式
         let buffer = iconv_lite_1.default.decode(data, "gbk");
         let string = buffer.toString();

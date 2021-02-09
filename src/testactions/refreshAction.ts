@@ -1,13 +1,14 @@
-import {LogUtils} from "../utils/LogUtils";
+import {LogUtils} from "../utils/logUtils";
 import * as wdio from "webdriverio";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../static/buttonXPaths";
 
 /**
  * 刷新店铺
  */
 class RefreshAction {
     client:wdio.BrowserObject;
-    menuBtnXPath:string = '//android.widget.Button[@content-desc="menu"]';  // 菜单键的默认xPath
-    refreshBtnXPath:string = '//android.widget.Button[@content-desc="刷新店铺"]';  // 刷新店铺键的默认xPath
+    menuBtnXPath:string = ButtonXPaths_Elo.MENU;  // 菜单键的默认xPath
+    refreshBtnXPath:string = ButtonXPaths_Elo.REFRESH;  // 刷新店铺键的默认xPath
     /*
     传入参数：client: webdriverio.BrowserObject, menuBtnXPath:菜单键的xPath, refreshBtnXPath:刷新店铺键的xPath
      */
@@ -23,14 +24,14 @@ class RefreshAction {
 
     // 刷新店铺的流程
     public async refresh() {
+        LogUtils.log.info("=====开始执行刷新店铺====");
+        await this.client.pause(1000);
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
         await this.client.pause(1000);
         let refreshBtn = await this.client.$(this.refreshBtnXPath);
         await refreshBtn.click();
-        await this.client.pause(1000);
-        await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(5000);  // 刷新店铺要等比较久
         LogUtils.log.info("=====刷新店铺符合预期====");
     }
 }
@@ -38,8 +39,8 @@ class RefreshAction {
 /**
  * A8的菜单键和刷新店铺键的xPath与父类中默认的不同，需要修改
  */
-const menuBtnXPath_A8 = '//android.widget.Button[@content-desc="menu "]';
-const refreshBtnXPath_A8 = '//android.widget.Button[@content-desc="refresh circle 刷新店铺"]';
+const menuBtnXPath_A8 = ButtonXPaths_A8.MENU;
+const refreshBtnXPath_A8 = ButtonXPaths_A8.REFRESH;
 export class RefreshAction_A8 extends RefreshAction {
     public constructor (client:wdio.BrowserObject, menuBtnXPath = menuBtnXPath_A8,
                         refreshBtnXPath = refreshBtnXPath_A8) {

@@ -1,5 +1,5 @@
-import {TouchAction} from "./TouchAction";
-import {LogUtils} from "../utils/LogUtils";
+import {TouchAction} from "./touchAction";
+import {LogUtils} from "../utils/logUtils";
 
 
 

@@ -1,4 +1,4 @@
-import {GlobalUtil} from "../utils/GlobalUtil";
+import {GlobalUtil} from "../utils/globalUtil";
 
 /**
  * 销售支付细节处理

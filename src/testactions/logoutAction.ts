@@ -1,6 +1,7 @@
 import * as wdio from 'webdriverio';
-import {LogUtils} from "../utils/LogUtils";
-import {Position} from "../utils/Position";
+import {LogUtils} from "../utils/logUtils";
+import {Position} from "../utils/position";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../static/buttonXPaths";
 
 
 /**
@@ -14,6 +15,9 @@ interface ILogout {
 }
 
 
+/**
+ * A8
+ */
 export class LogoutAction_A8 implements ILogout {
     client:wdio.BrowserObject;
 
@@ -23,28 +27,33 @@ export class LogoutAction_A8 implements ILogout {
 
     // 退出登录
     public async accountLogout() {
-        let menuBtn=await this.client.$('//android.widget.Button[@content-desc="menu "]');
+        let menuBtn=await this.client.$(ButtonXPaths_A8.MENU);
         await menuBtn.click();
         await this.client.pause(1000);
-        let accountLogoutBtn=await this.client.$('//android.widget.Button[@content-desc="退出登录"]');
+        let accountLogoutBtn=await this.client.$(ButtonXPaths_A8.ACCOUNTLOGOUT);
         await accountLogoutBtn.click();
         await this.client.pause(1000);
-        let confirmBtn=await this.client.$('//android.widget.Button[@content-desc="确认"]');
+        let confirmBtn=await this.client.$(ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        await this.client.pause(1000);
+        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
 
     public async sysLogout() {
-        let menu=await this.client.$('//android.widget.Button[@content-desc="menu "]');
+        let menu=await this.client.$(ButtonXPaths_A8.MENU);
         await menu.click();
         await this.client.pause(1000);
-        let sysLogout=await this.client.$('//android.widget.Button[@content-desc="退出程序"]');
+        let sysLogout=await this.client.$(ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        await this.client.pause(5000);
     }
 }
 
 
+/**
+ * Elo
+ */
 export class LogoutAction_Elo implements ILogout {
     client:wdio.BrowserObject;
 
@@ -54,7 +63,7 @@ export class LogoutAction_Elo implements ILogout {
 
     // 退出登录
     public async accountLogout() {
-        let contactBtn = await this.client.$('//android.widget.Button[@content-desc="contact"]');
+        let contactBtn = await this.client.$(ButtonXPaths_Elo.CONTACT);
         await contactBtn.click();
         await this.client.pause(500);
         // 以坐标形式点击退出账号按钮
@@ -75,6 +84,7 @@ export class LogoutAction_Elo implements ILogout {
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            await this.client.pause(5000);
         }catch (e) {
             LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
         }
@@ -82,12 +92,12 @@ export class LogoutAction_Elo implements ILogout {
 
     // 退出系统
     public async sysLogout() {
-        let menu=await this.client.$('//android.widget.Button[@content-desc="menu"]');
+        let menu=await this.client.$(ButtonXPaths_Elo.MENU);
         await menu.click();
         await this.client.pause(1000);
-        let sysLogout=await this.client.$('//android.widget.Button[@content-desc="退出程序"]');
+        let sysLogout=await this.client.$(ButtonXPaths_Elo.SYSTEMLOGOUT);
         await sysLogout.click();
-        await this.client.pause(1000);
+        await this.client.pause(5000);
     }
 
 }

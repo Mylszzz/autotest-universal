@@ -1,10 +1,10 @@
 import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
-import {GlobalUtil} from "./utils/GlobalUtil";
-import {ReadCSV} from "./utils/ReadCSV";
-import {VipMixedPayment} from "./testactions/VipMixedPayment";
-import {Tools} from "./utils/Tools";
-import {logger} from "./utils/LogUtils";
+import {GlobalUtil} from "./utils/globalUtil";
+import {ReadCSV} from "./utils/readCSV";
+import {VipMixedPayment} from "./testactions/vipMixedPayment";
+import {Tools} from "./utils/tools";
+import {logger} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/Screen";
@@ -19,6 +19,10 @@ let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"
 
 const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
 
+/**
+ * 执行脚本流程之前的一些准备工作
+ * 包括读取配置到Map中
+ */
 function before() {
     GlobalUtil.init();
     // 读取测试数据

@@ -1,9 +1,9 @@
-import {logger, LogUtils} from "../utils/LogUtils";
-import {Search_a8} from "./Search";
-import {Search_elo} from "./Search";
-import {TouchAction} from "./TouchAction";
-import {GlobalUtil} from "../utils/GlobalUtil";
-import {ScreenShotUtil} from "../utils/ScreenShotUtil";
+import {logger, LogUtils} from "../utils/logUtils";
+import {Search_a8} from "./search";
+import {Search_elo} from "./search";
+import {TouchAction} from "./touchAction";
+import {GlobalUtil} from "../utils/globalUtil";
+import {ScreenShotUtil} from "../utils/screenShotUtil";
 import {RefundBut_a8} from "../entity/refundButton";
 import {RefundBut_elo} from "../entity/refundButton";
 import {DeviceName} from "../static/deviceName";
