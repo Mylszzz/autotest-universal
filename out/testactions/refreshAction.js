@@ -6,6 +6,9 @@ const LogUtils_1 = require("../utils/LogUtils");
  * 刷新店铺
  */
 class RefreshAction {
+    /*
+    传入参数：client: webdriverio.BrowserObject, menuBtnXPath:菜单键的xPath, refreshBtnXPath:刷新店铺键的xPath
+     */
     constructor(client, menuBtnXPath, refreshBtnXPath) {
         this.menuBtnXPath = '//android.widget.Button[@content-desc="menu"]'; // 菜单键的默认xPath
         this.refreshBtnXPath = '//android.widget.Button[@content-desc="刷新店铺"]'; // 刷新店铺键的默认xPath

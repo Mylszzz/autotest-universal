@@ -1,6 +1,8 @@
 import {TouchAction} from "./TouchAction";
 import {LogUtils} from "../utils/LogUtils";
 
+
+
 //进入查询/退货页面
  export class Search{
       static async search(client: any) {

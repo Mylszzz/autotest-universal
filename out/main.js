@@ -7,7 +7,7 @@ const ReadCSV_1 = require("./utils/ReadCSV");
 const Tools_1 = require("./utils/Tools");
 const LogUtils_1 = require("./utils/LogUtils");
 const deviceName_1 = require("./static/deviceName");
-const Rufund_1 = require("./testactions/Rufund");
+const CancelReturns_1 = require("./testactions/CancelReturns");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + Tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
@@ -28,9 +28,10 @@ async function salesSettlement() {
     登录(A8和Elo通用。)
      */
     await deviceActions_1.LoginAction.login(client);
-    await deviceActions_1.UploadLogAction.uploadTodayLogAction(client);
-    await deviceActions_1.RefreshAction.refreshAction(client);
-    await deviceActions_1.LogoutAction.accountLogout(client);
+    // await UploadLogAction.uploadTodayLogAction(client);
+    // await RefreshAction.refreshAction(client);
+    // await LogoutAction.accountLogout(client);
+    await CancelReturns_1.CancelReturns.cancelReturns(client);
     // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
@@ -65,30 +66,7 @@ async function salesSettlement() {
         else {
         }
     }
-    await Rufund_1.Refund.Refund(client);
+    // await Refund.Refund(client);
 }
-// /**
-//  * 登录方法，重新登录时请直接调用此方法
-//  * @param client
-//  */
-// export async function login(client:any) {
-//     let device:any;
-//     if (deviceName == 'a8') {
-//         device = new Device_A8(client);
-//     } else if (deviceName == 'elo') {
-//         device = new Device_Elo(client);
-//     }
-//     await client.setImplicitTimeout(20000);
-//     await device.getDeviceConfig();
-//     client.pause(1000);
-//     await device.loginProcess();
-//     client.pause(1000);
-// }
-// async function refund(client:any) {
-//     //  await Screen.screenNo(client,GlobalUtil.map.get('date'));
-//     //  await Screen.okScreen(client);
-//     //退货
-//     await Refund.Refund(client);
-// }
 before();
 salesSettlement();

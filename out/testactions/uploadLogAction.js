@@ -7,6 +7,9 @@ const LogUtils_1 = require("../utils/LogUtils");
  * 分为上传当日和上传其他日期日志
  */
 class UploadLogAction {
+    /*
+    xPaths: IXPaths对象，包括了四个按键的xPath
+     */
     constructor(client, xPaths) {
         this.client = client;
         this.menuBtnXPath = xPaths.menuBtnXPath;

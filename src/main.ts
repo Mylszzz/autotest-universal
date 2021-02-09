@@ -10,6 +10,7 @@ import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/Screen";
 import {Search} from "./testactions/Search";
 import {Refund} from "./testactions/Rufund"
+import {CancelReturns} from "./testactions/CancelReturns";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -37,10 +38,10 @@ async function salesSettlement() {
      */
     await LoginAction.login(client);
 
-    await UploadLogAction.uploadTodayLogAction(client);
-    await RefreshAction.refreshAction(client);
-    await LogoutAction.accountLogout(client);
-
+    // await UploadLogAction.uploadTodayLogAction(client);
+    // await RefreshAction.refreshAction(client);
+    // await LogoutAction.accountLogout(client);
+      await CancelReturns.cancelReturns(client);
         // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
@@ -78,7 +79,7 @@ async function salesSettlement() {
 
         }
     }
-    await Refund.Refund(client);
+   // await Refund.Refund(client);
 }
 
 
