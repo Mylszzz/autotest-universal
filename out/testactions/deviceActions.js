@@ -24,8 +24,13 @@ class LoginAction {
         await client.setImplicitTimeout(15000); // 15秒Timeout
         await this.device_instance.getDeviceConfig();
         client.pause(1000);
-        await this.device_instance.loginProcess();
-        client.pause(1000);
+        try {
+            await this.device_instance.loginProcess();
+            client.pause(1000);
+        }
+        catch (e) {
+            await this.device_instance.reboot();
+        }
     }
 }
 exports.LoginAction = LoginAction;
