@@ -1,7 +1,7 @@
 import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
-import {BasicException} from "../../utils/exceptions";
+import {BasicException, LoginException} from "../../utils/exceptions";
 
 
 /**
@@ -66,16 +66,18 @@ export class Device_A8 extends Device {
                 await this.client.setImplicitTimeout(100);  // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
-                    console.log("============login finish=============" + new Date());
+                    LogUtils.loginLog.info("============login finish=============" + new Date());
                     LogUtils.loginLog.info("====商户登录成功===");
                 } else {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
-                    throw new BasicException();
+                    throw new LoginException('L0001', '登录失败！');
                 }
             } catch (e) {
-                if (e instanceof BasicException) {
-                    console.error(e);
+                if (e instanceof LoginException) {
+                    LogUtils.loginLog.error(e.toString());
                     await this.reboot();
+                } else {
+                    LogUtils.loginLog.error(e.toString())
                 }
 
             }
@@ -86,7 +88,7 @@ export class Device_A8 extends Device {
 
     async reboot() {
         await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
-        LogUtils.loginLog.error("----------设备重新启动了！！！！");
+        LogUtils.loginLog.warn("----------设备重新启动了！！！！");
         await this.loginProcess();
     }
 }

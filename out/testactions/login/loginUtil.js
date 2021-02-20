@@ -53,25 +53,28 @@ class Device_A8 extends Device {
                 await this.client.setImplicitTimeout(100); // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
                     await this.client.setImplicitTimeout(10000); // 10秒Timeout
-                    console.log("============login finish=============" + new Date());
+                    logUtils_1.LogUtils.loginLog.info("============login finish=============" + new Date());
                     logUtils_1.LogUtils.loginLog.info("====商户登录成功===");
                 }
                 else {
                     await this.client.setImplicitTimeout(10000); // 10秒Timeout
-                    throw new exceptions_1.BasicException();
+                    throw new exceptions_1.LoginException('L0001', '登录失败！');
                 }
             }
             catch (e) {
-                if (e instanceof exceptions_1.BasicException) {
-                    console.error(e);
+                if (e instanceof exceptions_1.LoginException) {
+                    logUtils_1.LogUtils.loginLog.error(e.toString());
                     await this.reboot();
+                }
+                else {
+                    logUtils_1.LogUtils.loginLog.error(e.toString());
                 }
             }
         }
     }
     async reboot() {
         await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
-        logUtils_1.LogUtils.loginLog.error("----------设备重新启动了！！！！");
+        logUtils_1.LogUtils.loginLog.warn("----------设备重新启动了！！！！");
         await this.loginProcess();
     }
 }
