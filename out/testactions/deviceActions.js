@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadLogAction = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
+exports.VipLoginAction = exports.UploadLogAction = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
 const logoutAction_1 = require("./logoutAction");
 const refreshAction_1 = require("./refreshAction");
 const uploadLogAction_1 = require("./uploadLogAction");
+const loginVip_1 = require("./loginVip");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 /**
@@ -114,3 +115,20 @@ class UploadLogAction {
     }
 }
 exports.UploadLogAction = UploadLogAction;
+/**
+ * 用于直接调用登录VIP的静态方法
+ * 懒汉式单例模式
+ */
+class VipLoginAction {
+    constructor() { }
+    static async vipLogin(client) {
+        if (deviceName == 'a8' && this.instance == null) {
+            this.instance = new loginVip_1.VipLogin_A8(client);
+        }
+        else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = new loginVip_1.VipLogin_Elo(client);
+        }
+        await this.instance.vipLogin();
+    }
+}
+exports.VipLoginAction = VipLoginAction;
