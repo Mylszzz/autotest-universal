@@ -21,13 +21,13 @@ function before() {
     // 读取测试数据
     map = readCSV_1.ReadCSV.readFile();
     let saleContent = map.get('saleContent');
-    logUtils_1.logger.info("-------map--------------");
-    logUtils_1.logger.info(saleContent);
+    logUtils_1.LogUtils.log.info("-------map--------------");
+    logUtils_1.LogUtils.log.info(saleContent);
 }
 async function salesSettlement() {
-    logUtils_1.logger.info("开始创建client");
+    logUtils_1.LogUtils.log.info("开始创建client");
     let client = await driver_1.SingleDriver.createClient();
-    logUtils_1.logger.info("成功创建[" + deviceName + "]client");
+    logUtils_1.LogUtils.log.info("成功创建[" + deviceName + "]client");
     /*
     登录(A8和Elo通用。)
      */

@@ -34,5 +34,6 @@ class LogUtils {
 }
 exports.LogUtils = LogUtils;
 LogUtils.log = log4js_1.getLogger('test');
+LogUtils.loginLog = log4js_1.getLogger('loginActivity');
 LogUtils.saleLog = log4js_1.getLogger('saleOrder');
 exports.logger = log4js_1.getLogger("ZM_TEST");

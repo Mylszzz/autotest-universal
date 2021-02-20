@@ -18,9 +18,6 @@ export abstract class Device {
     protected constructor(client: wdio.BrowserObject) {
         this.client = client;
         this.username = GlobalUtil.getConfigMap().get("username");  // 从map中得到用户名
-        // if (this.username == "" || this.username == undefined) {
-        //     GlobalUtil.init();
-        // }
         this.password = GlobalUtil.getConfigMap().get("password");  // 从map中得到密码
 
     }
@@ -41,11 +38,11 @@ export class Device_A8 extends Device {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils.log.info("====开始进行商户登录===");
+            LogUtils.loginLog.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
         } catch (e) {
-            LogUtils.log.error(e);
+            LogUtils.loginLog.error(e);
         }
     }
 
@@ -64,18 +61,15 @@ export class Device_A8 extends Device {
 
         } finally {
             try {
-                console.log("1:"+ new Date());
                 let msg = await this.client.$('//android.view.View[@content-desc="货号:' +
                     GlobalUtil.getConfigMap().get("storeNumber") + '"]');
-                console.log("2:"+ new Date());
-                await this.client.setImplicitTimeout(100);  // 15秒Timeout
+                await this.client.setImplicitTimeout(100);  // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
-                    await this.client.setImplicitTimeout(15000);  // 15秒Timeout
+                    await this.client.setImplicitTimeout(10000);  // 10秒Timeout
                     console.log("============login finish=============" + new Date());
-                    LogUtils.log.info("====商户登录成功===");
+                    LogUtils.loginLog.info("====商户登录成功===");
                 } else {
-                    await this.client.setImplicitTimeout(15000);  // 15秒Timeout
-                    console.log("3:"+ new Date());
+                    await this.client.setImplicitTimeout(10000);  // 10秒Timeout
                     throw new BasicException();
                 }
             } catch (e) {
@@ -92,7 +86,7 @@ export class Device_A8 extends Device {
 
     async reboot() {
         await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
-        LogUtils.log.error("----------设备重新启动了！！！！");
+        LogUtils.loginLog.error("----------设备重新启动了！！！！");
         await this.loginProcess();
     }
 }
@@ -105,25 +99,23 @@ export class Device_Elo extends Device {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils.log.info("====开始进行商户登录===");
+            LogUtils.loginLog.info("====开始进行商户登录===");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
         } catch (e) {
-            LogUtils.log.error(e);
+            LogUtils.loginLog.error(e);
         }
     }
 
     async loginProcess() {
         try {
-            this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
-            this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
             await this.usernameText.clearValue();
             await this.client.pause(1000);
             await this.usernameText.setValue(this.username);
             await this.client.pause(1000);
             await this.passwordText.setValue(this.password);
             await this.client.pause(1000);
-            this.client.setImplicitTimeout(10000);
+            // 点击登录按钮
             await this.client.touchAction([{
                     action: 'tap',
                     x: 950,
@@ -134,9 +126,9 @@ export class Device_Elo extends Device {
             await this.client.$('//android.view.View[@content-desc="会员"]');
 
             console.log("============login finish=============" + new Date());
-            LogUtils.log.info("====商户登录成功===");
+            LogUtils.loginLog.info("====商户登录成功===");
         } catch (e) {
-            LogUtils.log.error(e);
+            LogUtils.loginLog.error(e);
         }
     }
 

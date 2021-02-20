@@ -30,7 +30,9 @@ configure({
 });
 export class LogUtils{
 
-    static log=getLogger('test');
-    static saleLog=getLogger('saleOrder');
+    static log = getLogger('test');
+    static loginLog = getLogger('loginActivity');
+    static saleLog = getLogger('saleOrder');
 }
-    export const logger = getLogger("ZM_TEST");
+
+export const logger = getLogger("ZM_TEST");

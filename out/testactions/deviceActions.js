@@ -21,7 +21,7 @@ class LoginAction {
         else if (deviceName == 'elo' && this.device_instance == null) {
             this.device_instance = new loginUtil_1.Device_Elo(client);
         }
-        await client.setImplicitTimeout(15000); // 15秒Timeout
+        await client.setImplicitTimeout(10000); // 10秒Timeout
         await this.device_instance.getDeviceConfig();
         client.pause(1000);
         try {
