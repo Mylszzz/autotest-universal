@@ -8,6 +8,7 @@ const tools_1 = require("./utils/tools");
 const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
 const CancelReturns_1 = require("./testactions/CancelReturns");
+const refundAction_1 = require("./testactions/refund/refundAction");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
@@ -70,7 +71,9 @@ async function salesSettlement() {
         else {
         }
     }
-    // await Refund.Refund(client);
+    // 退款
+    let refundAction = new refundAction_1.RefundAction(client);
+    await refundAction.refundProcess();
 }
 before();
 salesSettlement();

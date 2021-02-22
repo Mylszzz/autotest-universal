@@ -10,6 +10,7 @@ import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/screen";
 import {Search} from "./testactions/search";
 import {CancelReturns} from "./testactions/CancelReturns";
+import {RefundAction} from "./testactions/refund/refundAction";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -82,7 +83,10 @@ async function salesSettlement() {
 
         }
     }
-   // await Refund.Refund(client);
+
+    // 退款
+    let refundAction = new RefundAction(client);
+    await refundAction.refundProcess();
 }
 
 

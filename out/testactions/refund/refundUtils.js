@@ -1,95 +1,75 @@
-import {ReadUtils} from "../../utils/readUtils";
-import {Tools} from "../../utils/tools";
-
-
-interface IRefundInfo {
-    orderNo:string;
-    price:string;
-    refund:boolean;
-    cancel:boolean;
-    saleTime:string
-}
-
-export class RefundPreparation {
-    filename:string = '';
-    rows:string[] = [];  //
-    titleList:string[] = [];  // 标题分类为各自一列
-    refundDataMaps:Map<string,string>[] = [];  //
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RefundOnce = exports.RefundPreparation = void 0;
+const readUtils_1 = require("../../utils/readUtils");
+const tools_1 = require("../../utils/tools");
+class RefundPreparation {
     /**
      * 构造函数，并调用初始化退款数据的方法
      */
     constructor() {
+        this.filename = '';
+        this.rows = []; //
+        this.titleList = []; // 标题分类为各自一列
+        this.refundDataMaps = []; //
         this.init();
     }
-
     /**
      * 初始化退款数据
      */
-    private init() {
-        this.filename = Tools.guid();
+    init() {
+        this.filename = tools_1.Tools.guid();
         //读取售卖记录
-        let s: string = ReadUtils.readForRefund();
+        let s = readUtils_1.ReadUtils.readForRefund();
         //console.log(s);
         this.rows = s.split('\r\n');
         //获取第一行的标题
         let title = this.rows[0];
         //console.log(title);
-        this.titleList = title.split(',');// 标题分类为各自一列
-
+        this.titleList = title.split(','); // 标题分类为各自一列
         // 遍历每一行需要退款的记录
         for (let i = 1; i < this.rows.length; i++) {
-            let tempDataMap:Map<string, string> = new Map<string, string>();
-            let values:string[] =  this.rows[i].split(',');
+            let tempDataMap = new Map();
+            let values = this.rows[i].split(',');
             for (let j = 0; j < this.titleList.length; j++) {
-                tempDataMap.set(this.titleList[j], values[j]);  // 退款字段, 值
+                tempDataMap.set(this.titleList[j], values[j]); // 退款字段, 值
             }
             this.refundDataMaps.push(tempDataMap);
         }
         console.log(this.refundDataMaps);
     }
-
-    public getRefundDataMaps():Map<string,string>[] {
+    getRefundDataMaps() {
         return this.refundDataMaps;
     }
 }
-
-
+exports.RefundPreparation = RefundPreparation;
 /**
  *
  */
-export class RefundOnce implements IRefundInfo{
-    private refundable:boolean = false;  // 该退款条目就是否需要退款
-
-    saleTime:string = '';  // 销售时间: 格式如 2021/2/4
-    orderNo:string = '';  // 订单号
-    price:string = '';  // 总价
-    refund:boolean = false;  // 是否退货
-    cancel:boolean = false;  // 是否取消交易
-
-
-    payMethods:string[] = [];  // 支付中使用的（金额不为0的支付方式）
-
-    refundDataMap:Map<string,string>;
-    beforeToday:boolean = false;  // 需要退款的订单是否为非本日订单
-
+class RefundOnce {
     /**
      * 构造方法，并调用dataProcess() 进行数据处理, 再调用isRefundable()判断是否需要退货，最后调用isBeforeToday()判断是当日/往日单
      * @param {Map<string, string>} refundDataMap: 储存单挑退款信息的Map
      */
-    public constructor(refundDataMap:Map<string,string>) {
+    constructor(refundDataMap) {
+        this.refundable = false; // 该退款条目就是否需要退款
+        this.saleTime = ''; // 销售时间: 格式如 2021/2/4
+        this.orderNo = ''; // 订单号
+        this.price = ''; // 总价
+        this.refund = false; // 是否退货
+        this.cancel = false; // 是否取消交易
+        this.payMethods = []; // 支付中使用的（金额不为0的支付方式）
+        this.beforeToday = false; // 需要退款的订单是否为非本日订单
         this.refundDataMap = refundDataMap;
-
         this.dataProcess(this.refundDataMap);
         this.isRefundable();
         this.isBeforeToday(this.saleTime);
     }
-
     /**
      * 从输入的退款信息中解析退款需要用的字段
      * @param {Map<string,string>} refundDataMap
      */
-    private dataProcess(refundDataMap:Map<string,string>) {
+    dataProcess(refundDataMap) {
         for (let [key, value] of refundDataMap) {
             switch (key) {
                 case 'orderNo':
@@ -107,7 +87,7 @@ export class RefundOnce implements IRefundInfo{
                 case 'saleTime':
                     this.saleTime = value;
                     break;
-                default:  // 其他字段是支付方式，这里只保存使用了的支付方式
+                default: // 其他字段是支付方式，这里只保存使用了的支付方式
                     if (value != '0') {
                         this.payMethods.push(key);
                     }
@@ -115,48 +95,41 @@ export class RefundOnce implements IRefundInfo{
             }
         }
     }
-
     /**
      * @returns {string[]} 支付方式
      */
-    public getPayMethods():string[] {
+    getPayMethods() {
         return this.payMethods;
     }
-
     /**
      * @returns {boolean} 是否需要退货
      */
-    public getIsRefundable():boolean {
+    getIsRefundable() {
         return this.refundable;
     }
-
-    public getOrderNo():string {
+    getOrderNo() {
         return this.orderNo;
     }
-
-    public getBeforeToday():boolean {
+    getBeforeToday() {
         return this.beforeToday;
     }
-
-    public getPrice():string {
+    getPrice() {
         return this.price;
     }
-
     /**
      * 如果取消为N, 退货为Y, 则此单需要退货，设定this.refundable为true
      */
-    public isRefundable():void {
+    isRefundable() {
         this.refundable = ((!this.cancel) && this.refund);
     }
-
     /**
      * 判断是否为往日订单（非本日）
      * @param {string} saleDate 从csv中读取到的销售日期
      * @returns {boolean}  true=非本日; false=本日
      */
-    private isBeforeToday(saleDate:string):boolean {
+    isBeforeToday(saleDate) {
         saleDate = saleDate.replace("/", "").replace("/", "");
-        let todayDate:string = new Date().toLocaleDateString().replace("-", "")
+        let todayDate = new Date().toLocaleDateString().replace("-", "")
             .replace("-", "");
         if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
             this.beforeToday = true;
@@ -164,3 +137,4 @@ export class RefundOnce implements IRefundInfo{
         return this.beforeToday;
     }
 }
+exports.RefundOnce = RefundOnce;
