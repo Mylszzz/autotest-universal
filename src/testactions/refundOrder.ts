@@ -83,7 +83,7 @@ export class RefundOrder {
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
         //await Search_a8.searchNo(client,orderNo);
-        await Search_a8.searchOrder(client);
+        await new Search_a8(client).searchOrder();
         try{
             await RefundOrder.refundFirst(client, orderNo,refBtn_a8.confirm);
             // 输入退货的固定密码
@@ -124,7 +124,7 @@ export class RefundOrder {
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作（隔日）=====");
         //查询订单,并判断是否成功
         // await Search.searchNo(client,orderNo);
-        await Search_a8.searchOrder(client);
+        await new Search_a8(client).searchOrder();
         // 查询成功，执行退款操作
         try{
             await RefundOrder.refundFirst(client, orderNo,refBtn_a8.confirm);
@@ -176,7 +176,7 @@ export class RefundOrder_elo extends RefundOrder{
     public static async refundOrderToday(client:any,orderNo:string){
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
-        await Search_elo.searchNo(client,orderNo);
+        await new Search_a8(client).searchNo(orderNo);
         try{
             await RefundOrder.refundFirst(client, orderNo,refBtn_elo.determine2);
             // 输入退货的固定密码
@@ -209,7 +209,7 @@ export class RefundOrder_elo extends RefundOrder{
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作（隔日）=====");
         //查询订单,并判断是否成功
         // await Search.searchNo(client,orderNo);
-        await Search_a8.searchOrder(client);
+        await new Search_a8(client).searchOrder();
         // 查询成功，执行退款操作
         try{
             await RefundOrder.refundFirst(client, orderNo,refBtn_elo.confirm);

@@ -1,35 +1,44 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CancelReturns = void 0;
-const deviceName_1 = require("../static/deviceName");
-const Screen_1 = require("./Screen");
-const Search_1 = require("./Search");
-const deviceName = deviceName_1.DeviceName.getDeviceName();
+exports.CancelReturns_ELO = exports.CancelReturns_A8 = exports.CancelReturns = void 0;
+const screen_1 = require("./screen");
+const search_1 = require("./search");
+const OrderXpath_1 = require("../static/OrderXpath");
+const commonXpath_1 = require("../static/commonXpath");
 class CancelReturns {
-    static async cancelReturns(client) {
-        await Search_1.Search.search(client);
+    constructor(client, backBtnXPath) {
+        this.backBtnXPath = OrderXpath_1.OrderXpath_a8.back; //
+        this.client = client;
+        if (backBtnXPath != undefined) { //
+            this.backBtnXPath = backBtnXPath;
+        }
+    }
+    async cancelReturns() {
+        await new search_1.Search(this.client).search();
         const orderType = ['一般销售单'];
         const orderState = ['已完成', '已部分退'];
-        await Screen_1.Screen.screenNo(client, new Date().toLocaleDateString(), orderType, orderState);
-        client.pause(3000);
-        let close = await client.$('//android.widget.Button[@content-desc="关闭"]');
+        await new screen_1.Screen(this.client).screenNo(new Date().toLocaleDateString(), orderType, orderState);
+        await this.client.pause(3000);
+        let close = await this.client.$(commonXpath_1.CommonXpath.close);
         await close.click();
-        let sel = await client.$('(//android.widget.Image[@content-desc="clipboard"])[1]');
+        let sel = await this.client.$(commonXpath_1.CommonXpath.order);
         await sel.click();
-        let returns = await client.$('//android.widget.Button[@content-desc="申请退货"]');
+        let returns = await this.client.$(commonXpath_1.CommonXpath.returns);
         await returns.click();
-        let cancel = await client.$('//android.widget.Button[@content-desc="取消"]');
+        let cancel = await this.client.$(commonXpath_1.CommonXpath.cancel);
         await cancel.click();
-        let back = await client.$('//android.widget.Button[@content-desc="arrow back "]');
+        let back = await this.client.$(this.backBtnXPath);
         await back.click();
-        //android.widget.Button[@content-desc="funnel 筛选"]
-        //android.widget.CheckBox[@content-desc="一般销售单"]
-        //android.widget.CheckBox[@content-desc="已完成"]
-        //android.widget.Button[@content-desc="完成"]
-        //android.widget.Button[@content-desc="calendar"]
-        //android.widget.Button[@content-desc="关闭"]
-        // (//android.widget.Image[@content-desc="clipboard"])[1]
-        //android.widget.Button[@content-desc="return left 返回"]
     }
 }
 exports.CancelReturns = CancelReturns;
+class CancelReturns_A8 extends CancelReturns {
+}
+exports.CancelReturns_A8 = CancelReturns_A8;
+const backBtnXPath_ELO = OrderXpath_1.OrderXpath_elo.back;
+class CancelReturns_ELO extends CancelReturns {
+    constructor(client, backBtnXPath = backBtnXPath_ELO) {
+        super(client, backBtnXPath);
+    }
+}
+exports.CancelReturns_ELO = CancelReturns_ELO;

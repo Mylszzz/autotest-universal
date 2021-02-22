@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOrder_elo = exports.RefundOrder_a8 = exports.RefundOrder = void 0;
 const logUtils_1 = require("../utils/logUtils");
 const search_1 = require("./search");
-const search_2 = require("./search");
 const touchAction_1 = require("./touchAction");
 const globalUtil_1 = require("../utils/globalUtil");
 const screenShotUtil_1 = require("../utils/screenShotUtil");
@@ -77,7 +76,7 @@ class RefundOrder {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
         //await Search_a8.searchNo(client,orderNo);
-        await search_1.Search_a8.searchOrder(client);
+        await new search_1.Search_a8(client).searchOrder();
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_a8.confirm);
             // 输入退货的固定密码
@@ -118,7 +117,7 @@ class RefundOrder {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作（隔日）=====");
         //查询订单,并判断是否成功
         // await Search.searchNo(client,orderNo);
-        await search_1.Search_a8.searchOrder(client);
+        await new search_1.Search_a8(client).searchOrder();
         // 查询成功，执行退款操作
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_a8.confirm);
@@ -168,7 +167,7 @@ class RefundOrder_elo extends RefundOrder {
     static async refundOrderToday(client, orderNo) {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
-        await search_2.Search_elo.searchNo(client, orderNo);
+        await new search_1.Search_a8(client).searchNo(orderNo);
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_elo.determine2);
             // 输入退货的固定密码
@@ -201,7 +200,7 @@ class RefundOrder_elo extends RefundOrder {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作（隔日）=====");
         //查询订单,并判断是否成功
         // await Search.searchNo(client,orderNo);
-        await search_1.Search_a8.searchOrder(client);
+        await new search_1.Search_a8(client).searchOrder();
         // 查询成功，执行退款操作
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_elo.confirm);

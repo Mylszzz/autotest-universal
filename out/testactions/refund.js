@@ -52,7 +52,7 @@ class Refund {
                         //判断测试数据日期是否不等于当前日期
                         data[j] = data[j].replace("/", "").replace("/", "");
                         let date = new Date().toLocaleDateString().replace("-", "").replace("-", "");
-                        if (Number.parseInt(data[j]) == Number.parseInt(date)) {
+                        if (Number.parseInt(data[j]) != Number.parseInt(date)) {
                             logUtils_1.LogUtils.log.info(data[j], date);
                             isbefore = true;
                         }
@@ -81,29 +81,26 @@ class Refund {
                 console.log("是否退货：" + isRefund);
                 console.log("是否取消交易" + cancelDeal);
                 //执行退货操作
+                //
                 let refunddata = new refundData_1.RefundData();
                 if (!cancelDeal && isRefund) {
                     try {
                         //点击进入查询/退货页面
-                        await search_1.Search_elo.search(client);
+                        await new search_1.Search_a8(client).search();
                         logUtils_1.LogUtils.log.info(isbefore);
-                        if (isbefore) {
-                            if (deviceName == 'a8') {
-                                refunddata.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
-                            }
-                            else {
-                                //进行隔日订单退货，并判断是否成功
-                                refunddata.isSuccess = await RefundOrder_1.RefundOrder_elo.refundBeforeOrder(client, orderNo);
-                            }
+                        //进行隔日订单退货，并判断是否成功
+                        if (isbefore && deviceName == 'a8') {
+                            refunddata.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
                         }
-                        else {
-                            if (deviceName == 'a8') {
-                                //进行今日订单退货，并判断是否成功
-                                refunddata.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
-                            }
-                            else {
-                                refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
-                            }
+                        if (isbefore && deviceName != 'a8') {
+                            refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(client, orderNo);
+                        }
+                        //进行今日订单退货，并判断是否成功
+                        if (!isbefore && deviceName == 'a8') {
+                            refunddata.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(client, orderNo);
+                        }
+                        if (!isbefore && deviceName != 'a8') {
+                            refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(client, orderNo);
                         }
                     }
                     catch (e) {
@@ -124,12 +121,3 @@ class Refund {
     }
 }
 exports.Refund = Refund;
-// (function (){
-//     var s = new Date().toLocaleDateString();
-//     let time : String = "2021/1/22"
-//     console.log(s)
-//     console.log(time)
-//     console.log(s==time);
-//
-// }())
-// bug 退货操作的时间判断

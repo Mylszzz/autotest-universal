@@ -21,4 +21,6 @@ export enum CommonXpath {
     cancel = '//android.widget.Button[@content-desc="取消"]',
     //订单详情第一项
     order = '(//android.widget.Image[@content-desc="clipboard"])[1]',
+
+    determine = '//android.widget.Button[@content-desc="确定"]',
 }

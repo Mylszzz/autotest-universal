@@ -1,35 +1,49 @@
 import {DeviceName} from "../static/deviceName";
-import {Screen} from "./Screen";
-import {Search} from "./Search";
+import {Screen} from "./screen";
+import {Search} from "./search";
+import * as wdio from "webdriverio";
+import {OrderXpath_a8, OrderXpath_elo} from "../static/OrderXpath";
+import {CommonXpath} from "../static/commonXpath";
 
-const deviceName:string = DeviceName.getDeviceName();
 
 export class CancelReturns {
-    public static async cancelReturns(client:any){
-        await Search.search(client);
-        const orderType:any = ['一般销售单'];
-        const orderState:any = ['已完成','已部分退'];
-        await Screen.screenNo(client,new Date().toLocaleDateString(),orderType, orderState);
-        client.pause(3000);
-        let close = await client.$('//android.widget.Button[@content-desc="关闭"]');
-        await close.click();
-        let sel = await client.$('(//android.widget.Image[@content-desc="clipboard"])[1]');
-        await sel.click();
-        let returns = await client.$('//android.widget.Button[@content-desc="申请退货"]');
-        await returns.click();
-        let cancel = await client.$('//android.widget.Button[@content-desc="取消"]');
-        await cancel.click();
-        let back = await client.$('//android.widget.Button[@content-desc="arrow back "]');
-        await back.click();
+    client:wdio.BrowserObject;
+    backBtnXPath:string = OrderXpath_a8.back;  //
 
-        //android.widget.Button[@content-desc="funnel 筛选"]
-        //android.widget.CheckBox[@content-desc="一般销售单"]
-        //android.widget.CheckBox[@content-desc="已完成"]
-        //android.widget.Button[@content-desc="完成"]
-        //android.widget.Button[@content-desc="calendar"]
-        //android.widget.Button[@content-desc="关闭"]
-       // (//android.widget.Image[@content-desc="clipboard"])[1]
-        //android.widget.Button[@content-desc="return left 返回"]
+    public constructor (client:wdio.BrowserObject, backBtnXPath?:string) {
+        this.client = client;
+        if (backBtnXPath != undefined) {  //
+            this.backBtnXPath = backBtnXPath;
+        }
+    }
+    public async cancelReturns(){
+        await new Search(this.client).search();
+         const orderType:any = ['一般销售单'];
+         const orderState:any = ['已完成','已部分退'];
+        await new Screen(this.client).screenNo(new Date().toLocaleDateString(),orderType, orderState);
+         await this.client.pause(3000);
+        let close = await this.client.$(CommonXpath.close);
+        await close.click();
+        let sel = await this.client.$(CommonXpath.order);
+        await sel.click();
+        let returns = await this.client.$(CommonXpath.returns);
+        await returns.click();
+        let cancel = await this.client.$(CommonXpath.cancel);
+        await cancel.click();
+        let back = await this.client.$(this.backBtnXPath);
+        await back.click();
     }
 
+}
+
+export class CancelReturns_A8 extends CancelReturns {
+
+}
+
+const backBtnXPath_ELO = OrderXpath_elo.back;
+export class CancelReturns_ELO extends CancelReturns {
+    public constructor (client:wdio.BrowserObject, backBtnXPath = backBtnXPath_ELO
+                       ) {
+        super(client, backBtnXPath);
+    }
 }
