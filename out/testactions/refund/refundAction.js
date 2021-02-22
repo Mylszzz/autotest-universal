@@ -26,6 +26,7 @@ class RefundAction {
      * @returns {Promise<void>}
      */
     async refundProcess() {
+        let search_a8 = new search_1.Search_a8(this.client);
         let refundPreparation = new refundUtils_1.RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
         let refundDataList = [];
@@ -38,7 +39,7 @@ class RefundAction {
                 let refundData = new refundData_1.RefundData();
                 try {
                     //点击进入查询/退货页面
-                    await search_1.Search_a8.search(this.client);
+                    await search_a8.search();
                     if (beforeToday) {
                         if (this.deviceName == 'a8') {
                             refundData.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(this.client, orderNo);

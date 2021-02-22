@@ -29,6 +29,7 @@ export class RefundAction {
      * @returns {Promise<void>}
      */
     public async refundProcess() {
+        let search_a8 = new Search_a8(this.client);
         let refundPreparation = new RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
 
@@ -43,7 +44,8 @@ export class RefundAction {
                 let refundData = new RefundData();
                 try {
                     //点击进入查询/退货页面
-                    await Search_a8.search(this.client);
+
+                    await search_a8.search();
                     if (beforeToday) {
                         if (this.deviceName == 'a8') {
                             refundData.isSuccess = await RefundOrder.refundBeforeOrder(this.client, orderNo);

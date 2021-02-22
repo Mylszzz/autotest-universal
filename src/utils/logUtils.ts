@@ -40,6 +40,7 @@ export class LogUtils{
     static loginLog = getLogger('loginActivity');
     static saleLog = getLogger('saleOrder');
     static refundLog = getLogger('refund');
+    static search = getLogger('search');
 }
 
 export const logger = getLogger("ZM_TEST");

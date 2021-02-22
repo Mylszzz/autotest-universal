@@ -77,7 +77,8 @@ class RefundOrder {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
         //await Search_a8.searchNo(client,orderNo);
-        await search_1.Search_a8.searchOrder(client);
+        let search_a8 = new search_1.Search_a8(client);
+        await search_a8.searchOrder();
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_a8.confirm);
             // 输入退货的固定密码
@@ -118,7 +119,7 @@ class RefundOrder {
         logUtils_1.LogUtils.log.info("====对订单" + orderNo + "进行当日整单退款操作（隔日）=====");
         //查询订单,并判断是否成功
         // await Search.searchNo(client,orderNo);
-        await search_1.Search_a8.searchOrder(client);
+        //  await Search_a8.searchOrder(client);
         // 查询成功，执行退款操作
         try {
             await RefundOrder.refundFirst(client, orderNo, refBtn_a8.confirm);

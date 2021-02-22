@@ -45,7 +45,7 @@ async function salesSettlement() {
     // await UploadLogAction.uploadTodayLogAction(client);
     // await RefreshAction.refreshAction(client);
     // await LogoutAction.accountLogout(client);
-      await CancelReturns.cancelReturns(client);
+    //  await CancelReturns.cancelReturns(client);
         // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
