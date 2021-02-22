@@ -9,7 +9,6 @@ import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/screen";
 import {Search} from "./testactions/search";
-import {Refund} from "./testactions/refund"
 import {CancelReturns} from "./testactions/CancelReturns";
 
 let map = new Map();

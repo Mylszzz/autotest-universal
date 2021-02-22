@@ -15,6 +15,12 @@ configure({
             filename: "log/sale/order",
             pattern: "yyyy-MM-dd.log",
             alwaysIncludePattern: true
+        },
+        login: {
+            type: "dateFile",
+            filename: "log/login",
+            pattern: "yyyy-MM-dd.log",
+            alwaysIncludePattern: true
         }
     },
     categories: {
