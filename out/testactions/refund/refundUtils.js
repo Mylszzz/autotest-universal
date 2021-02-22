@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOnce = exports.RefundPreparation = void 0;
 const readUtils_1 = require("../../utils/readUtils");
 const tools_1 = require("../../utils/tools");
+const exceptions_1 = require("../../utils/exceptions");
 class RefundPreparation {
     /**
      * 构造函数，并调用初始化退款数据的方法
@@ -71,27 +72,32 @@ class RefundOnce {
      */
     dataProcess(refundDataMap) {
         for (let [key, value] of refundDataMap) {
-            switch (key) {
-                case 'orderNo':
-                    this.orderNo = value;
-                    break;
-                case 'price':
-                    this.price = value;
-                    break;
-                case '退货':
-                    this.refund = value.toUpperCase() == 'Y';
-                    break;
-                case '取消交易':
-                    this.cancel = value.toUpperCase() == 'Y';
-                    break;
-                case 'saleTime':
-                    this.saleTime = value;
-                    break;
-                default: // 其他字段是支付方式，这里只保存使用了的支付方式
-                    if (value != '0') {
-                        this.payMethods.push(key);
-                    }
-                    break;
+            try {
+                switch (key) {
+                    case 'orderNo':
+                        this.orderNo = value;
+                        break;
+                    case 'price':
+                        this.price = value;
+                        break;
+                    case '退货':
+                        this.refund = value.toUpperCase() == 'Y';
+                        break;
+                    case '取消交易':
+                        this.cancel = value.toUpperCase() == 'Y';
+                        break;
+                    case 'saleTime':
+                        this.saleTime = value;
+                        break;
+                    default: // 其他字段是支付方式，这里只保存使用了的支付方式
+                        if (value != '0') {
+                            this.payMethods.push(key);
+                        }
+                        break;
+                }
+            }
+            catch (e) {
+                throw new exceptions_1.BasicException('A0002', '退款输入数据异常');
             }
         }
     }

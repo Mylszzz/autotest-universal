@@ -1,5 +1,6 @@
 import {ReadUtils} from "../../utils/readUtils";
 import {Tools} from "../../utils/tools";
+import {BasicException} from "../../utils/exceptions";
 
 
 interface IRefundInfo {
@@ -91,27 +92,32 @@ export class RefundOnce implements IRefundInfo{
      */
     private dataProcess(refundDataMap:Map<string,string>) {
         for (let [key, value] of refundDataMap) {
-            switch (key) {
-                case 'orderNo':
-                    this.orderNo = value;
-                    break;
-                case 'price':
-                    this.price = value;
-                    break;
-                case '退货':
-                    this.refund = value.toUpperCase() == 'Y';
-                    break;
-                case '取消交易':
-                    this.cancel = value.toUpperCase() == 'Y';
-                    break;
-                case 'saleTime':
-                    this.saleTime = value;
-                    break;
-                default:  // 其他字段是支付方式，这里只保存使用了的支付方式
-                    if (value != '0') {
-                        this.payMethods.push(key);
-                    }
-                    break;
+            try {
+                switch (key) {
+                    case 'orderNo':
+                        this.orderNo = value;
+                        break;
+                    case 'price':
+                        this.price = value;
+                        break;
+                    case '退货':
+                        this.refund = value.toUpperCase() == 'Y';
+                        break;
+                    case '取消交易':
+                        this.cancel = value.toUpperCase() == 'Y';
+                        break;
+                    case 'saleTime':
+                        this.saleTime = value;
+                        break;
+                    default:  // 其他字段是支付方式，这里只保存使用了的支付方式
+                        if (value != '0') {
+                            this.payMethods.push(key);
+                        }
+                        break;
+                }
+            } catch (e) {
+                throw new BasicException('A0002', '退款输入数据异常')
+
             }
         }
     }

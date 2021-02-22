@@ -21,6 +21,7 @@ class BasicException extends Error {
         this.detail = '';
         this.map = new Map([
             ['A0001', '未找到相关控件'],
+            ['A0002', '输入数据异常'],
             ['A9999', '未知错误'],
         ]);
         this.detail = detail;
