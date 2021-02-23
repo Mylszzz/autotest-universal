@@ -24,4 +24,5 @@ var CommonXpath;
     CommonXpath["cancel"] = "//android.widget.Button[@content-desc=\"\u53D6\u6D88\"]";
     //订单详情第一项
     CommonXpath["order"] = "(//android.widget.Image[@content-desc=\"clipboard\"])[1]";
+    CommonXpath["determine"] = "//android.widget.Button[@content-desc=\"\u786E\u5B9A\"]";
 })(CommonXpath = exports.CommonXpath || (exports.CommonXpath = {}));

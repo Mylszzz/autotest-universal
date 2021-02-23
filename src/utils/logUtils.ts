@@ -15,6 +15,12 @@ configure({
             filename: "log/sale/order",
             pattern: "yyyy-MM-dd.log",
             alwaysIncludePattern: true
+        },
+        login: {
+            type: "dateFile",
+            filename: "log/login",
+            pattern: "yyyy-MM-dd.log",
+            alwaysIncludePattern: true
         }
     },
     categories: {
@@ -33,6 +39,8 @@ export class LogUtils{
     static log = getLogger('test');
     static loginLog = getLogger('loginActivity');
     static saleLog = getLogger('saleOrder');
+    static refundLog = getLogger('refund');
+    static search = getLogger('search');
 }
 
 export const logger = getLogger("ZM_TEST");

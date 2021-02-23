@@ -9,8 +9,8 @@ import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/screen";
 import {Search} from "./testactions/search";
-import {Refund} from "./testactions/refund"
 import {CancelReturns} from "./testactions/CancelReturns";
+import {RefundAction} from "./testactions/refund/refundAction";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -45,7 +45,7 @@ async function salesSettlement() {
     // await UploadLogAction.uploadTodayLogAction(client);
     // await RefreshAction.refreshAction(client);
     // await LogoutAction.accountLogout(client);
-      await CancelReturns.cancelReturns(client);
+    //  await CancelReturns.cancelReturns(client);
         // /*
     //  For Test Only
     //  测试打印屏幕上显示的销售信息
@@ -83,7 +83,10 @@ async function salesSettlement() {
 
         }
     }
-   // await Refund.Refund(client);
+
+    // 退款
+    let refundAction = new RefundAction(client);
+    await refundAction.refundProcess();
 }
 
 

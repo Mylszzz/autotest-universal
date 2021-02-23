@@ -37,3 +37,16 @@ class CsvOptions {
 }
 exports.CsvOptions = CsvOptions;
 CsvOptions.options = {};
+/**
+ * 退款的Option
+ * @type {{fieldSeparator: string; quoteStrings: string; decimalSeparator: string; showLabels: boolean; useTextFile: boolean; useBom: boolean; useKeysAsHeaders: boolean}}
+ */
+CsvOptions.refundOptions = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true,
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: false
+};

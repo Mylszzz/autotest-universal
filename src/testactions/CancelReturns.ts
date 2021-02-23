@@ -1,12 +1,13 @@
 import {DeviceName} from "../static/deviceName";
-import {Screen} from "./Screen";
-import {Search} from "./Search";
+import {Screen} from "./screen";
+import {Search} from "./search";
 
 const deviceName:string = DeviceName.getDeviceName();
 
 export class CancelReturns {
     public static async cancelReturns(client:any){
-        await Search.search(client);
+        let search = new Search(client);
+        await search.search(client);
         const orderType:any = ['一般销售单'];
         const orderState:any = ['已完成','已部分退'];
         await Screen.screenNo(client,new Date().toLocaleDateString(),orderType, orderState);

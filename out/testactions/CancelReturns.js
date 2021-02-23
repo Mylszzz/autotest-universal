@@ -2,15 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CancelReturns = void 0;
 const deviceName_1 = require("../static/deviceName");
-const Screen_1 = require("./Screen");
-const Search_1 = require("./Search");
+const screen_1 = require("./screen");
+const search_1 = require("./search");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class CancelReturns {
     static async cancelReturns(client) {
-        await Search_1.Search.search(client);
+        let search = new search_1.Search(client);
+        await search.search(client);
         const orderType = ['一般销售单'];
         const orderState = ['已完成', '已部分退'];
-        await Screen_1.Screen.screenNo(client, new Date().toLocaleDateString(), orderType, orderState);
+        await screen_1.Screen.screenNo(client, new Date().toLocaleDateString(), orderType, orderState);
         client.pause(3000);
         let close = await client.$('//android.widget.Button[@content-desc="关闭"]');
         await close.click();

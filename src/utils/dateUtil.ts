@@ -14,11 +14,7 @@ export class DateUtil {
             dat1--;
         }
         //日期大于20时，选择第二个日期
-        if(Number.parseInt(dat[2])>20){
-            let dateView = await client.$('(//android.view.View[@content-desc="'+dat[2]+'"])[2]');
-            await dateView.click();
-        }
-        else {
+        if(Number.parseInt(dat[2])<15){
             let dateView = await client.$('(//android.view.View[@content-desc="'+dat[2]+'"])[1]');
             await dateView.click();
         }
