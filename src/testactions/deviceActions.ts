@@ -1,7 +1,7 @@
 import {Device, Device_A8, Device_Elo} from "./login/loginUtil";
-import {LogoutAction_A8, LogoutAction_Elo} from "./logoutAction";
-import {RefreshAction_A8, RefreshAction_Elo} from "./refreshAction";
-import {UploadLogAction_A8, UploadLogAction_Elo} from "./uploadLogAction";
+import {LogoutAction_A8, LogoutAction_Elo} from "./basicActions/logoutAction";
+import {RefreshAction_A8, RefreshAction_Elo} from "./basicActions/refreshAction";
+import {UploadLogAction_A8, UploadLogAction_Elo} from "./basicActions/uploadLogAction";
 import {VipLogin_A8, VipLogin_Elo} from "./loginVip";
 import {DeviceName} from "../static/deviceName";
 

@@ -1,5 +1,4 @@
 import {ReadUtils} from "../../utils/readUtils";
-import {Tools} from "../../utils/tools";
 import {BasicException} from "../../utils/exceptions";
 
 
@@ -12,7 +11,6 @@ interface IRefundInfo {
 }
 
 export class RefundPreparation {
-    filename:string = '';
     rows:string[] = [];  //
     titleList:string[] = [];  // 标题分类为各自一列
     refundDataMaps:Map<string,string>[] = [];  //
@@ -28,7 +26,6 @@ export class RefundPreparation {
      * 初始化退款数据
      */
     private init() {
-        this.filename = Tools.guid();
         //读取售卖记录
         let s: string = ReadUtils.readForRefund();
         //console.log(s);

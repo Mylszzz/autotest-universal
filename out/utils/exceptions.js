@@ -53,11 +53,11 @@ class BasicException extends Error {
     getCode() {
         return this.code;
     }
-    //获取错误码描述
+    // 获取错误码描述
     getMsg() {
         return this.msg;
     }
-    //获取错误明细(错误明细是抛出错误时手动传入的)
+    // 获取错误明细(错误明细是抛出错误时手动传入的)
     getDetail() {
         return this.detail;
     }

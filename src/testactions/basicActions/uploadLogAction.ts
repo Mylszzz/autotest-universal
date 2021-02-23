@@ -1,6 +1,6 @@
-import {LogUtils} from "../utils/logUtils";
+import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
-import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../static/buttonXPaths";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 
 /**
  * 上传日志

@@ -4,8 +4,8 @@ import {Search_elo} from "../search";
 import {TouchAction} from "../touchAction";
 import {GlobalUtil} from "../../utils/globalUtil";
 import {ScreenShotUtil} from "../../utils/screenShotUtil";
-import {RefundBut_a8} from "../../entity/refundButton";
-import {RefundBut_elo} from "../../entity/refundButton";
+import {RefundBut_a8} from "../../static/refundButton";
+import {RefundBut_elo} from "../../static/refundButton";
 import {DeviceName} from "../../static/deviceName";
 
 const deviceName:string = DeviceName.getDeviceName();

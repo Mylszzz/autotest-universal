@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VipLoginAction = exports.UploadLogAction = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
-const logoutAction_1 = require("./logoutAction");
-const refreshAction_1 = require("./refreshAction");
-const uploadLogAction_1 = require("./uploadLogAction");
+const logoutAction_1 = require("./basicActions/logoutAction");
+const refreshAction_1 = require("./basicActions/refreshAction");
+const uploadLogAction_1 = require("./basicActions/uploadLogAction");
 const loginVip_1 = require("./loginVip");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo

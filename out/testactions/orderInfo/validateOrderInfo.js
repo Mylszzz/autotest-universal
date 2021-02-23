@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidateOrderInfo = void 0;
-const initOrderInfoMap_1 = require("../../utils/initOrderInfoMap");
+const initOrderInfoMap_1 = require("./initOrderInfoMap");
 const logUtils_1 = require("../../utils/logUtils");
 const csvOptions_1 = require("../../utils/csvOptions");
 const exportCsv_1 = require("../../utils/exportCsv");
 class ValidateOrderInfo {
-    // 获取储存了订单信息的Map
+    /**
+     * 获取储存了订单信息的Map
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {Promise<any>}
+     */
     static async getOrderInfo(client) {
         let infoMap = await initOrderInfoMap_1.OrderInfoMap.getInfoMap();
         for (let key of infoMap.keys()) { // 迭代infoMap，获取订单信息中需要检查的项目名称

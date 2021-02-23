@@ -58,12 +58,12 @@ export class BasicException extends Error {
         return this.code;
     }
 
-    //获取错误码描述
+    // 获取错误码描述
     public getMsg():string|undefined{
         return this.msg;
     }
 
-    //获取错误明细(错误明细是抛出错误时手动传入的)
+    // 获取错误明细(错误明细是抛出错误时手动传入的)
     public getDetail():string  {
         return this.detail;
     }

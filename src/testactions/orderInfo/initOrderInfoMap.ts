@@ -1,7 +1,7 @@
-import {DeviceName} from "../static/deviceName";
+import {DeviceName} from "../../static/deviceName";
 
 const attribute_arr_a8:string[] = ["总数量", "总金额", "优惠金额", "应付", "找零", "订单号", "创建时间", "状态"];  //TODO:需要全包变量中读取
-const attribute_arr_elo:string[] = [];
+const attribute_arr_elo:string[] = ["总数量", "总金额", "优惠金额", "应收金额", "实收金额", "订单号", "创建时间", "状态"];
 
 
 /**

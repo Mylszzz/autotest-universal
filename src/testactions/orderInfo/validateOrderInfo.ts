@@ -1,5 +1,4 @@
-import {DeviceName} from "../../static/deviceName";
-import {OrderInfoMap} from "../../utils/initOrderInfoMap";
+import {OrderInfoMap} from "./initOrderInfoMap";
 import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
 import {CsvOptions} from "../../utils/csvOptions";
@@ -7,7 +6,11 @@ import {ExportCsv} from "../../utils/exportCsv";
 
 export class ValidateOrderInfo {
 
-    // 获取储存了订单信息的Map
+    /**
+     * 获取储存了订单信息的Map
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {Promise<any>}
+     */
     static async getOrderInfo(client:wdio.BrowserObject) {
         let infoMap = await OrderInfoMap.getInfoMap();
         for (let key of infoMap.keys()) {  // 迭代infoMap，获取订单信息中需要检查的项目名称

@@ -2,14 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOnce = exports.RefundPreparation = void 0;
 const readUtils_1 = require("../../utils/readUtils");
-const tools_1 = require("../../utils/tools");
 const exceptions_1 = require("../../utils/exceptions");
 class RefundPreparation {
     /**
      * 构造函数，并调用初始化退款数据的方法
      */
     constructor() {
-        this.filename = '';
         this.rows = []; //
         this.titleList = []; // 标题分类为各自一列
         this.refundDataMaps = []; //
@@ -19,7 +17,6 @@ class RefundPreparation {
      * 初始化退款数据
      */
     init() {
-        this.filename = tools_1.Tools.guid();
         //读取售卖记录
         let s = readUtils_1.ReadUtils.readForRefund();
         //console.log(s);

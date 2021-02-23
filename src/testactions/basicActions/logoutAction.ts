@@ -1,7 +1,7 @@
 import * as wdio from 'webdriverio';
-import {LogUtils} from "../utils/logUtils";
-import {Position} from "../utils/position";
-import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../static/buttonXPaths";
+import {LogUtils} from "../../utils/logUtils";
+import {Position} from "../../utils/position";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 
 
 /**
