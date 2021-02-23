@@ -4,12 +4,12 @@ import {GlobalUtil} from "./utils/globalUtil";
 import {ReadCSV} from "./utils/readCSV";
 import {VipMixedPayment} from "./testactions/vipMixedPayment";
 import {Tools} from "./utils/tools";
-import {logger} from "./utils/logUtils";
+import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
-import {Screen} from "./testactions/Screen";
-import {Search} from "./testactions/Search";
-import {Refund} from "./testactions/Rufund"
+import {Screen} from "./testactions/screen";
+import {Search} from "./testactions/search";
+import {Refund} from "./testactions/refund"
 import {CancelReturns} from "./testactions/CancelReturns";
 
 let map = new Map();
@@ -28,14 +28,14 @@ function before() {
     // 读取测试数据
     map = ReadCSV.readFile();
     let saleContent = map.get('saleContent');
-    logger.info("-------map--------------");
-    logger.info(saleContent);
+    LogUtils.log.info("-------map--------------");
+    LogUtils.log.info(saleContent);
 }
 
 async function salesSettlement() {
-    logger.info("开始创建client");
+    LogUtils.log.info("开始创建client");
     let client = await SingleDriver.createClient();
-    logger.info("成功创建[" + deviceName + "]client");
+    LogUtils.log.info("成功创建[" + deviceName + "]client");
 
     /*
     登录(A8和Elo通用。)

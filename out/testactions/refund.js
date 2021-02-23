@@ -88,9 +88,14 @@ class Refund {
                         //点击进入查询/退货页面
                         await new search_1.Search_a8(client).search();
                         logUtils_1.LogUtils.log.info(isbefore);
-                        //进行隔日订单退货，并判断是否成功
-                        if (isbefore && deviceName == 'a8') {
-                            refunddata.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
+                        if (isbefore) {
+                            if (deviceName == 'a8') {
+                                refunddata.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(client, orderNo);
+                            }
+                            else {
+                                //进行隔日订单退货，并判断是否成功
+                                refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(client, orderNo);
+                            }
                         }
                         if (isbefore && deviceName != 'a8') {
                             refunddata.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(client, orderNo);

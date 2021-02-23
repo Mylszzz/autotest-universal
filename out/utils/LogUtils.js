@@ -34,6 +34,7 @@ class LogUtils {
 }
 exports.LogUtils = LogUtils;
 LogUtils.log = log4js_1.getLogger('test');
+LogUtils.loginLog = log4js_1.getLogger('loginActivity');
 LogUtils.saleLog = log4js_1.getLogger('saleOrder');
 LogUtils.search = log4js_1.getLogger('search');
 LogUtils.refundLog = log4js_1.getLogger('refund');

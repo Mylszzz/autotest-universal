@@ -2,6 +2,7 @@ import {Device, Device_A8, Device_Elo} from "./login/loginUtil";
 import {LogoutAction_A8, LogoutAction_Elo} from "./logoutAction";
 import {RefreshAction_A8, RefreshAction_Elo} from "./refreshAction";
 import {UploadLogAction_A8, UploadLogAction_Elo} from "./uploadLogAction";
+import {VipLogin_A8, VipLogin_Elo} from "./loginVip";
 import {DeviceName} from "../static/deviceName";
 
 
@@ -22,11 +23,16 @@ export class LoginAction {
         } else if (deviceName == 'elo' && this.device_instance == null) {
             this.device_instance = new Device_Elo(client);
         }
-        await client.setImplicitTimeout(15000);  // 15秒Timeout
+        await client.setImplicitTimeout(10000);  // 10秒Timeout
         await this.device_instance.getDeviceConfig();
         client.pause(1000);
-        await this.device_instance.loginProcess();
-        client.pause(1000);
+        try {
+            await this.device_instance.loginProcess();
+            client.pause(1000);
+        } catch (e) {
+            await this.device_instance.reboot();
+        }
+
     }
 }
 
@@ -110,5 +116,23 @@ export class UploadLogAction {
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
         await this.instance.uploadOtherDayLog();
+    }
+}
+
+/**
+ * 用于直接调用登录VIP的静态方法
+ * 懒汉式单例模式
+ */
+export class VipLoginAction {
+    private static instance:VipLogin_A8|VipLogin_Elo;
+    private constructor(){}
+
+    public static async vipLogin(client:any) {
+        if (deviceName == 'a8' && this.instance == null) {
+            this.instance = new VipLogin_A8(client);
+        } else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = new VipLogin_Elo(client);
+        }
+        await this.instance.vipLogin();
     }
 }

@@ -35,4 +35,5 @@ export class LogUtils{
     static search =getLogger('search');
     static refundLog = getLogger('refund');
 }
-    export const logger = getLogger("ZM_TEST");
+
+export const logger = getLogger("ZM_TEST");
