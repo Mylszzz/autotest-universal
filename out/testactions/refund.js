@@ -12,17 +12,39 @@ const search_1 = require("./search");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class Refund {
-    static async Refund(client) {
-        let filename = tools_1.Tools.guid();
+    constructor(client) {
+        this.filename = '';
+        this.strings = []; // TODO:这是啥
+        this.titleList = []; // 标题分类为各自一列
+        this.client = client;
+        this.init();
+    }
+    /**
+     * 初始化退款数据
+     */
+    init() {
+        this.filename = tools_1.Tools.guid();
         //读取售卖记录
         let s = readUtils_1.ReadUtils.readForRefund();
         //console.log(s);
-        let strings = s.split('\r\n');
+        this.strings = s.split('\r\n');
         //获取第一行的标题
-        let title = strings[0];
+        let title = this.strings[0];
         //console.log(title);
-        let titleList = title.split(','); //标题分类为各自一列
+        this.titleList = title.split(','); //标题分类为各自一列
         // 遍历每一行数据，获取标题对应的值
+    }
+    static async Refund(client) {
+        // let filename = Tools.guid();
+        // //读取售卖记录
+        // let s: string = ReadUtils.readForRefund();
+        // //console.log(s);
+        // let strings = s.split('\r\n');
+        // //获取第一行的标题
+        // let title = strings[0];
+        // //console.log(title);
+        // let titleList = title.split(',');//标题分类为各自一列
+        // // 遍历每一行数据，获取标题对应的值
         for (let i = 1; i < strings.length; i++) {
             let datas = strings[i];
             let data = datas.split(',');
@@ -126,3 +148,24 @@ class Refund {
     }
 }
 exports.Refund = Refund;
+class RefundProcess {
+    constructor(refundRecord) {
+        this.refundable = false; // 该退款条目就是否需要退款
+        this.refundRecord = refundRecord;
+        this.setRefundable();
+    }
+    isRefundable() {
+        return this.refundable;
+    }
+    setRefundable() {
+    }
+}
+// (function (){
+//     var s = new Date().toLocaleDateString();
+//     let time : String = "2021/1/22"
+//     console.log(s)
+//     console.log(time)
+//     console.log(s==time);
+//
+// }())
+// bug 退货操作的时间判断

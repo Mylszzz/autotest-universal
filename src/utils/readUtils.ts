@@ -66,7 +66,7 @@ export class ReadUtils {
         let buffer = new Buffer(fileStr,'binary');
         let data:string =incon.decode(buffer,'utf8');
         //console.log(data);
-        LogUtils.log.info("获取的退款的自动化测试数据====>>"+data)
+        LogUtils.log.info("获取的退款的自动化测试数据====>>"+data);
         return data;
     }
 

@@ -1,12 +1,12 @@
-import {logger, LogUtils} from "../utils/logUtils";
-import {Search_a8} from "./search";
-import {Search_elo} from "./search";
-import {TouchAction} from "./touchAction";
-import {GlobalUtil} from "../utils/globalUtil";
-import {ScreenShotUtil} from "../utils/screenShotUtil";
-import {RefundBut_a8} from "../entity/refundButton";
-import {RefundBut_elo} from "../entity/refundButton";
-import {DeviceName} from "../static/deviceName";
+import {logger, LogUtils} from "../../utils/logUtils";
+import {Search_a8} from "../search";
+import {Search_elo} from "../search";
+import {TouchAction} from "../touchAction";
+import {GlobalUtil} from "../../utils/globalUtil";
+import {ScreenShotUtil} from "../../utils/screenShotUtil";
+import {RefundBut_a8} from "../../entity/refundButton";
+import {RefundBut_elo} from "../../entity/refundButton";
+import {DeviceName} from "../../static/deviceName";
 
 const deviceName:string = DeviceName.getDeviceName();
 const refBtn_a8 = new RefundBut_a8();
@@ -83,7 +83,8 @@ export class RefundOrder {
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作(今日)=====");
         //查询订单,并判断是否成功
         //await Search_a8.searchNo(client,orderNo);
-        await new Search_a8(client).searchOrder();
+        let search_a8 = new Search_a8(client);
+        await search_a8.searchOrder();
         try{
             await RefundOrder.refundFirst(client, orderNo,refBtn_a8.confirm);
             // 输入退货的固定密码
