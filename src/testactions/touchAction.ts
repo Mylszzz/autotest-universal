@@ -5,25 +5,29 @@ import {RefundOrder} from "./refund/refundOrder";
 import {GlobalUtil} from "../utils/globalUtil";
 
 export class TouchAction {
-    //价格输入按键
+    // A8的价格、会员手机号和退货授权码输入按键绝对坐标
+    /**
+     * @deprecated
+     */
     static ArrPath = [
-
-        {x: 78, y: 810}, //1
-        {x: 270, y: 787},//2
-        {x: 450, y: 829},
-        {x: 88, y: 957},
-        {x: 270, y: 954},
-        {x: 450, y: 954},
-        {x: 93, y: 1076},
-        {x: 270, y: 1038},
-        {x: 450, y: 1038},//9
-        {x: 364, y: 1206}, //0
-        {x: 84, y: 1194},//.
+        {x: 78, y: 810},  // 1
+        {x: 270, y: 787},  // 2
+        {x: 450, y: 829},  // 3
+        {x: 88, y: 957},  // 4
+        {x: 270, y: 954},  // 5
+        {x: 450, y: 954},  // 6
+        {x: 93, y: 1076},  // 7
+        {x: 270, y: 1038},  // 8
+        {x: 450, y: 1038},  // 9
+        {x: 364, y: 1206},  // 0
+        {x: 84, y: 1194},  // .
     ];
 
-    //价格输入按键
+    // 价格输入按键
+    /**
+     * @deprecated
+     */
     static ArrPath1 = [
-
         {x: 744, y: 595}, //1
         {x: 888, y: 595},//2
         {x: 1031, y: 595},//3
@@ -38,41 +42,21 @@ export class TouchAction {
 
     //输入手机号
     public static async phoneNum(client: any, num: string) {
-        await this.sleep(2000);
+        await client.pause(2000);
         for (let i = 0; i < num.length; i++) {
             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
             await n.click();
+            await client.pause(300);
         }
-
     }
 
-// //输入权限码
-//     public static async input(client: any,num:string) {
-//         for (let i = 0; i < num.length; i++) {
-//             if(num=="1"){
-//                 let n = await client.$('(//android.view.View[@content-desc="' + num.charAt(i) + '"])[3]');
-//                 await n.click();
-//             }else{
-//             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
-//             await n.click();
-//             }
-//         }
-//         await client.pause(500);
-//         let con = await client.$('//android.widget.Button[@content-desc="确定"]');
-//         await client.pause(500);
-//         con.click();
-//         await client.pause(1000);
-//     }
+    
 
-    public static async sleep(ms: number) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve('');
-            }, ms)
-        });
 
-    }
     //点击绝对坐标控件
+    /**
+     * @deprecated
+     */
     public static async touchAction(x:number,y:number){
         let client =await SingleDriver.createClient();
         client.setImplicitTimeout(10000);
@@ -87,7 +71,6 @@ export class TouchAction {
 
     /**
      * 输入退款密码
-     * @author Daniel_Li
      * @param client
      * @param s1
      */
@@ -127,7 +110,6 @@ export class TouchAction {
 
     /**
      * 输入价格
-     * @author Daniel_Li
      * @param client
      * @param s
      */

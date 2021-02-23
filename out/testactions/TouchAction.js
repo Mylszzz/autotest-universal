@@ -6,37 +6,17 @@ const position_1 = require("../utils/position");
 class TouchAction {
     //输入手机号
     static async phoneNum(client, num) {
-        await this.sleep(2000);
+        await client.pause(2000);
         for (let i = 0; i < num.length; i++) {
             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
             await n.click();
+            await client.pause(300);
         }
     }
-    // //输入权限码
-    //     public static async input(client: any,num:string) {
-    //         for (let i = 0; i < num.length; i++) {
-    //             if(num=="1"){
-    //                 let n = await client.$('(//android.view.View[@content-desc="' + num.charAt(i) + '"])[3]');
-    //                 await n.click();
-    //             }else{
-    //             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
-    //             await n.click();
-    //             }
-    //         }
-    //         await client.pause(500);
-    //         let con = await client.$('//android.widget.Button[@content-desc="确定"]');
-    //         await client.pause(500);
-    //         con.click();
-    //         await client.pause(1000);
-    //     }
-    static async sleep(ms) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve('');
-            }, ms);
-        });
-    }
     //点击绝对坐标控件
+    /**
+     * @deprecated
+     */
     static async touchAction(x, y) {
         let client = await driver_1.SingleDriver.createClient();
         client.setImplicitTimeout(10000);
@@ -49,7 +29,6 @@ class TouchAction {
     }
     /**
      * 输入退款密码
-     * @author Daniel_Li
      * @param client
      * @param s1
      */
@@ -87,7 +66,6 @@ class TouchAction {
     }
     /**
      * 输入价格
-     * @author Daniel_Li
      * @param client
      * @param s
      */
@@ -143,7 +121,10 @@ class TouchAction {
     }
 }
 exports.TouchAction = TouchAction;
-//价格输入按键
+// A8的价格、会员手机号和退货授权码输入按键绝对坐标
+/**
+ * @deprecated
+ */
 TouchAction.ArrPath = [
     { x: 78, y: 810 },
     { x: 270, y: 787 },
@@ -157,7 +138,10 @@ TouchAction.ArrPath = [
     { x: 364, y: 1206 },
     { x: 84, y: 1194 },
 ];
-//价格输入按键
+// 价格输入按键
+/**
+ * @deprecated
+ */
 TouchAction.ArrPath1 = [
     { x: 744, y: 595 },
     { x: 888, y: 595 },
