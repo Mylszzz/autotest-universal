@@ -4,6 +4,7 @@ import {GlobalUtil} from "./GlobalUtil";
 
 export class ReadCSV {
     public static readFile() {
+        console.log("readFile()======");
         let myMap = new Map();
         let data = fs.readFileSync(GlobalUtil.map.get('csv'));
         let buffer = iconv.decode(data, "gbk");
@@ -49,6 +50,10 @@ export class ReadCSV {
             }
 
         }
+        console.log("==============================")
+        console.log(myMap);
+        console.log("-------------------stringify--");
+        console.log(JSON.stringify(myMap));
         return myMap;
     }
 }

@@ -1,5 +1,7 @@
 
 import {LogUtils} from "../utils/LogUtils";
+import {GlobalUtil} from "../utils/GlobalUtil";
+import {ReadCSV} from "../utils/ReadCSV";
 // import {GlobalUtil} from "../utils/GlobalUtil";
 
 export class LoginAction{
@@ -23,6 +25,7 @@ export class LoginAction{
                 let loginBtn = await client.$('//android.widget.Button[@content-desc="登录"]');
                 await client.pause(1000);
                 await loginBtn.click();
+                GlobalUtil.init();
 
 
 
