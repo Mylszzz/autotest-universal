@@ -10,7 +10,7 @@ class RefundPreparation {
     constructor() {
         this.rows = []; //
         this.titleList = []; // 标题分类为各自一列
-        this.refundDataMaps = []; //
+        this.refundDataMaps = []; // 所有退款数据
         this.init();
     }
     /**

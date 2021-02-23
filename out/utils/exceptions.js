@@ -1,10 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginException = exports.BasicException = void 0;
-const ExceptionCode = {
-    LOGIN_FAILURE: 'A0001',
-    UNKNOWN_EXCEPTION: 'A9999',
-};
 /**
  * 自定义基本异常类
  */

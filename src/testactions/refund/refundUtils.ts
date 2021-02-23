@@ -13,7 +13,7 @@ interface IRefundInfo {
 export class RefundPreparation {
     rows:string[] = [];  //
     titleList:string[] = [];  // 标题分类为各自一列
-    refundDataMaps:Map<string,string>[] = [];  //
+    refundDataMaps:Map<string,string>[] = [];  // 所有退款数据
 
     /**
      * 构造函数，并调用初始化退款数据的方法
@@ -148,7 +148,7 @@ export class RefundOnce implements IRefundInfo{
     /**
      * 如果取消为N, 退货为Y, 则此单需要退货，设定this.refundable为true
      */
-    public isRefundable():void {
+    private isRefundable():void {
         this.refundable = ((!this.cancel) && this.refund);
     }
 

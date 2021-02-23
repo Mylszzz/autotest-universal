@@ -6,9 +6,9 @@ const dateUtil_1 = require("../utils/dateUtil");
 const logUtils_1 = require("../utils/logUtils");
 const OrderXpath_1 = require("../static/OrderXpath");
 const commonXpath_1 = require("../static/commonXpath");
-/*
+/**
 * 选择筛选条件
-* */
+*/
 class Screen {
     constructor(client, funnelBtnXPath) {
         this.funnelBtnXPath = OrderXpath_1.OrderXpath_a8.funnel; //

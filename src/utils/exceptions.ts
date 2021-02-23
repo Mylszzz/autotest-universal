@@ -1,8 +1,3 @@
-const ExceptionCode = {
-  LOGIN_FAILURE: 'A0001',
-  UNKNOWN_EXCEPTION: 'A9999',
-};
-
 /**
  * 自定义基本异常类
  */
@@ -86,6 +81,4 @@ export class LoginException extends BasicException {
 
         this.check(code, detail);
     }
-
-
 }

@@ -24,11 +24,14 @@ class Search {
         await this.client.pause(1000);
         //  点击查询
         let chooseBackGood = await this.client.$(this.searchBtnXPath);
-        ;
         await chooseBackGood.click();
         await this.client.pause(1000);
     }
-    //查询具体的订单
+    /**
+     * 查询具体的订单
+     * @param {string} num: 订单号，或者会员号
+     * @returns {Promise<void>}
+     */
     async searchNo(num) {
         //  查询订单号或会员号
         let codeNoText = await this.client.$(commonXpath_1.CommonXpath.orderText);

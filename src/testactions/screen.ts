@@ -5,9 +5,9 @@ import * as wdio from "webdriverio";
 import {OrderXpath_a8, OrderXpath_elo} from "../static/OrderXpath";
 import {CommonXpath} from "../static/commonXpath";
 
-/*
+/**
 * 选择筛选条件
-* */
+*/
 export class Screen {
     client:wdio.BrowserObject;
     funnelBtnXPath:string = OrderXpath_a8.funnel;  //
@@ -20,7 +20,7 @@ export class Screen {
 
     }
     //筛选条件
-    public  async screenNo(date:string,orderType: any, orderState: any) {
+    public async screenNo(date:string,orderType: any, orderState: any) {
         await new Search(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
