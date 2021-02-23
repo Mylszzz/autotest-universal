@@ -53,7 +53,7 @@ export class ReadUtils {
         let buffer = new Buffer(fileStr,'binary');
         let data:string =incon.decode(buffer,'GBK');
         //console.log(data);
-        LogUtils.log.info("获取的自动化测试数据====>>"+data)
+        LogUtils.log.info("获取的自动化测试数据====>>"+data);
         return data;
     }
 
@@ -70,18 +70,15 @@ export class ReadUtils {
         return data;
     }
 
+    // TODO: 这里要改！
     //读取json文件，获得配置参数的map集合
     public static readTest(map:any){
         //LogUtils.log.info("===开始获取自动化测试的配置参数===");
         //读取json自动化测试所需参数
         this.sleep(2000);
         let buffer:any;
-        if (deviceName=="a8") {
-            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig.json"));
-        } else if (deviceName=='elo'){
-            buffer=fs.readFileSync(path.join(__dirname,"../../globalconfig_elo.json"));
-        }
-
+        let fileName:string = '../../globalconfig_'+deviceName+'.json';  // 例如: ../../globalconfig_a8.json
+        buffer=fs.readFileSync(path.join(__dirname, fileName));
         let  data=buffer.toString();
         console.log(JSON.parse(data));
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值
