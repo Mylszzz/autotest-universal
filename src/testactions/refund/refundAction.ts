@@ -5,7 +5,7 @@ import {LogUtils} from "../../utils/logUtils";
 import {RefundData} from "../../entity/refundData";
 import {ScreenShotUtil} from "../../utils/screenShotUtil";
 import {Search_elo, Search_a8} from "../search";
-import {RefundOrder, RefundOrder_elo} from "./refundOrder";
+import {RefundOrder, RefundOrder_a8, RefundOrder_elo} from "./refundOrder";
 import {ExportCsv} from "../../utils/exportCsv";
 import {Tools} from "../../utils/tools";
 
@@ -48,7 +48,7 @@ export class RefundAction {
                     await search_a8.search();
                     if (beforeToday) {
                         if (this.deviceName == 'a8') {
-                            refundData.isSuccess = await RefundOrder.refundBeforeOrder(this.client, orderNo);
+                            refundData.isSuccess = await RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         } else {
                             //进行隔日订单退货，并判断是否成功
                             refundData.isSuccess = await RefundOrder_elo.refundBeforeOrder(this.client, orderNo);
@@ -56,7 +56,7 @@ export class RefundAction {
                     } else {
                         if (this.deviceName == 'a8') {
                             //进行今日订单退货，并判断是否成功
-                            refundData.isSuccess = await RefundOrder.refundOrderToday(this.client, orderNo);
+                            refundData.isSuccess = await RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                         else {
                             refundData.isSuccess = await RefundOrder_elo.refundOrderToday(this.client, orderNo);

@@ -42,7 +42,7 @@ class RefundAction {
                     await search_a8.search();
                     if (beforeToday) {
                         if (this.deviceName == 'a8') {
-                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(this.client, orderNo);
+                            refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         }
                         else {
                             //进行隔日订单退货，并判断是否成功
@@ -52,7 +52,7 @@ class RefundAction {
                     else {
                         if (this.deviceName == 'a8') {
                             //进行今日订单退货，并判断是否成功
-                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(this.client, orderNo);
+                            refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                         else {
                             refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(this.client, orderNo);

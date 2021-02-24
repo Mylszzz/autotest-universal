@@ -7,6 +7,8 @@ import {ScreenShotUtil} from "../../utils/screenShotUtil";
 import {RefundBut_a8} from "../../static/refundButton";
 import {RefundBut_elo} from "../../static/refundButton";
 import {DeviceName} from "../../static/deviceName";
+import {TouchMethod} from "../../utils/touchMethod";
+import {InputCoordinates} from "../../static/inputCoordinates";
 
 const deviceName:string = DeviceName.getDeviceName();
 const refBtn_a8 = new RefundBut_a8();
@@ -26,26 +28,34 @@ export class RefundOrder {
         await reConfirm.click();
         await client.pause(1000);
     }
+
     //输入密码后的操作
     public static async refundThen(client:any,confirm:string,determine:string) {
-
         let confirm1 = await client.$(confirm);
-        confirm1.click();
+        await confirm1.click();
         await client.pause(1000);
         //    最后一次提示是否确认退货
         let lastConfirm = await client.$(determine);
-        lastConfirm.click();
+        await lastConfirm.click();
         await client.pause(1000);
     }
+
     //输入密码
     public static async refundPass(client:any,determine:string,number:string){
         await client.pause(1000);
         //输入密码
+        console.log('以下是新的触摸方法的测试');
         if (deviceName == 'a8'){
-            await TouchAction.touchPasswordAction(client, number,);
+            // TODO: 以下是新的触摸方法的测试
+            let touchFun = TouchMethod.getTouchMethod();
+            await touchFun(client, number, InputCoordinates.getCoordMap());  // A8退款使用A8通用坐标Map
+            // await TouchAction.touchPasswordAction(client, number);
+
         }
-        else {
-            await TouchAction.touchPasswordAction1(client, number,);
+        else if (deviceName == 'elo'){
+            let touchFun = TouchMethod.getTouchMethod();
+            await touchFun(client, number, InputCoordinates.getCoordMapForRedundPwd());  // Elo退款坐标
+            // await TouchAction.touchPasswordAction1(client, number);
         }
         LogUtils.log.info("====授权码填写结束=====");
         //密码确定
@@ -99,7 +109,7 @@ export class RefundOrder {
             //  打印订单耗时
             let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
             await client.pause(1000);
-            tip.click();
+            await tip.click();
             await client.pause(5000);
              //    点击返回
             let back = await client.$('//android.widget.Button[@content-desc="返回"]');
@@ -109,7 +119,7 @@ export class RefundOrder {
             await RefundOrder.refundOk(client,refBtn_a8.menu,refBtn_a8.home);
             return true;
         }catch (e){
-            logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------")
+            logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------");
             return false;
         }
     }
