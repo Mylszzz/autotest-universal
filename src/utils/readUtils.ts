@@ -58,7 +58,7 @@ export class ReadUtils {
     }
 
     public static readForRefund():string{
-        let map=new Map();
+        let map= new Map();
         this.readTest(map);
         let path1:string=map.get("refundDataPath");//获取得到自动化测试文件
         let fileStr = fs.readFileSync(path.join(__dirname,path1),{encoding:'binary'});

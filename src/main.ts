@@ -22,7 +22,7 @@ const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
 /**
  * 执行脚本流程之前的一些准备工作
  * 包括读取配置到Map中
- */
+*/
 function before() {
     GlobalUtil.init();
     // 读取测试数据
@@ -62,27 +62,27 @@ async function salesSettlement() {
     /*
 
      */
-    let saleContent = map.get('saleContent');
-    let headers: string[] = [];
-    headers.push("saleTime");
-    headers.push("orderNo");
-    headers.push("price");
-    headers.push(saleContent[0].split(','));
-    for (let i = 1; i <= map.size - 1; i++) {
-        let mode = map.get(i);
-        if (mode !== undefined) {
-            let payTree = mode.payTree;
-            console.log("payTree[" + i + "]:" + payTree.get('data'));
-            console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
-            let otherTree = mode.otherTree;
-            console.log("otherTree[" + i + "]:" + otherTree.get('data'));
-            console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-            //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
-
-        } else {
-
-        }
-    }
+    // let saleContent = map.get('saleContent');
+    // let headers: string[] = [];
+    // headers.push("saleTime");
+    // headers.push("orderNo");
+    // headers.push("price");
+    // headers.push(saleContent[0].split(','));
+    // for (let i = 1; i <= map.size - 1; i++) {
+    //     let mode = map.get(i);
+    //     if (mode !== undefined) {
+    //         let payTree = mode.payTree;
+    //         console.log("payTree[" + i + "]:" + payTree.get('data'));
+    //         console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
+    //         let otherTree = mode.otherTree;
+    //         console.log("otherTree[" + i + "]:" + otherTree.get('data'));
+    //         console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
+    //         //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
+    //
+    //     } else {
+    //
+    //     }
+    // }
 
     // 退款
     let refundAction = new RefundAction(client);

@@ -4,9 +4,13 @@ import {GlobalUtil} from "./globalUtil";
 
 //读取测试数据信息
 export class ReadCSV {
+    /**
+     * 用于读取销售流程的测试用例
+     * @returns {Map}
+     */
     public static readFile() {
         let myMap = new Map();
-        let data = fs.readFileSync(GlobalUtil.map.get('csv'));
+        let data = fs.readFileSync(GlobalUtil.getConfigMap().get('csv'));
         //设置编码格式
         let buffer = iconv.decode(data, "gbk");
         let string = buffer.toString();
