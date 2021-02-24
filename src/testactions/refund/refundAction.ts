@@ -5,7 +5,7 @@ import {LogUtils} from "../../utils/logUtils";
 import {RefundData} from "../../entity/refundData";
 import {ScreenShotUtil} from "../../utils/screenShotUtil";
 import {Search_elo, Search_a8} from "../search";
-import {RefundOrder, RefundOrder_elo} from "./refundOrder";
+import {RefundOrder, RefundOrder_a8, RefundOrder_elo} from "./refundOrder";
 import {ExportCsv} from "../../utils/exportCsv";
 import {Tools} from "../../utils/tools";
 
@@ -45,12 +45,14 @@ export class RefundAction {
                 let refundData = new RefundData();
                 try {
                     //点击进入查询/退货页面
-                    if (this.deviceName == 'a8') {
-                        if (beforeToday) {
-                            refundData.isSuccess = await RefundOrder.refundBeforeOrder(this.client, orderNo);
+
+                    await search_a8.search();
+                    if (beforeToday) {
+                        if (this.deviceName == 'a8') {
+                            refundData.isSuccess = await RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         } else {
                             //进行今日订单退货，并判断是否成功
-                            refundData.isSuccess = await RefundOrder.refundOrderToday(this.client, orderNo);
+                            refundData.isSuccess = await RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                     } else {
                         await search_elo.search();

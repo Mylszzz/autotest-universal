@@ -6,8 +6,3 @@ export class DeviceName {
         return deviceName;
     }
 }
-
-export enum DeviceNameEnum {
-    a8,
-    elo
-}

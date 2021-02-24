@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOrder_elo = exports.RefundOrder_a8 = exports.RefundOrder = void 0;
 const logUtils_1 = require("../../utils/logUtils");
-const touchAction_1 = require("../touchAction");
 const globalUtil_1 = require("../../utils/globalUtil");
 const screenShotUtil_1 = require("../../utils/screenShotUtil");
 const refundButton_1 = require("../../static/refundButton");
 const refundButton_2 = require("../../static/refundButton");
 const deviceName_1 = require("../../static/deviceName");
+const touchMethod_1 = require("../../utils/touchMethod");
+const inputCoordinates_1 = require("../../static/inputCoordinates");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 const refBtn_a8 = new refundButton_1.RefundBut_a8();
 const refBtn_elo = new refundButton_2.RefundBut_elo();
@@ -26,22 +27,28 @@ class RefundOrder {
     //输入密码后的操作
     static async refundThen(client, confirm, determine) {
         let confirm1 = await client.$(confirm);
-        confirm1.click();
+        await confirm1.click();
         await client.pause(1000);
         //    最后一次提示是否确认退货
         let lastConfirm = await client.$(determine);
-        lastConfirm.click();
+        await lastConfirm.click();
         await client.pause(1000);
     }
     //输入密码
     static async refundPass(client, determine, number) {
         await client.pause(1000);
         //输入密码
+        console.log('以下是新的触摸方法的测试');
         if (deviceName == 'a8') {
-            await touchAction_1.TouchAction.touchPasswordAction(client, number);
+            // TODO: 以下是新的触摸方法的测试
+            let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
+            await touchFun(client, number, inputCoordinates_1.InputCoordinates.getCoordMap()); // A8退款使用A8通用坐标Map
+            // await TouchAction.touchPasswordAction(client, number);
         }
-        else {
-            await touchAction_1.TouchAction.touchPasswordAction1(client, number);
+        else if (deviceName == 'elo') {
+            let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
+            await touchFun(client, number, inputCoordinates_1.InputCoordinates.getCoordMapForRedundPwd()); // Elo退款坐标
+            // await TouchAction.touchPasswordAction1(client, number);
         }
         logUtils_1.LogUtils.log.info("====授权码填写结束=====");
         //密码确定
@@ -87,7 +94,7 @@ class RefundOrder {
             //  打印订单耗时
             let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
             await client.pause(1000);
-            tip.click();
+            await tip.click();
             await client.pause(5000);
             //    点击返回
             let back = await client.$('//android.widget.Button[@content-desc="返回"]');

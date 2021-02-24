@@ -40,13 +40,14 @@ class RefundAction {
                 let refundData = new refundData_1.RefundData();
                 try {
                     //点击进入查询/退货页面
-                    if (this.deviceName == 'a8') {
-                        if (beforeToday) {
-                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(this.client, orderNo);
+                    await search_a8.search();
+                    if (beforeToday) {
+                        if (this.deviceName == 'a8') {
+                            refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         }
                         else {
                             //进行今日订单退货，并判断是否成功
-                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(this.client, orderNo);
+                            refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                     }
                     else {

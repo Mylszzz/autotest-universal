@@ -2,7 +2,7 @@ import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {ReadCSV} from "./utils/readCSV";
-import {VipMixedPayment} from "./testactions/vipMixedPayment";
+import {VipMixedPayment} from "./testactions/payment/vipMixedPayment";
 import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
