@@ -26,7 +26,8 @@ class RefundAction {
      * @returns {Promise<void>}
      */
     async refundProcess() {
-        let search_a8 = new search_1.Search_a8(this.client);
+        //let search_a8 = new Search_a8(this.client);
+        let search_elo = new search_1.Search_elo(this.client);
         let refundPreparation = new refundUtils_1.RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
         let refundDataList = [];
@@ -39,20 +40,20 @@ class RefundAction {
                 let refundData = new refundData_1.RefundData();
                 try {
                     //点击进入查询/退货页面
-                    await search_a8.search();
-                    if (beforeToday) {
-                        if (this.deviceName == 'a8') {
+                    if (this.deviceName == 'a8') {
+                        if (beforeToday) {
                             refundData.isSuccess = await refundOrder_1.RefundOrder.refundBeforeOrder(this.client, orderNo);
                         }
                         else {
-                            //进行隔日订单退货，并判断是否成功
-                            refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(this.client, orderNo);
+                            //进行今日订单退货，并判断是否成功
+                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(this.client, orderNo);
                         }
                     }
                     else {
-                        if (this.deviceName == 'a8') {
-                            //进行今日订单退货，并判断是否成功
-                            refundData.isSuccess = await refundOrder_1.RefundOrder.refundOrderToday(this.client, orderNo);
+                        await search_elo.search();
+                        if (beforeToday) {
+                            //进行隔日订单退货，并判断是否成功
+                            refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(this.client, orderNo);
                         }
                         else {
                             refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(this.client, orderNo);

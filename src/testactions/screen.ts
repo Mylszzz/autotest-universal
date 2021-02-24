@@ -2,7 +2,7 @@ import {Search} from "./search";
 import {DateUtil} from "../utils/dateUtil";
 import {LogUtils} from "../utils/logUtils";
 import * as wdio from "webdriverio";
-import {OrderXpath_a8, OrderXpath_elo} from "../static/OrderXpath";
+import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
 import {CommonXpath} from "../static/commonXpath";
 
 /**
@@ -10,7 +10,7 @@ import {CommonXpath} from "../static/commonXpath";
 */
 export class Screen {
     client:wdio.BrowserObject;
-    funnelBtnXPath:string = OrderXpath_a8.funnel;  //
+    funnelBtnXPath:string = ButtonXPaths_A8.FUNNEL;  //
 
     public constructor (client:wdio.BrowserObject, funnelBtnXPath?:string) {
         this.client = client;
@@ -29,11 +29,11 @@ export class Screen {
         await DateUtil.selectDate(this.client, date);
         //选择条件
         // 清空默认的订单类型
-        let chooseAll_1 = await this.client.$(CommonXpath.checkBox1);
+        let chooseAll_1 = await this.client.$(CommonXpath.CHECKBOX1);
         await chooseAll_1.click();
         await chooseAll_1.click();
         // 清空默认的订单状态
-        let chooseAll_2 = await this.client.$(CommonXpath.checkBox2);
+        let chooseAll_2 = await this.client.$(CommonXpath.CHECKBOX2);
         await chooseAll_2.click();
         await chooseAll_2.click();
 
@@ -48,7 +48,7 @@ export class Screen {
             await oneOfOrderState.click();
         }
         //完成
-        let ok = await this.client.$(CommonXpath.ok);
+        let ok = await this.client.$(CommonXpath.OK);
         await ok.click();
     }
 
@@ -58,7 +58,7 @@ export class Screen {
         let ccBtn = await this.client.$(this.funnelBtnXPath);
         await ccBtn.click();
         //重置
-        let ok = await this.client.$(CommonXpath.resetting);
+        let ok = await this.client.$(CommonXpath.RESETTING);
         await ok.click();
         //重置后的条件判断，是否符合条件
         let generalSalesOrderCheck = await this.client.$('//android.widget.CheckBox[@content-desc="一般销售单"]');
@@ -67,7 +67,7 @@ export class Screen {
             let completed = await this.client.$('//android.widget.CheckBox[@content-desc="已完成"]');
             let isCompleted =  await completed.getAttribute('checked');
             if (isCompleted){
-                let complete = await this.client.$(CommonXpath.ok);
+                let complete = await this.client.$(CommonXpath.OK);
                 await complete.click();
                 LogUtils.search.info("=====订单查询--》重置筛选条件符合预期==");
             }else {
@@ -81,10 +81,8 @@ export class Screen {
 
 export class Screen_A8 extends Screen{}
 
-const funnelBtnXPath_ELO = OrderXpath_elo.funnel;
-
 export class Search_elo extends Search {
-    public constructor (client:wdio.BrowserObject, funnelBtnXPath = funnelBtnXPath_ELO) {
+    public constructor (client:wdio.BrowserObject, funnelBtnXPath = ButtonXPaths_Elo.FUNNEL) {
         super(client, funnelBtnXPath);
     }
 }

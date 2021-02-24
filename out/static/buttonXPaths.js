@@ -4,6 +4,11 @@ exports.ButtonXPaths_Elo = exports.ButtonXPaths_A8 = void 0;
 var ButtonXPaths_A8;
 (function (ButtonXPaths_A8) {
     ButtonXPaths_A8["MENU"] = "//android.widget.Button[@content-desc=\"menu \"]";
+    ButtonXPaths_A8["SEARCH"] = "//android.widget.Button[@content-desc=\"list box \u67E5\u8BE2/\u9000\u8D27\"]";
+    ButtonXPaths_A8["FUNNEL"] = "//android.widget.Button[@content-desc=\"funnel\"]";
+    ButtonXPaths_A8["RETURN"] = "//android.widget.Button[@content-desc=\"\u8FD4\u56DE\"]";
+    ButtonXPaths_A8["BACK"] = "//android.widget.Button[@content-desc=\"arrow back \"]";
+    ButtonXPaths_A8["HOME"] = "//android.widget.Button[@content-desc=\"home \u9500\u552E\u4F5C\u4E1A\"]";
     ButtonXPaths_A8["REFRESH"] = "//android.widget.Button[@content-desc=\"refresh circle \u5237\u65B0\u5E97\u94FA\"]";
     ButtonXPaths_A8["ACCOUNTLOGOUT"] = "//android.widget.Button[@content-desc=\"exit \u9000\u51FA\u767B\u5F55\"]";
     ButtonXPaths_A8["CONFIRM"] = "//android.widget.Button[@content-desc=\"\u786E\u8BA4\"]";
@@ -15,6 +20,12 @@ var ButtonXPaths_A8;
 var ButtonXPaths_Elo;
 (function (ButtonXPaths_Elo) {
     ButtonXPaths_Elo["MENU"] = "//android.widget.Button[@content-desc=\"menu\"]";
+    ButtonXPaths_Elo["SEARCH"] = "//android.widget.Button[@content-desc=\"\u67E5\u8BE2/\u9000\u8D27\"]";
+    ButtonXPaths_Elo["FUNNEL"] = "//android.widget.Button[@content-desc=\"funnel \u7B5B\u9009\"]";
+    ButtonXPaths_Elo["BACK"] = "//android.widget.Button[@content-desc=\"return left \u8FD4\u56DE\"]";
+    ButtonXPaths_Elo["HOME"] = "//android.widget.Button[@content-desc=\"\u9500\u552E\u4F5C\u4E1A\"]";
+    ButtonXPaths_Elo["determine"] = "//android.view.View[@content-desc=\"\u786E\u5B9A\"]";
+    ButtonXPaths_Elo["DETERMINE1"] = "(//android.widget.Button[@content-desc=\"\u786E\u5B9A\"])[2]";
     ButtonXPaths_Elo["REFRESH"] = "//android.widget.Button[@content-desc=\"\u5237\u65B0\u5E97\u94FA\"]";
     ButtonXPaths_Elo["CONTACT"] = "//android.widget.Button[@content-desc=\"contact\"]";
     ButtonXPaths_Elo["SYSTEMLOGOUT"] = "//android.widget.Button[@content-desc=\"\u9000\u51FA\u7A0B\u5E8F\"]";

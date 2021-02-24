@@ -8,7 +8,7 @@ import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
 import {Screen} from "./testactions/screen";
-import {Search} from "./testactions/search";
+import {Search, Search_a8} from "./testactions/search";
 import {CancelReturns} from "./testactions/CancelReturns";
 import {RefundAction} from "./testactions/refund/refundAction";
 
@@ -85,6 +85,9 @@ async function salesSettlement() {
     }
 
     // 退款
+    let search_a8 = new Search_a8(client);
+    await search_a8.search();
+    await search_a8.searchOrder();
     let refundAction = new RefundAction(client);
     await refundAction.refundProcess();
 }

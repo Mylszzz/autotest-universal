@@ -1,5 +1,10 @@
 export enum ButtonXPaths_A8 {
     MENU = '//android.widget.Button[@content-desc="menu "]',  // 菜单键
+    SEARCH = '//android.widget.Button[@content-desc="list box 查询/退货"]',
+    FUNNEL ='//android.widget.Button[@content-desc="funnel"]',  //筛选按钮
+    RETURN = '//android.widget.Button[@content-desc="返回"]',
+    BACK = '//android.widget.Button[@content-desc="arrow back "]',
+    HOME ='//android.widget.Button[@content-desc="home 销售作业"]',
     REFRESH = '//android.widget.Button[@content-desc="refresh circle 刷新店铺"]',  // 刷新店铺键
     ACCOUNTLOGOUT = '//android.widget.Button[@content-desc="exit 退出登录"]',
     CONFIRM = '//android.widget.Button[@content-desc="确认"]',  //
@@ -11,6 +16,12 @@ export enum ButtonXPaths_A8 {
 
 export enum ButtonXPaths_Elo{
     MENU = '//android.widget.Button[@content-desc="menu"]',  // 菜单键
+    SEARCH= '//android.widget.Button[@content-desc="查询/退货"]',
+    FUNNEL ='//android.widget.Button[@content-desc="funnel 筛选"]',
+    BACK = '//android.widget.Button[@content-desc="return left 返回"]',
+    HOME ='//android.widget.Button[@content-desc="销售作业"]',
+    determine ='//android.view.View[@content-desc="确定"]',
+    DETERMINE1 ='(//android.widget.Button[@content-desc="确定"])[2]',
     REFRESH = '//android.widget.Button[@content-desc="刷新店铺"]',  // 刷新店铺键
     CONTACT = '//android.widget.Button[@content-desc="contact"]',
     SYSTEMLOGOUT = '//android.widget.Button[@content-desc="退出程序"]',
