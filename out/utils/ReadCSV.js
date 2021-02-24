@@ -9,6 +9,7 @@ const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const GlobalUtil_1 = require("./GlobalUtil");
 class ReadCSV {
     static readFile() {
+        console.log("readFile()======");
         let myMap = new Map();
         let data = fs_1.default.readFileSync(GlobalUtil_1.GlobalUtil.map.get('csv'));
         let buffer = iconv_lite_1.default.decode(data, "gbk");
@@ -52,6 +53,10 @@ class ReadCSV {
                 myMap.set(i, { 'payTree': payTree, 'otherTree': otherTree });
             }
         }
+        console.log("==============================");
+        console.log(myMap);
+        console.log("-------------------stringify--");
+        console.log(JSON.stringify(myMap));
         return myMap;
     }
 }

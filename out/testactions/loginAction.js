@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginAction = void 0;
 const LogUtils_1 = require("../utils/LogUtils");
+const GlobalUtil_1 = require("../utils/GlobalUtil");
 // import {GlobalUtil} from "../utils/GlobalUtil";
 class LoginAction {
     static async Login(client) {
@@ -23,6 +24,7 @@ class LoginAction {
             let loginBtn = await client.$('//android.widget.Button[@content-desc="登录"]');
             await client.pause(1000);
             await loginBtn.click();
+            GlobalUtil_1.GlobalUtil.init();
             try {
                 let ele = await client.$('//android.view.View[@content-desc="正在登陆,请稍后...."]');
                 LogUtils_1.LogUtils.log.info(await ele.getAttribute("content-desc"));

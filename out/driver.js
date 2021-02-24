@@ -66,7 +66,7 @@ SingleDriver.config = {
         automationName: 'uiautomator2',
         platformName: 'android',
         platformVersion: '5.1.1',
-        deviceName: '192.168.102.7:5555',
+        deviceName: '192.168.102.133:5555',
         skipDeviceInitialization: true,
         skipServerInstallation: true,
         noReset: true,

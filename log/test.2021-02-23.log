@@ -1,0 +1,42 @@
+[2021-02-23T19:26:47.926] [INFO] test - -------map--------------
+[2021-02-23T19:26:47.927] [INFO] test - [
+  '备用聚合支付渠道,现金,其他,猫酷电子券,春风里礼券,翼支付,退货,取消交易',
+  '0,2,0,0,1,0,N,N',
+  '0,2,0,0,1,0,Y,Y',
+  '0,2,0,0,1,0,Y,N',
+  '0,1,0,1,0,0,N,Y',
+  ''
+]
+[2021-02-23T19:26:47.927] [INFO] test - 开始创建client
+[2021-02-23T19:26:56.196] [INFO] test - 成功创建[a8]client
+[2021-02-23T19:26:56.196] [INFO] test - ===开始获取自动化测试的配置参数===
+[2021-02-23T19:26:56.197] [INFO] test - ===获取自动化测试的配置参数完成===
+[2021-02-23T19:26:56.197] [INFO] test - Map(16) {
+  'username' => 'ht202011190002802',
+  'password' => 'Pp88888888',
+  'vipPhone' => '13994849811',
+  'backGoods' => '12345678',
+  'storeNumber' => 'HT202011190002801',
+  'orderId' => '0100200003210128020010',
+  'date' => '2021-1-27',
+  'app_id' => '102188995770',
+  'cardNo' => '1000012032800003',
+  'key' => 'DnV5nqGZruvybv6wPagJrxQo34FG0Bwz',
+  'csv' => 'src/static/test.csv',
+  'refundDataPath' => '../../csvData/sale/2021-2-4-gyu452546-5452.csv',
+  'TTPAYMethod' => '微信',
+  'CardType' => '电子卡',
+  'crossStoreLogin' => { isAction: false, username: 'bhglgcs00101', password: 'p88888888' },
+  'cardQuery' => {
+    signIn: false,
+    settlement: false,
+    queryScoreCard: false,
+    queryShoppingCard: false,
+    bankCardInquiry: false
+  }
+}
+[2021-02-23T19:27:11.206] [INFO] loginActivity - ====开始进行商户登录===
+[2021-02-23T19:27:28.722] [ERROR] loginActivity - code:L0001, msg:登录错误, detail:登录失败！
+[2021-02-23T19:27:31.482] [WARN] loginActivity - ----------设备重新启动了！！！！
+[2021-02-23T19:27:55.949] [INFO] loginActivity - ============login finish=============Tue Feb 23 2021 19:27:55 GMT+0800 (中国标准时间)
+[2021-02-23T19:27:55.949] [INFO] loginActivity - ====商户登录成功===

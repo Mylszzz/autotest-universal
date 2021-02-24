@@ -3,13 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="bfb7cd4a-8a4a-45dd-a53b-3ba857b585d5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/iconv-lite/.github/dependabot.yml" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/.github/dependabot.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/driver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/driver.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/testactions/loginAction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/testactions/loginAction.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/GlobalUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/GlobalUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/ReadCSV.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ReadCSV.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/driver.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/driver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/testactions/loginAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/testactions/loginAction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/utils/GlobalUtil.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/utils/GlobalUtil.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/utils/ReadCSV.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/utils/ReadCSV.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,111 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ReadUtils.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/ReadUtils.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1800">
-              <caret line="53" column="90" selection-start-line="53" selection-start-column="90" selection-end-line="53" selection-end-column="90" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tsconfig.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tsconfig.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VipMixedPayment.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/testactions/VipMixedPayment.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1836">
-              <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1404">
-              <caret line="42" column="28" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-                <element signature="e#252#288#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="refundData.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/entity/refundData.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PayMethod.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/testactions/PayMethod.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReadCSV.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/utils/ReadCSV.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="34" column="65" lean-forward="true" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Message.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/Message.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlobalUtil.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/GlobalUtil.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="saleData.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/entity/saleData.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -179,12 +73,12 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1929" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
@@ -192,6 +86,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -208,27 +103,14 @@
               <item name="autotest-universal" type="b2602c69:ProjectViewProjectNode" />
               <item name="autotest-universal" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autotest-universal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="autotest-universal" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="testactions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autotest-universal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="autotest-universal" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -242,15 +124,15 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\github file\autotest-universal\src\testactions" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\github file\autotest-universal" />
       <recent name="D:\github file\autotest-universal\src\testactions" />
       <recent name="D:\GitHub\autotest-universal\src\utils" />
       <recent name="D:\GitHub\autotest-universal\src\testactions" />
       <recent name="D:\GitHub\autotest-universal" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\github file\autotest-universal\src\testactions" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -342,43 +224,99 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="121435000" />
+    <option name="totallyTimeSpent" value="121825000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1927" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3884026" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.28854313" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3293348" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.23773174" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.27699018" />
       <window_info id="Capture Tool" order="2" />
-      <window_info anchor="bottom" id="TypeScript" order="8" weight="0.28169015" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13069706" />
-      <window_info anchor="right" id="Database" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.5200433" />
-      <window_info anchor="bottom" id="ExcelReader" order="9" weight="0.32827735" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info id="npm" order="2" side_tool="true" />
-      <window_info anchor="right" x="0" y="0" width="193" height="847" id="Documentation" order="9" sideWeight="0.5008157" side_tool="true" weight="0.45514223" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13069706" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="bottom" id="TypeScript" order="8" weight="0.28169015" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="bottom" id="ExcelReader" order="9" weight="0.32827735" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5200433" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" sideWeight="0.49918434" weight="0.24945295" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" x="0" y="0" width="193" height="847" id="Documentation" order="9" sideWeight="0.5008157" side_tool="true" weight="0.45514223" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936078" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32905984" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3884026" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.28854313" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Designer" order="2" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="2" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info id="Image Layers" order="3" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3293348" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3293348" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="right" x="0" y="0" width="193" height="847" id="Documentation" order="9" sideWeight="0.5008157" side_tool="true" weight="0.45514223" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="npm" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="11" />
+      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="bottom" id="ExcelReader" order="12" weight="0.32827735" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -684,10 +622,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1404">
           <caret line="42" column="28" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#252#288#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -695,9 +629,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1836">
           <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
