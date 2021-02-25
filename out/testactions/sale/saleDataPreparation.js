@@ -3,13 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SaleDataPreparation = void 0;
-const logUtils_1 = require("../../utils/logUtils");
-const readCSV_1 = require("../../utils/readCSV");
+exports.SingleSaleDataPreparation = exports.SaleDataPreparation = void 0;
 const fs_1 = __importDefault(require("fs"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const globalUtil_1 = require("../../utils/globalUtil");
+/**
+ * 全部条销售测试用例的数据准备
+ */
 class SaleDataPreparation {
+    constructor() {
+        this.saleMap = new Map(); // TODO: useless
+    }
     /**
      * 用于读取销售流程的测试用例
      * @returns {Map}
@@ -19,17 +23,28 @@ class SaleDataPreparation {
         let buffer = iconv_lite_1.default.decode(data, "gbk"); // 文件的编码格式是GBK
         let string = buffer.toString();
         //读取每一行的数据
-        let line_list = string.split('\r\n');
-        this.saleMap.set("saleContent", line_list);
+        this.rows = string.split('\r\n');
+        this.title = this.rows[0].split(',');
+    }
+}
+exports.SaleDataPreparation = SaleDataPreparation;
+/**
+ * 单条销售记录的数据准备
+ */
+class SingleSaleDataPreparation {
+    constructor(seqNum) {
+        this.seqNum = seqNum;
     }
     /**
      * 处理读取到的销售信息，得到实际使用了的支付方式和是否退货和取消交易
      * 并更新到saleMap
      */
-    dataProcess(line_list) {
+    dataProcess() {
         //获取首行
-        let name = line_list[0].split(',');
-        for (let i = 1; i < line_list.length; i++) {
+        let title = this.rows[0].split(','); // 首行是销售测试用例的字段
+        for (let i = 1; i < this.rows.length; i++) {
+            let paymentInfoMap = new Map();
+            let saleOptionsInfoMap = new Map();
             let payTree = new Map();
             let otherTree = new Map();
             // 支付方式
@@ -62,30 +77,5 @@ class SaleDataPreparation {
             }
         }
     }
-    /**
-     *
-     */
-    saleDataPreparation() {
-        this.saleMap = readCSV_1.ReadCSV.readFile();
-        let saleContent = this.saleMap.get('saleContent');
-        logUtils_1.LogUtils.log.info("-------map--------------");
-        logUtils_1.LogUtils.log.info(saleContent);
-        let headers = ["saleTime", "orderNo", "price"];
-        headers.push(saleContent[0].split(','));
-        for (let i = 1; i <= this.saleMap.size - 1; i++) {
-            let mode = this.saleMap.get(i);
-            if (mode !== undefined) {
-                let payTree = mode.payTree;
-                console.log("payTree[" + i + "]:" + payTree.get('data'));
-                console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
-                let otherTree = mode.otherTree;
-                console.log("otherTree[" + i + "]:" + otherTree.get('data'));
-                console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-                //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
-            }
-            else {
-            }
-        }
-    }
 }
-exports.SaleDataPreparation = SaleDataPreparation;
+exports.SingleSaleDataPreparation = SingleSaleDataPreparation;

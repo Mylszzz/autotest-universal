@@ -26,6 +26,7 @@ export class RefundAction {
 
     /**
      * 调用退货的执行脚本
+     * 退货方法的主循环
      * @returns {Promise<void>}
      */
     public async refundProcess() {
