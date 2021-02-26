@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VipLoginAction = exports.UploadLogAction = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
+exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
 const logoutAction_1 = require("./basicActions/logoutAction");
 const refreshAction_1 = require("./basicActions/refreshAction");
 const uploadLogAction_1 = require("./basicActions/uploadLogAction");
 const loginVip_1 = require("./loginVip");
 const deviceName_1 = require("../static/deviceName");
+const CancelReturns_1 = require("./CancelReturns");
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 /**
  * 用于直接调用登录的静态方法
@@ -84,6 +85,24 @@ class RefreshAction {
     }
 }
 exports.RefreshAction = RefreshAction;
+/**
+ * 用于取消退货
+ * 懒汉式单例模式
+ */
+class CancelReturns {
+    constructor() { }
+    static async refreshAction(client) {
+        if (deviceName == 'a8' && this.instance == null) { // 如果设备名字为A8并且实例还未创建
+            this.instance = new CancelReturns_1.CancelReturns_A8(client); // 创建用于刷新的A8实例
+        }
+        else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = new CancelReturns_1.CancelReturns_ELO(client);
+        }
+        await client.setImplicitTimeout(10000); // 设定Timeout为10秒
+        await this.instance.cancelReturns();
+    }
+}
+exports.CancelReturns = CancelReturns;
 /**
  * 用于直接调用上传日志的静态方法
  * 分为上传当日日志和上传其他日期日志
