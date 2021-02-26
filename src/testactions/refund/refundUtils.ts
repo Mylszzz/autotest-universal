@@ -7,6 +7,7 @@ interface IRefundInfo {
     price:string;
     refund:boolean;
     cancel:boolean;
+    isSuccess:string;
     saleTime:string
 }
 
@@ -36,7 +37,7 @@ export class RefundPreparation {
         this.titleList = title.split(',');// 标题分类为各自一列
 
         // 遍历每一行需要退款的记录
-        for (let i = 1; i < this.rows.length; i++) {
+        for (let i = 1; i < this.rows.length-1; i++) {
             let tempDataMap:Map<string, string> = new Map<string, string>();
             let values:string[] =  this.rows[i].split(',');
             for (let j = 0; j < this.titleList.length; j++) {
@@ -64,7 +65,7 @@ export class RefundOnce implements IRefundInfo{
     price:string = '';  // 总价
     refund:boolean = false;  // 是否退货
     cancel:boolean = false;  // 是否取消交易
-
+    isSuccess:string = '';//是否退货成功
 
     payMethods:string[] = [];  // 支付中使用的（金额不为0的支付方式）
 
@@ -103,6 +104,9 @@ export class RefundOnce implements IRefundInfo{
                     case '取消交易':
                         this.cancel = value.toUpperCase() == 'Y';
                         break;
+                    case '是否退货成功':
+                        this.isSuccess = value;
+                        break;
                     case 'saleTime':
                         this.saleTime = value;
                         break;
@@ -137,6 +141,11 @@ export class RefundOnce implements IRefundInfo{
         return this.orderNo;
     }
 
+    public setIsSuccess(y:string){
+         this.isSuccess = y;
+    }
+
+
     public getBeforeToday():boolean {
         return this.beforeToday;
     }
@@ -157,11 +166,11 @@ export class RefundOnce implements IRefundInfo{
      * @param {string} saleDate 从csv中读取到的销售日期
      * @returns {boolean}  true=非本日; false=本日
      */
-    private isBeforeToday(saleDate:string):boolean {
+    public isBeforeToday(saleDate:string):boolean {
         saleDate = saleDate.replace("/", "").replace("/", "");
         let todayDate:string = new Date().toLocaleDateString().replace("-", "")
             .replace("-", "");
-        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
+        if (Number.parseInt(saleDate) != Number.parseInt(todayDate)) {
             this.beforeToday = true;
         }
         return this.beforeToday;

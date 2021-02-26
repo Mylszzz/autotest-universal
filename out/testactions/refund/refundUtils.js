@@ -26,7 +26,7 @@ class RefundPreparation {
         //console.log(title);
         this.titleList = title.split(','); // 标题分类为各自一列
         // 遍历每一行需要退款的记录
-        for (let i = 1; i < this.rows.length; i++) {
+        for (let i = 1; i < this.rows.length - 1; i++) {
             let tempDataMap = new Map();
             let values = this.rows[i].split(',');
             for (let j = 0; j < this.titleList.length; j++) {
@@ -56,6 +56,7 @@ class RefundOnce {
         this.price = ''; // 总价
         this.refund = false; // 是否退货
         this.cancel = false; // 是否取消交易
+        this.isSuccess = ''; //是否退货成功
         this.payMethods = []; // 支付中使用的（金额不为0的支付方式）
         this.beforeToday = false; // 需要退款的订单是否为非本日订单
         this.refundDataMap = refundDataMap;
@@ -82,6 +83,9 @@ class RefundOnce {
                         break;
                     case '取消交易':
                         this.cancel = value.toUpperCase() == 'Y';
+                        break;
+                    case '是否退货成功':
+                        this.isSuccess = value;
                         break;
                     case 'saleTime':
                         this.saleTime = value;
@@ -113,6 +117,9 @@ class RefundOnce {
     getOrderNo() {
         return this.orderNo;
     }
+    setIsSuccess(y) {
+        this.isSuccess = y;
+    }
     getBeforeToday() {
         return this.beforeToday;
     }
@@ -134,7 +141,7 @@ class RefundOnce {
         saleDate = saleDate.replace("/", "").replace("/", "");
         let todayDate = new Date().toLocaleDateString().replace("-", "")
             .replace("-", "");
-        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
+        if (Number.parseInt(saleDate) != Number.parseInt(todayDate)) {
             this.beforeToday = true;
         }
         return this.beforeToday;

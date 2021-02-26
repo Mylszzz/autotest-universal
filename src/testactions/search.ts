@@ -3,6 +3,7 @@ import {LogUtils} from "../utils/logUtils";
 import * as wdio from "webdriverio";
 import {CommonXpath} from "../static/commonXpath";
 import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
+import set = Reflect.set;
 
 
 //进入查询/退货页面
@@ -24,11 +25,11 @@ export class Search {
     public async search() {
         let menu = await this.client.$(this.menuBtnXPath);
         await menu.click();
-        await this.client.pause(1000);
+        await this.client.pause(2000);
         //  点击查询
         let chooseBackGood = await this.client.$(this.searchBtnXPath);
         await chooseBackGood.click();
-        await this.client.pause(1000);
+       // await this.client.pause(2000);
     }
 
     /**
@@ -51,7 +52,7 @@ export class Search {
             if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
                 await codeNo.click();
-                await this.client.pause(1000);
+                await this.client.pause(2000);
             }
             //查询会员号
             else {
@@ -77,6 +78,7 @@ export class Search {
             let theTopOrder = await this.client.$(CommonXpath.ORDER);
             await theTopOrder.click();
             await this.client.pause(1000);
+
             LogUtils.search.info("=====查询符合预期==");
             LogUtils.search.info("=====查询结束====");
 
@@ -85,7 +87,23 @@ export class Search {
             LogUtils.search.info("=====查询结束====");
 
         }
+
     }
+
+    public isBeforeToday(saleDate:string):boolean {
+        let beforeToday:boolean= false;
+        saleDate = saleDate.replace("/", "").replace("/", "");
+        LogUtils.search.info(saleDate);
+        let todayDate:string = new Date().toLocaleDateString().replace("-", "")
+            .replace("-", "");
+        LogUtils.search.info(todayDate);
+        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
+           beforeToday = true;
+           LogUtils.search.info("相等");
+        }
+        return beforeToday;
+    }
+
 
 }
 

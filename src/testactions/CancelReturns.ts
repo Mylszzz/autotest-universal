@@ -5,6 +5,9 @@ import * as wdio from "webdriverio";
 import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
 import {CommonXpath} from "../static/commonXpath";
 
+/**
+ * 取消退货
+ */
 
 export class CancelReturns {
     client:wdio.BrowserObject;
@@ -16,10 +19,15 @@ export class CancelReturns {
             this.backBtnXPath = backBtnXPath;
         }
     }
+
+    /**
+     * orderType:any ：选择订单类型
+     * orderState:any ：选择订单状态
+     */
     public async cancelReturns(){
         await new Search(this.client).search();
          const orderType:any = ['一般销售单'];
-         const orderState:any = ['已完成','已部分退'];
+         const orderState:any = ['已完成'];
         await new Screen(this.client).screenNo(new Date().toLocaleDateString(),orderType, orderState);
          await this.client.pause(3000);
         let close = await this.client.$(CommonXpath.CLOSE);
@@ -36,10 +44,16 @@ export class CancelReturns {
 
 }
 
+/**
+ * a8 直接继承
+ */
 export class CancelReturns_A8 extends CancelReturns {
 
 }
 
+/**
+ * elo 需要更改xpath控件
+ */
 export class CancelReturns_ELO extends CancelReturns {
     public constructor (client:wdio.BrowserObject, backBtnXPath = ButtonXPaths_Elo.BACK
                        ) {

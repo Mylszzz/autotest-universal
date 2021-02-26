@@ -106,7 +106,8 @@ export class RefundOrder {
             let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
             await client.pause(1000);
             await tip.click();
-            await client.pause(5000);
+            await client.pause(6000);
+            LogUtils.refundLog.info('更改退货成功');
              //    点击返回
             let back = await client.$('//android.widget.Button[@content-desc="返回"]');
             await client.pause(1000);
@@ -137,7 +138,9 @@ export class RefundOrder {
             let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
             await client.pause(1000);
             tip.click();
-            await client.pause(5000);
+            await client.pause(6000);
+          //  return true;
+            LogUtils.refundLog.info('mm');
             //    点击返回
             let back = await client.$('//android.widget.Button[@content-desc="返回"]');
             await client.pause(1000);
@@ -167,6 +170,7 @@ export class RefundOrder {
             }
             return false;
         }
+
         }
 
 }

@@ -21,11 +21,11 @@ class Search {
     async search() {
         let menu = await this.client.$(this.menuBtnXPath);
         await menu.click();
-        await this.client.pause(1000);
+        await this.client.pause(2000);
         //  点击查询
         let chooseBackGood = await this.client.$(this.searchBtnXPath);
         await chooseBackGood.click();
-        await this.client.pause(1000);
+        // await this.client.pause(2000);
     }
     /**
      * 查询具体的订单
@@ -47,7 +47,7 @@ class Search {
             if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
                 await codeNo.click();
-                await this.client.pause(1000);
+                await this.client.pause(2000);
             }
             //查询会员号
             else {
@@ -77,6 +77,19 @@ class Search {
             logUtils_1.LogUtils.search.info("=====查询无结果==");
             logUtils_1.LogUtils.search.info("=====查询结束====");
         }
+    }
+    isBeforeToday(saleDate) {
+        let beforeToday = false;
+        saleDate = saleDate.replace("/", "").replace("/", "");
+        logUtils_1.LogUtils.search.info(saleDate);
+        let todayDate = new Date().toLocaleDateString().replace("-", "")
+            .replace("-", "");
+        logUtils_1.LogUtils.search.info(todayDate);
+        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
+            beforeToday = true;
+            logUtils_1.LogUtils.search.info("相等");
+        }
+        return beforeToday;
     }
 }
 exports.Search = Search;

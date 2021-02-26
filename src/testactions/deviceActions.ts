@@ -4,6 +4,7 @@ import {RefreshAction_A8, RefreshAction_Elo} from "./basicActions/refreshAction"
 import {UploadLogAction_A8, UploadLogAction_Elo} from "./basicActions/uploadLogAction";
 import {VipLogin_A8, VipLogin_Elo} from "./loginVip";
 import {DeviceName} from "../static/deviceName";
+import {CancelReturns_A8, CancelReturns_ELO} from "./CancelReturns";
 
 
 const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
@@ -53,7 +54,7 @@ export class LogoutAction {
             this.instance = new LogoutAction_Elo(client);
         }
         await client.setImplicitTimeout(10000);
-        await this.instance.accountLogout()
+        await this.instance.accountLogout();
     }
 
     // 退出程序
@@ -64,7 +65,7 @@ export class LogoutAction {
             this.instance = new LogoutAction_Elo(client);
         }
         await client.setImplicitTimeout(10000);
-        await this.instance.sysLogout()
+        await this.instance.sysLogout();
     }
 }
 
@@ -84,6 +85,25 @@ export class RefreshAction {
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
         await this.instance.refresh();
+    }
+}
+
+/**
+ * 用于取消退货
+ * 懒汉式单例模式
+ */
+export class CancelReturns {
+    private static instance:CancelReturns_A8|CancelReturns_ELO;
+    private constructor() {}
+
+    static async refreshAction(client:any) {
+        if (deviceName == 'a8' && this.instance == null) {  // 如果设备名字为A8并且实例还未创建
+            this.instance = new CancelReturns_A8(client);  // 创建用于刷新的A8实例
+        } else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = new CancelReturns_ELO(client);
+        }
+        await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
+        await this.instance.cancelReturns();
     }
 }
 

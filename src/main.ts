@@ -11,6 +11,7 @@ import {Screen} from "./testactions/screen";
 import {Search, Search_a8} from "./testactions/search";
 import {CancelReturns} from "./testactions/CancelReturns";
 import {RefundAction} from "./testactions/refund/refundAction";
+import {RefundOnce} from "./testactions/refund/refundUtils";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -84,10 +85,13 @@ async function salesSettlement() {
         }
     }
 
-    // 退款
-    let search_a8 = new Search_a8(client);
-    await search_a8.search();
-    await search_a8.searchOrder();
+    // let search_a8 = new Search_a8(client);
+    // await search_a8.search();
+    // await search_a8.searchOrder();
+    // let tempValueObject = await client.$('//android.view.View[@content-desc="交易日期"]/following-sibling::android.view.View');
+    // let tempValue = await tempValueObject.getAttribute('content-desc');
+    // let beforeToday = search_a8.isBeforeToday(tempValue);
+    // LogUtils.refundLog.info(beforeToday);
     let refundAction = new RefundAction(client);
     await refundAction.refundProcess();
 }
