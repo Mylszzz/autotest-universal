@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SaleAction_Elo = exports.SaleAction_A8 = void 0;
-const deviceActions_1 = require("../deviceActions");
 const exceptions_1 = require("../../utils/exceptions");
 const logUtils_1 = require("../../utils/logUtils");
 const globalUtil_1 = require("../../utils/globalUtil");
@@ -17,18 +16,21 @@ class SaleAction {
         this.csvGenerator = csvGenerator;
     }
     /**
-     * 销售脚本
+     * 销售脚本,先登录vip
      * @returns {Promise<void>}
      */
     async saleAction() {
-        logUtils_1.LogUtils.saleLog.info('====开始测试第【' + this.seqNum.toString() + '】单销售测试用例');
+        logUtils_1.LogUtils.saleLog.info('****开始测试第【' + this.seqNum.toString() + '】单销售测试用例****');
         try {
-            await deviceActions_1.VipLoginAction.vipLogin(this.client);
+            //  await VipLoginAction.vipLogin(this.client);
         }
         catch (e) {
+            console.error(e);
             throw new exceptions_1.BasicException('A9999', '登录vip失败').toString();
         }
-        await this.saleActionStep2();
+        finally {
+            await this.saleActionStep2();
+        }
     }
 }
 /**
@@ -48,7 +50,7 @@ class SaleAction_A8 extends SaleAction {
             // 调用触摸方法输入价格
             let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
             // A8输入价格时使用A8通用坐标Map
-            await touchFun(this.client, this.price, inputCoordinates_1.InputCoordinates.getCoordMap());
+            await touchFun(this.client, this.price.toString(), inputCoordinates_1.InputCoordinates.getCoordMap());
             await this.client.pause(2000);
             //去结算
             let pay = await this.client.$('//android.widget.Button[@content-desc="去结算"]');

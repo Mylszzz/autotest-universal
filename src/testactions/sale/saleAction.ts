@@ -10,7 +10,7 @@ abstract class SaleAction implements ISaleData {
     seqNum:number;
     paymentInfoMap:Map<string, string>;
     saleOptionsInfoMap:Map<string, string>;
-    price:string;
+    price:number;
 
     client:any;
     csvGenerator:CsvGenerator;
@@ -26,17 +26,19 @@ abstract class SaleAction implements ISaleData {
     }
 
     /**
-     * 销售脚本
+     * 销售脚本,先登录vip
      * @returns {Promise<void>}
      */
     public async saleAction() {
-        LogUtils.saleLog.info('====开始测试第【' + this.seqNum.toString() +'】单销售测试用例');
+        LogUtils.saleLog.info('****开始测试第【' + this.seqNum.toString() +'】单销售测试用例****');
         try {
-            await VipLoginAction.vipLogin(this.client);
+          //  await VipLoginAction.vipLogin(this.client);
         } catch (e) {
+            console.error(e);
             throw new BasicException('A9999', '登录vip失败').toString();
+        } finally {
+            await this.saleActionStep2();
         }
-        await this.saleActionStep2();
     }
 
     /**
@@ -70,7 +72,7 @@ export class SaleAction_A8 extends SaleAction {
             // 调用触摸方法输入价格
             let touchFun = TouchMethod.getTouchMethod();
             // A8输入价格时使用A8通用坐标Map
-            await touchFun(this.client, this.price, InputCoordinates.getCoordMap());
+            await touchFun(this.client, this.price.toString(), InputCoordinates.getCoordMap());
             await this.client.pause(2000);
             //去结算
             let pay = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
@@ -124,5 +126,5 @@ export interface ISaleData {
     seqNum:number;  // 序号（全部测试用例中的第几单)
     paymentInfoMap:Map<string, string>;  // Example: {'现金'=>'2','春风里礼券'=>'1'}
     saleOptionsInfoMap:Map<string, string>;  // Example: {'取消交易'=>'N','退货'=>'N'}
-    price:string;  // 总价
+    price:number;  // 总价
 }

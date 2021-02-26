@@ -6,7 +6,7 @@ import {GlobalUtil} from "./globalUtil";
 export class ReadCSV {
     /**
      * 用于读取销售流程的测试用例
-     * @returns {Map}
+     * @deprecated
      */
     public static readFile() {
         let myMap = new Map();

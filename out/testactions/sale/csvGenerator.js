@@ -4,6 +4,11 @@ exports.CsvGenerator = void 0;
 const exportCsv_1 = require("../../utils/exportCsv");
 const csvOptions_1 = require("../../utils/csvOptions");
 class CsvGenerator {
+    /**
+     *
+     * @param {string} header
+     * @param {string} fileName
+     */
     constructor(header, fileName) {
         this.header = header;
         this.fileName = fileName;

@@ -3,9 +3,15 @@ import {SaleData} from "../../entity/saleData";
 import {CsvOptions} from "../../utils/csvOptions";
 
 export class CsvGenerator{
-    private header:string;
+    private header:string[];
     private fileName:string;
-    public constructor (header:string, fileName:string){
+
+    /**
+     *
+     * @param {string} header
+     * @param {string} fileName
+     */
+    public constructor (header:string[], fileName:string){
         this.header = header;
         this.fileName = fileName;
     }

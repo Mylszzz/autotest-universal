@@ -38,7 +38,7 @@ export class LogUtils{
 
     static log = getLogger('test');
     static loginLog = getLogger('loginActivity');
-    static saleLog = getLogger('saleOrder');
+    static saleLog = getLogger('sale');
     static refundLog = getLogger('refund');
     static search = getLogger('search');
 }

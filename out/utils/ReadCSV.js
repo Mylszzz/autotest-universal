@@ -11,7 +11,7 @@ const globalUtil_1 = require("./globalUtil");
 class ReadCSV {
     /**
      * 用于读取销售流程的测试用例
-     * @returns {Map}
+     * @deprecated
      */
     static readFile() {
         let myMap = new Map();
