@@ -1,6 +1,5 @@
 import {TouchAction} from "../touchAction";
-import NP from 'number-precision'
-import {GlobalUtil} from "../../utils/globalUtil";
+import NP from 'number-precision';
 import {SaleData} from "../../entity/saleData";
 import {LogUtils} from "../../utils/logUtils";
 import {PaymentProcessing} from "./paymentProcessing";
@@ -8,7 +7,7 @@ import {ExportCsv} from "../../utils/exportCsv";
 import {CsvOptions} from "../../utils/csvOptions";
 import {ScreenShotUtil} from "../../utils/screenShotUtil";
 import {LoginAction} from "../deviceActions";
-import {LoginVip} from "../loginVip";
+import {GlobalUtil} from "../../utils/globalUtil";
 
 export class VipMixedPayment {
     public static async test(client: any, payTree: any, otherTree: any, frequency: number, headers?: any, saleContent?: any, fileName?: any) {
@@ -33,23 +32,23 @@ export class VipMixedPayment {
                 }
             }
 
-            // 支付方式:
+            // 支付方式: [现金,工行支付]
             let payMethods: any = payTree.get("data")[0];
             // 支付方式对应金额 [1,2]
             let prices: any = payTree.get("data")[1];
             // 日志信息
             LogUtils.log.info("测试" + payMethods);
-            //
             await  this.sleep(2000);
-            // Vip登录
+            //输入会员手机号
             // TODO： 输入手机号有时有错误
-            await LoginVip.loginVip(client);
-            LogUtils.log.info("VIP登录成功！");
-            //点击选取货品
-            let toSale = await client.$('//android.view.View[@content-desc="货号:' + GlobalUtil.map.get('storeNumber') + '"]');
-            await client.pause(1000);
-            await toSale.click();
-            await client.pause(1000);
+            await TouchAction.phoneNum(client, GlobalUtil.map.get('vipPhone'));
+            let ok = await client.$('//android.widget.Button[@content-desc="确定"]');
+            await ok.click();
+            let sale = await client.$('//android.widget.Button[@content-desc="去销售"]');
+            await sale.click();
+
+            //缓冲
+            await client.$('//android.widget.Button[@content-desc="search"]');
 
             //计算总价
             let p: number = 0;
@@ -59,17 +58,14 @@ export class VipMixedPayment {
             price = NP.strip(p);
             //输入价格
             await TouchAction.touchPriceAction(client, price.toString());
-            await client.pause(1000);
 
             //确定
             let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
             await confirm.click();
-            await client.pause(1000);
 
             //去结算
             let settlement = await client.$('//android.widget.Button[@content-desc="去结算"]');
             await settlement.click();
-            await client.pause(1000);
 
             let up_down: number = 0;
 
@@ -121,7 +117,7 @@ export class VipMixedPayment {
             await ExportCsv.printSaleData(option, saleOrderData, fileName);
             // 重启
             await client.launchApp();
-            await LoginAction.login(client);
+            await LoginAction.Login(client);
         }
 
     }
@@ -236,8 +232,7 @@ export class VipMixedPayment {
 
         // 打印中
         try {
-            let printing = await client.$('//android.webkit.WebView[@content-desc="Ion' +
-                'ic App"]/android.app.Dialog/android.view.View[1]/android.widget.Image[12]');
+            let printing = await client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.app.Dialog/android.view.View[1]/android.widget.Image[12]');
             while (true) {
                 await client.isElementDisplayed(printing.elementId);
             }
