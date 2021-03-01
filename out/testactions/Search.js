@@ -5,7 +5,9 @@ const touchAction_1 = require("./touchAction");
 const logUtils_1 = require("../utils/logUtils");
 const commonXpath_1 = require("../static/commonXpath");
 const buttonXPaths_1 = require("../static/buttonXPaths");
-//进入查询/退货页面
+/**
+ * 查询操作
+ */
 class Search {
     constructor(client, menuBtnXPath, searchBtnXPath) {
         this.menuBtnXPath = buttonXPaths_1.ButtonXPaths_A8.MENU; //
@@ -18,6 +20,9 @@ class Search {
             this.searchBtnXPath = searchBtnXPath;
         }
     }
+    /**
+     * 进入查询/退货页面
+     */
     async search() {
         let menu = await this.client.$(this.menuBtnXPath);
         await menu.click();
@@ -60,7 +65,9 @@ class Search {
             logUtils_1.LogUtils.search.info("=====查询结束====");
         }
     }
-    //扫码查询订单
+    /**
+     * 扫码查询订单
+     */
     async searchOrder() {
         //手动扫码
         let qr = await this.client.$(commonXpath_1.CommonXpath.QR);
@@ -78,24 +85,17 @@ class Search {
             logUtils_1.LogUtils.search.info("=====查询结束====");
         }
     }
-    isBeforeToday(saleDate) {
-        let beforeToday = false;
-        saleDate = saleDate.replace("/", "").replace("/", "");
-        logUtils_1.LogUtils.search.info(saleDate);
-        let todayDate = new Date().toLocaleDateString().replace("-", "")
-            .replace("-", "");
-        logUtils_1.LogUtils.search.info(todayDate);
-        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
-            beforeToday = true;
-            logUtils_1.LogUtils.search.info("相等");
-        }
-        return beforeToday;
-    }
 }
 exports.Search = Search;
+/**
+ * a8
+ */
 class Search_a8 extends Search {
 }
 exports.Search_a8 = Search_a8;
+/**
+ * elo
+ */
 class Search_elo extends Search {
     constructor(client, menuBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.MENU, searchBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.SEARCH) {
         super(client, menuBtnXPath, searchBtnXPath);

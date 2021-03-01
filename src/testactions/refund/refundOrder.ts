@@ -14,11 +14,19 @@ const deviceName:string = DeviceName.getDeviceName();
 const refBtn_a8 = new RefundBut_a8();
 const refBtn_elo = new RefundBut_elo();
 
+/**
+ * 进行订单退货流程
+ */
 export class RefundOrder {
 
     public static isFind:boolean = false;
-    //输入密码前的操作
-    public static async refundFirst(client:any,orderNo:string,confirm:string){
+
+    /**
+     * 输入密码前的操作
+     * @param client
+     * @param confirm 确认按钮
+     */
+    public static async refundFirst(client:any,confirm:string){
         //    点击申请退货
         let apply = await client.$('//android.widget.Button[@content-desc="申请退货"]');
         await apply.click();
@@ -29,7 +37,12 @@ export class RefundOrder {
         await client.pause(1000);
     }
 
-    //输入密码后的操作
+    /**
+     * 输入密码后的操作
+     * @param client
+     * @param confirm 确认按钮
+     * @param determine 确定按钮
+     */
     public static async refundThen(client:any,confirm:string,determine:string) {
         let confirm1 = await client.$(confirm);
         await confirm1.click();
@@ -40,7 +53,12 @@ export class RefundOrder {
         await client.pause(1000);
     }
 
-    //输入密码
+    /**
+     * 输入密码
+     * @param client
+     * @param determine
+     * @param number
+     */
     public static async refundPass(client:any,determine:string,number:string){
         await client.pause(1000);
         //输入密码
@@ -65,7 +83,12 @@ export class RefundOrder {
     }
 
 
-   //完成退货后的操作
+    /**
+     * 完成退货后的操作
+     * @param client
+     * @param menu
+     * @param home
+     */
     public static async refundOk(client:any,menu:string,home:string){
         let finish = await client.$('//android.widget.Button[@content-desc="完成"]');
         await client.pause(500);
@@ -92,7 +115,7 @@ export class RefundOrder {
     public static async refundOrderToday(client:any,orderNo:string){
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作(今日)=====");
         try{
-            await RefundOrder.refundFirst(client, orderNo,refBtn_a8.confirm);
+            await RefundOrder.refundFirst(client,refBtn_a8.confirm);
             // 输入退货的固定密码
             LogUtils.log.info("请输入授权码");
             let number: string = await GlobalUtil.map.get('backGoods');
@@ -116,7 +139,7 @@ export class RefundOrder {
             await RefundOrder.refundOk(client,refBtn_a8.menu,refBtn_a8.home);
             return true;
         }catch (e){
-            logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------");
+            this.refundException(client);
             return false;
         }
     }
@@ -132,7 +155,7 @@ export class RefundOrder {
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作（隔日）=====");
         // 查询成功，执行退款操作
         try{
-            await RefundOrder.refundFirst(client, orderNo,refBtn_a8.confirm);
+            await RefundOrder.refundFirst(client,refBtn_a8.confirm);
             await RefundOrder.refundThen(client,refBtn_a8.confirm,refBtn_a8.determine);
             //  打印订单耗时
             let tip = await client.$('//android.widget.Button[@content-desc="确定"]');
@@ -150,8 +173,18 @@ export class RefundOrder {
             LogUtils.log.info("====订单"+orderNo+"隔日整单退款成功");
             return true;
         }catch (e) {
-            LogUtils.log.info("====该笔订单预查询失败或退款失败,执行截屏操作===");
-            await ScreenShotUtil.takeScreenShot(client,orderNo);
+            this.refundException(client);
+            return false;
+        }
+
+        }
+
+    /**
+     * 供应商不支持退货异常的操作
+     * @param client
+     */
+    public static async refundException(client:any){
+            LogUtils.log.info("====该笔订单预查询失败或退款失败===");
             try {
                 LogUtils.log.info("监测是否为不支持供应商错误");
                 if (
@@ -168,12 +201,10 @@ export class RefundOrder {
             }
             catch (e) {
             }
-            return false;
-        }
-
         }
 
 }
+
 
 export class  RefundOrder_a8 extends RefundOrder{
 
@@ -184,7 +215,7 @@ export class RefundOrder_elo extends RefundOrder{
     public static async refundOrderToday(client:any,orderNo:string){
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作(今日)=====");
         try{
-            await RefundOrder.refundFirst(client, orderNo,refBtn_elo.determine2);
+            await RefundOrder.refundFirst(client,refBtn_elo.determine2);
             // 输入退货的固定密码
             let fixedpwd=await client.$('//android.view.View[@content-desc="固定密码"] ');
             await fixedpwd.click();
@@ -200,12 +231,7 @@ export class RefundOrder_elo extends RefundOrder{
             await RefundOrder.refundOk(client,refBtn_elo.menu,refBtn_elo.home);
             return true;
         }catch (e){
-            logger.error("----------控件元素未找到--退货程序执行失败--重新启动"+"----------")
-            let pwd:string=GlobalUtil.map.get('backGoods2');
-            await RefundOrder.refundPass(client,refBtn_elo.determine,pwd);
-            //  打印订单耗时
-            await client.pause(10000);
-            await RefundOrder.refundOk(client,refBtn_elo.menu,refBtn_elo.home);
+            this.refundException(client);
             return false;
         }
     }
@@ -214,7 +240,7 @@ export class RefundOrder_elo extends RefundOrder{
     public static async refundBeforeOrder(client: WebdriverIOAsync.BrowserObject,orderNo:string){
         LogUtils.log.info("====对订单"+orderNo+"进行当日整单退款操作（隔日）=====");
         try{
-            await RefundOrder.refundFirst(client, orderNo,refBtn_elo.confirm);
+            await RefundOrder.refundFirst(client,refBtn_elo.confirm);
             await RefundOrder.refundThen(client,refBtn_elo.confirm,refBtn_elo.determine2);
             let number: string = await GlobalUtil.map.get('backGoods2');
             await RefundOrder.refundPass(client,refBtn_elo.determine,number);
@@ -223,24 +249,7 @@ export class RefundOrder_elo extends RefundOrder{
             await RefundOrder.refundOk(client,refBtn_elo.menu,refBtn_elo.home);
             return true;
         }catch (e) {
-            LogUtils.log.info("====该笔订单预查询失败或退款失败,执行截屏操作===");
-            await ScreenShotUtil.takeScreenShot(client,orderNo);
-            try {
-                LogUtils.log.info("监测是否为不支持供应商错误");
-                if (
-                    await client.isElementDisplayed((await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]')).elementId)) {
-                    // let tip = await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]');
-                    let confirm = await client.$('//android.widget.Button[@content-desc="确定"]');
-                    await confirm.click();
-                    await client.pause(500);
-                    let back = await client.$('//android.widget.Button[@content-desc="arrow back "]');
-                    await back.click();
-                    RefundOrder.isFind = true;
-                    LogUtils.log.info('-----------------订单支付行包含指定支付供应商, 不支持退货-------------');
-                }
-            }
-            catch (e) {
-            }
+            this.refundException(client);
             return false;
         }
     }

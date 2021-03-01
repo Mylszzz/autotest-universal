@@ -6,7 +6,9 @@ import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
 import set = Reflect.set;
 
 
-//进入查询/退货页面
+/**
+ * 查询操作
+ */
 export class Search {
     client: wdio.BrowserObject;
     menuBtnXPath: string = ButtonXPaths_A8.MENU;  //
@@ -22,6 +24,9 @@ export class Search {
         }
     }
 
+    /**
+     * 进入查询/退货页面
+     */
     public async search() {
         let menu = await this.client.$(this.menuBtnXPath);
         await menu.click();
@@ -68,7 +73,9 @@ export class Search {
         }
     }
 
-    //扫码查询订单
+    /**
+     * 扫码查询订单
+     */
     public async searchOrder() {
         //手动扫码
         let qr = await this.client.$(CommonXpath.QR);
@@ -90,26 +97,18 @@ export class Search {
 
     }
 
-    public isBeforeToday(saleDate:string):boolean {
-        let beforeToday:boolean= false;
-        saleDate = saleDate.replace("/", "").replace("/", "");
-        LogUtils.search.info(saleDate);
-        let todayDate:string = new Date().toLocaleDateString().replace("-", "")
-            .replace("-", "");
-        LogUtils.search.info(todayDate);
-        if (Number.parseInt(saleDate) == Number.parseInt(todayDate)) {
-           beforeToday = true;
-           LogUtils.search.info("相等");
-        }
-        return beforeToday;
-    }
-
 
 }
 
+/**
+ * a8
+ */
 export class Search_a8 extends Search {
 }
 
+/**
+ * elo
+ */
 export class Search_elo extends Search {
     public constructor(client: wdio.BrowserObject, menuBtnXPath = ButtonXPaths_Elo.MENU,
                        searchBtnXPath = ButtonXPaths_Elo.SEARCH) {

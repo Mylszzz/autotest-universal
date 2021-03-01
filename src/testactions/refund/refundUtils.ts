@@ -141,10 +141,6 @@ export class RefundOnce implements IRefundInfo{
         return this.orderNo;
     }
 
-    public setIsSuccess(y:string){
-         this.isSuccess = y;
-    }
-
 
     public getBeforeToday():boolean {
         return this.beforeToday;

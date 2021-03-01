@@ -30,8 +30,6 @@ export class RefundAction {
      * @returns {Promise<void>}
      */
     public async refundProcess() {
-        //let search_a8 = new Search_a8(this.client);
-        let search_elo = new Search_elo(this.client);
         let refundPreparation = new RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
 
@@ -46,10 +44,10 @@ export class RefundAction {
               let beforeToday= refundOnce.getBeforeToday();
                 let refundData = new RefundData();
                 try {
-                    let search_a8 = new Search_a8(this.client);
-                    await search_a8.search();
-                    await search_a8.searchNum(orderNo);
                     if (this.deviceName == 'a8') {
+                        let search_a8 = new Search_a8(this.client);
+                        await search_a8.search();
+                        await search_a8.searchNum(orderNo);
                         if (beforeToday) {
                             refundData.isSuccess = await RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         } else {
@@ -58,6 +56,9 @@ export class RefundAction {
                             refundData.isSuccess = await RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                     } else {
+                        let search_elo = new Search_elo(this.client);
+                        await search_elo.search();
+                        await search_elo.searchNum(orderNo);
                  //       await search_elo.search();
                         if (beforeToday) {
                             //进行隔日订单退货，并判断是否成功
@@ -68,9 +69,6 @@ export class RefundAction {
                         }
 
                     }
-                    if(refundData.isSuccess){
-                        refundOnce.setIsSuccess('Y');
-                    }
 
                 } catch (e) {
                     LogUtils.log.info("===退货出错，执行截屏操作===");
@@ -78,11 +76,11 @@ export class RefundAction {
                 }
 
                 // //退货数据的赋值，用于输出退货测试数据
-                // refundData.refundPrice = refundOnce.getPrice();
-                // refundData.refundOrderNo = "'" + orderNo;
-                // refundData.refundTime = new Date().toLocaleDateString();
-                // refundDataList.push(refundData);
-                // ExportCsv.printRefundData(CsvOptions.refundOptions, refundDataList, Tools.guid());
+                 refundData.refundPrice = refundOnce.getPrice();
+                 refundData.refundOrderNo = "'" + orderNo;
+                 refundData.refundTime = new Date().toLocaleDateString();
+                 refundDataList.push(refundData);
+                 ExportCsv.printRefundData(CsvOptions.refundOptions, refundDataList, Tools.guid());
 
             }
         }

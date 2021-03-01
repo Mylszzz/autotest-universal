@@ -117,9 +117,6 @@ class RefundOnce {
     getOrderNo() {
         return this.orderNo;
     }
-    setIsSuccess(y) {
-        this.isSuccess = y;
-    }
     getBeforeToday() {
         return this.beforeToday;
     }
