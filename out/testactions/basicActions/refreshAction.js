@@ -36,6 +36,7 @@ class RefreshAction {
 }
 /**
  * A8的菜单键和刷新店铺键的xPath与父类中默认的不同，需要修改
+ * 单例模式
  */
 const menuBtnXPath_A8 = buttonXPaths_1.ButtonXPaths_A8.MENU;
 const refreshBtnXPath_A8 = buttonXPaths_1.ButtonXPaths_A8.REFRESH;
@@ -43,11 +44,23 @@ class RefreshAction_A8 extends RefreshAction {
     constructor(client, menuBtnXPath = menuBtnXPath_A8, refreshBtnXPath = refreshBtnXPath_A8) {
         super(client, menuBtnXPath, refreshBtnXPath);
     }
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new RefreshAction_A8(client);
+        }
+        return this.instance;
+    }
 }
 exports.RefreshAction_A8 = RefreshAction_A8;
 /**
  * Elo可以直接继承
  */
 class RefreshAction_Elo extends RefreshAction {
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new RefreshAction_Elo(client);
+        }
+        return this.instance;
+    }
 }
 exports.RefreshAction_Elo = RefreshAction_Elo;

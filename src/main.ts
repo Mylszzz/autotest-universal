@@ -2,7 +2,6 @@ import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {ReadCSV} from "./utils/readCSV";
-import {VipMixedPayment} from "./testactions/sale/vipMixedPayment";
 import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
@@ -44,7 +43,7 @@ async function salesSettlement() {
     登录模块
      */
     await LoginAction.login(client);
-    await VipLoginAction.vipLogin(client);
+    // await VipLoginAction.vipLogin(client);
     /*
     销售模块
      */

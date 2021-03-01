@@ -7,7 +7,6 @@ const tools_1 = require("./utils/tools");
 const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
 const saleMainLoop_1 = require("./testactions/sale/saleMainLoop");
-const deviceActions_2 = require("./testactions/deviceActions");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
@@ -33,7 +32,7 @@ async function salesSettlement() {
     登录模块
      */
     await deviceActions_1.LoginAction.login(client);
-    await deviceActions_2.VipLoginAction.vipLogin(client);
+    // await VipLoginAction.vipLogin(client);
     /*
     销售模块
      */

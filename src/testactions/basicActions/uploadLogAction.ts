@@ -16,7 +16,7 @@ class UploadLogAction {
     /*
     xPaths: IXPaths对象，包括了四个按键的xPath
      */
-    constructor(client:wdio.BrowserObject, xPaths:IXPaths) {
+    protected constructor(client:wdio.BrowserObject, xPaths:IXPaths) {
         this.client = client;
         this.menuBtnXPath = xPaths.menuBtnXPath;
         this.uploadLogBtnXPath = xPaths.uploadLogBtnXPath;
@@ -26,7 +26,7 @@ class UploadLogAction {
 
     // 上传当天日志
     public async uploadTodayLog() {
-        LogUtils.log.info('=====上传日志--》上传当天日志开始====');
+        LogUtils.log.info('*****上传当天日志开始*****');
         let menuBtn = await this.client.$(this.menuBtnXPath);  // 菜单按钮的实例
         await menuBtn.click();  // 点击
         await this.client.pause(1000);  // 等待点击后系统响应
@@ -35,7 +35,7 @@ class UploadLogAction {
         await this.client.pause(1000);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath);  // 上传当日日志的实例
         await uploadTodayLogBtn.click();
-        LogUtils.log.info("=====上传日志--》上传当天日志符合预期==");  // TODO: 缺少判断
+        LogUtils.log.info("*****上传当天日志符合预期*****");  // TODO: 缺少判断
         await this.client.pause(5000);  // 需要等比较久
     }
 
@@ -64,9 +64,21 @@ const xPaths_a8:IXPaths = {
     uploadOtherDayLogBtnXPath:ButtonXPaths_A8.UPLOADOTHERDAYLOG
 };
 
+/**
+ * A8的具体类, 单例模式
+ */
 export class UploadLogAction_A8 extends UploadLogAction {
-    public constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_a8) {
+    private static instance:UploadLogAction_A8;
+
+    private constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_a8) {
         super(client, xPaths);
+    }
+
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new UploadLogAction_A8(client);
+        }
+        return this.instance;
     }
 }
 
@@ -80,14 +92,27 @@ const xPaths_elo:IXPaths = {
     uploadOtherDayLogBtnXPath:ButtonXPaths_Elo.UPLOADOTHERDAYLOG
 };
 
+/**
+ * Elo的具体类, 单例模式
+ */
 export class UploadLogAction_Elo extends UploadLogAction {
-    public constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_elo) {
+    private static instance:UploadLogAction_Elo;
+
+    private constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_elo) {
         super(client, xPaths);
+    }
+
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new UploadLogAction_Elo(client);
+        }
+        return this.instance;
     }
 }
 
 /**
  * 需要传入的xPath的接口规范
+ * 参数整合
  */
 interface IXPaths {
     menuBtnXPath:string,  // 菜单键的xPath

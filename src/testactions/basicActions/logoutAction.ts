@@ -16,13 +16,27 @@ interface ILogout {
 
 
 /**
- * A8
+ * A8的退出脚本具体类
+ * 单例模式
  */
 export class LogoutAction_A8 implements ILogout {
     client:wdio.BrowserObject;
+    private static instance:LogoutAction_A8;
 
-    public constructor(client:wdio.BrowserObject) {
+    private constructor(client:wdio.BrowserObject) {
         this.client = client;
+    }
+
+    /**
+     * 获得LogoutAction_A8的唯一实例
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {LogoutAction_A8}
+     */
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new LogoutAction_A8(client);
+        }
+        return this.instance;
     }
 
     // 退出登录
@@ -56,9 +70,22 @@ export class LogoutAction_A8 implements ILogout {
  */
 export class LogoutAction_Elo implements ILogout {
     client:wdio.BrowserObject;
+    private static instance:LogoutAction_Elo;
 
-    public constructor(client:wdio.BrowserObject) {
+    private constructor(client:wdio.BrowserObject) {
         this.client = client;
+    }
+
+    /**
+     * 获得LogoutAction_A8的唯一实例
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {LogoutAction_A8}
+     */
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new LogoutAction_Elo(client);
+        }
+        return this.instance;
     }
 
     // 退出登录

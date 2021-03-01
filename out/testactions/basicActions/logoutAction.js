@@ -5,11 +5,23 @@ const logUtils_1 = require("../../utils/logUtils");
 const position_1 = require("../../utils/position");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 /**
- * A8
+ * A8的退出脚本具体类
+ * 单例模式
  */
 class LogoutAction_A8 {
     constructor(client) {
         this.client = client;
+    }
+    /**
+     * 获得LogoutAction_A8的唯一实例
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {LogoutAction_A8}
+     */
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new LogoutAction_A8(client);
+        }
+        return this.instance;
     }
     // 退出登录
     async accountLogout() {
@@ -41,6 +53,17 @@ exports.LogoutAction_A8 = LogoutAction_A8;
 class LogoutAction_Elo {
     constructor(client) {
         this.client = client;
+    }
+    /**
+     * 获得LogoutAction_A8的唯一实例
+     * @param {WebdriverIO.BrowserObject} client
+     * @returns {LogoutAction_A8}
+     */
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new LogoutAction_Elo(client);
+        }
+        return this.instance;
     }
     // 退出登录
     async accountLogout() {

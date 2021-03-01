@@ -13,7 +13,7 @@ export class CancelReturns {
     client:wdio.BrowserObject;
     backBtnXPath:string = ButtonXPaths_A8.BACK;  //
 
-    public constructor (client:wdio.BrowserObject, backBtnXPath?:string) {
+    protected constructor (client:wdio.BrowserObject, backBtnXPath?:string) {
         this.client = client;
         if (backBtnXPath != undefined) {  //
             this.backBtnXPath = backBtnXPath;
@@ -48,15 +48,31 @@ export class CancelReturns {
  * a8 直接继承
  */
 export class CancelReturns_A8 extends CancelReturns {
+    private static instance:CancelReturns;
 
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new CancelReturns_A8(client);
+        }
+        return this.instance;
+    }
 }
 
 /**
  * elo 需要更改xpath控件
  */
 export class CancelReturns_ELO extends CancelReturns {
-    public constructor (client:wdio.BrowserObject, backBtnXPath = ButtonXPaths_Elo.BACK
+    private static instance:CancelReturns_ELO;
+
+    private constructor (client:wdio.BrowserObject, backBtnXPath = ButtonXPaths_Elo.BACK
                        ) {
         super(client, backBtnXPath);
+    }
+
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null == this.instance) {
+            this.instance = new CancelReturns_ELO(client);
+        }
+        return this.instance;
     }
 }

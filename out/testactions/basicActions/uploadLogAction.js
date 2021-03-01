@@ -20,7 +20,7 @@ class UploadLogAction {
     }
     // 上传当天日志
     async uploadTodayLog() {
-        logUtils_1.LogUtils.log.info('=====上传日志--》上传当天日志开始====');
+        logUtils_1.LogUtils.log.info('*****上传当天日志开始*****');
         let menuBtn = await this.client.$(this.menuBtnXPath); // 菜单按钮的实例
         await menuBtn.click(); // 点击
         await this.client.pause(1000); // 等待点击后系统响应
@@ -29,7 +29,7 @@ class UploadLogAction {
         await this.client.pause(1000);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath); // 上传当日日志的实例
         await uploadTodayLogBtn.click();
-        logUtils_1.LogUtils.log.info("=====上传日志--》上传当天日志符合预期=="); // TODO: 缺少判断
+        logUtils_1.LogUtils.log.info("*****上传当天日志符合预期*****"); // TODO: 缺少判断
         await this.client.pause(5000); // 需要等比较久
     }
     // 上传其他日日志
@@ -55,9 +55,18 @@ const xPaths_a8 = {
     uploadTodayLogBtnXPath: buttonXPaths_1.ButtonXPaths_A8.UPLOADTODAYLOG,
     uploadOtherDayLogBtnXPath: buttonXPaths_1.ButtonXPaths_A8.UPLOADOTHERDAYLOG
 };
+/**
+ * A8的具体类, 单例模式
+ */
 class UploadLogAction_A8 extends UploadLogAction {
     constructor(client, xPaths = xPaths_a8) {
         super(client, xPaths);
+    }
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new UploadLogAction_A8(client);
+        }
+        return this.instance;
     }
 }
 exports.UploadLogAction_A8 = UploadLogAction_A8;
@@ -70,9 +79,18 @@ const xPaths_elo = {
     uploadTodayLogBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.UPLOADTODAYLOG,
     uploadOtherDayLogBtnXPath: buttonXPaths_1.ButtonXPaths_Elo.UPLOADOTHERDAYLOG
 };
+/**
+ * Elo的具体类, 单例模式
+ */
 class UploadLogAction_Elo extends UploadLogAction {
     constructor(client, xPaths = xPaths_elo) {
         super(client, xPaths);
+    }
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new UploadLogAction_Elo(client);
+        }
+        return this.instance;
     }
 }
 exports.UploadLogAction_Elo = UploadLogAction_Elo;

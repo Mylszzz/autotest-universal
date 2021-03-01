@@ -20,8 +20,8 @@ class SaleMainLoop {
      * @param client
      */
     static salePreparation(client) {
-        if (this.dataPreparationInstance == null) {
-            this.dataPreparationInstance = new saleDataPreparation_1.SaleDataPreparation();
+        if (null == this.dataPreparationInstance) {
+            this.dataPreparationInstance = saleDataPreparation_1.SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();
         }
         if (this.csvGenerator == null) {
@@ -31,6 +31,7 @@ class SaleMainLoop {
             this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
                 new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
         }
+        this.client = client;
         this.title = this.dataPreparationInstance.getTitle();
         this.rows = this.dataPreparationInstance.getRows();
     }
@@ -38,14 +39,16 @@ class SaleMainLoop {
      * 销售测试的主循环
      */
     static async saleMainLoop() {
-        // 最后一行会有一个空行
-        for (let i = 1; i <= this.rows.length - 1; i++) {
+        // csv的最后一行会有一个空行，所以少循环一行
+        for (let i = 1; i < this.rows.length - 1; i++) {
             this.dataInstance = await new saleDataPreparation_1.SingleSaleDataPreparation(i, this.title, this.rows[i]);
+            logUtils_1.LogUtils.saleLog.info('******开始测试第【' + i.toString() + '】单销售测试用例******');
             if (deviceName_1.DeviceName.getDeviceName() == 'a8') {
                 logUtils_1.LogUtils.saleLog.info(this.dataInstance.getSaleData());
                 this.saleInstance = await new saleAction_1.SaleAction_A8(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
             }
             else if (deviceName_1.DeviceName.getDeviceName() == 'elo') {
+                logUtils_1.LogUtils.saleLog.info(this.dataInstance.getSaleData());
                 this.saleInstance = await new saleAction_1.SaleAction_Elo(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
             }
             await this.saleInstance.saleAction();
