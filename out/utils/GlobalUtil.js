@@ -50,7 +50,7 @@ class GlobalUtil {
      * 读取json文件，获得配置参数的map集合
      */
     static readTest() {
-        logUtils_1.LogUtils.log.info("===开始获取自动化测试的配置参数===");
+        logUtils_1.LogUtils.log.info("***开始获取自动化测试的配置参数***");
         //读取json自动化测试所需参数
         let buffer;
         let fileName = '../../globalconfig_' + deviceName + '.json'; // 例如: ../../globalconfig_a8.json
@@ -60,7 +60,7 @@ class GlobalUtil {
         for (let obj of Object.keys(JSON.parse(data))) {
             GlobalUtil.configMap.set(obj, JSON.parse(data)[obj]);
         }
-        logUtils_1.LogUtils.log.info("===获取自动化测试的配置参数完成===");
+        logUtils_1.LogUtils.log.info("***获取自动化测试的配置参数完成***");
     }
     // 初始化，获取配置信息
     static init() {

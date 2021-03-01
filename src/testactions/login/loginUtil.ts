@@ -7,7 +7,8 @@ import {BasicException, LoginException} from "../../utils/exceptions";
 /**
  * device 的抽象类
  * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
- * 需要实现2个抽象方法
+ * 需要实现3个抽象方法
+ * 具体子类应该使用单例是设计模式
  */
 export abstract class Device {
     public client: wdio.BrowserObject;
@@ -31,14 +32,23 @@ export abstract class Device {
 
 
 export class Device_A8 extends Device {
-    constructor(client: wdio.BrowserObject) {
+    private static instance :Device_A8;
+
+    private constructor(client: wdio.BrowserObject) {
         super(client)
+    }
+
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null ==  this.instance) {
+            this.instance = new Device_A8(client);
+        }
+        return this.instance;
     }
 
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils.loginLog.info("====开始进行商户登录===");
+            LogUtils.loginLog.info("****开始进行商户登录****");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
         } catch (e) {
@@ -66,8 +76,7 @@ export class Device_A8 extends Device {
                 await this.client.setImplicitTimeout(100);  // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
-                    LogUtils.loginLog.info("============login finish=============" + new Date());
-                    LogUtils.loginLog.info("====商户登录成功===");
+                    LogUtils.loginLog.info("*********商户登录成功*********"+ new Date());
                 } else {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
                     throw new LoginException('L0001', '登录失败！');
@@ -88,20 +97,29 @@ export class Device_A8 extends Device {
 
     async reboot() {
         await this.client.startActivity('net.ttoto.grandjoy.hbirdpos', 'net.ttoto.grandjoy.hbirdpos.MainActivity');
-        LogUtils.loginLog.warn("----------设备重新启动了！！！！");
+        LogUtils.loginLog.warn("******设备重新启动了！******");
         await this.loginProcess();
     }
 }
 
 export class Device_Elo extends Device {
-    constructor(client: wdio.BrowserObject) {
+    private static instance:Device_Elo;
+
+    private constructor(client: wdio.BrowserObject) {
         super(client)
+    }
+
+    public static getInstance(client:wdio.BrowserObject) {
+        if (null ==  this.instance) {
+            this.instance = new Device_Elo(client);
+        }
+        return this.instance;
     }
 
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils.loginLog.info("====开始进行商户登录===");
+            LogUtils.loginLog.info("****开始进行商户登录****");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
         } catch (e) {
@@ -126,9 +144,7 @@ export class Device_Elo extends Device {
             );
             // 缓冲
             await this.client.$('//android.view.View[@content-desc="会员"]');
-
-            console.log("============login finish=============" + new Date());
-            LogUtils.loginLog.info("====商户登录成功===");
+            LogUtils.loginLog.info("*********商户登录成功*********"+ new Date());
         } catch (e) {
             LogUtils.loginLog.error(e);
         }

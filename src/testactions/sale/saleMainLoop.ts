@@ -31,8 +31,8 @@ export class SaleMainLoop {
      * @param client
      */
     public static salePreparation(client:any) {
-        if (this.dataPreparationInstance == null) {
-            this.dataPreparationInstance = new SaleDataPreparation();
+        if (null == this.dataPreparationInstance) {
+            this.dataPreparationInstance = SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();
         }
 
@@ -45,6 +45,7 @@ export class SaleMainLoop {
                 new Date().getDate() + "-" + Tools.guid() + ".csv";
         }
 
+        this.client = client;
         this.title = this.dataPreparationInstance.getTitle();
         this.rows = this.dataPreparationInstance.getRows();
     }
@@ -53,15 +54,17 @@ export class SaleMainLoop {
      * 销售测试的主循环
      */
     public static async saleMainLoop() {
-        // 最后一行会有一个空行
-        for (let i = 1; i <= this.rows.length - 1; i++) {
+        // csv的最后一行会有一个空行，所以少循环一行
+        for (let i = 1; i < this.rows.length - 1; i++) {
             this.dataInstance = await new SingleSaleDataPreparation(i, this.title, this.rows[i]);
 
+            LogUtils.saleLog.info('******开始测试第【' + i.toString() +'】单销售测试用例******');
 
             if (DeviceName.getDeviceName() == 'a8') {
                 LogUtils.saleLog.info(this.dataInstance.getSaleData());
                 this.saleInstance = await new SaleAction_A8(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
             } else if (DeviceName.getDeviceName() == 'elo') {
+                LogUtils.saleLog.info(this.dataInstance.getSaleData());
                 this.saleInstance = await new SaleAction_Elo(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
             }
 

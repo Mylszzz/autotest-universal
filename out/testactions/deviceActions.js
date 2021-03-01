@@ -17,11 +17,11 @@ class LoginAction {
     constructor() { }
     // main中需要调用的方法
     static async login(client) {
-        if (deviceName == 'a8' && this.device_instance == null) {
-            this.device_instance = new loginUtil_1.Device_A8(client);
+        if (deviceName == 'a8' && null == this.device_instance) {
+            this.device_instance = loginUtil_1.Device_A8.getInstance(client);
         }
         else if (deviceName == 'elo' && this.device_instance == null) {
-            this.device_instance = new loginUtil_1.Device_Elo(client);
+            this.device_instance = loginUtil_1.Device_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 10秒Timeout
         await this.device_instance.getDeviceConfig();
@@ -45,22 +45,22 @@ class LogoutAction {
     constructor() { }
     // 退出登录
     static async accountLogout(client) {
-        if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new logoutAction_1.LogoutAction_A8(client);
+        if (deviceName == 'a8' && null == this.instance) {
+            this.instance = logoutAction_1.LogoutAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new logoutAction_1.LogoutAction_Elo(client);
+        else if (deviceName == 'elo' && null == this.instance) {
+            this.instance = logoutAction_1.LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
         await this.instance.accountLogout();
     }
     // 退出程序
     static async sysLogout(client) {
-        if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new logoutAction_1.LogoutAction_A8(client);
+        if (deviceName == 'a8' && null == this.instance) {
+            this.instance = logoutAction_1.LogoutAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new logoutAction_1.LogoutAction_Elo(client);
+        else if (deviceName == 'elo' && null == this.instance) {
+            this.instance = logoutAction_1.LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
         await this.instance.sysLogout();
@@ -74,11 +74,11 @@ exports.LogoutAction = LogoutAction;
 class RefreshAction {
     constructor() { }
     static async refreshAction(client) {
-        if (deviceName == 'a8' && this.instance == null) { // 如果设备名字为A8并且实例还未创建
-            this.instance = new refreshAction_1.RefreshAction_A8(client); // 创建用于刷新的A8实例
+        if (deviceName == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
+            this.instance = refreshAction_1.RefreshAction_A8.getInstance(client); // 创建用于刷新的A8实例
         }
-        else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new refreshAction_1.RefreshAction_Elo(client);
+        else if (deviceName == 'elo' && null == this.instance) {
+            this.instance = refreshAction_1.RefreshAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
         await this.instance.refresh();
@@ -92,11 +92,11 @@ exports.RefreshAction = RefreshAction;
 class CancelReturns {
     constructor() { }
     static async refreshAction(client) {
-        if (deviceName == 'a8' && this.instance == null) { // 如果设备名字为A8并且实例还未创建
-            this.instance = new CancelReturns_1.CancelReturns_A8(client); // 创建用于刷新的A8实例
+        if (deviceName == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
+            this.instance = CancelReturns_1.CancelReturns_A8.getInstance(client); // 创建用于刷新的A8实例
         }
-        else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new CancelReturns_1.CancelReturns_ELO(client);
+        else if (deviceName == 'elo' && null == this.instance) {
+            this.instance = CancelReturns_1.CancelReturns_ELO.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
         await this.instance.cancelReturns();
@@ -112,11 +112,11 @@ class UploadLogAction {
     constructor() { }
     // 上传当日日志的方法
     static async uploadTodayLogAction(client) {
-        if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new uploadLogAction_1.UploadLogAction_A8(client);
+        if (deviceName == 'a8' && null == this.instance) {
+            this.instance = uploadLogAction_1.UploadLogAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new uploadLogAction_1.UploadLogAction_Elo(client);
+        else if (deviceName == 'elo' && null == this.instance) {
+            this.instance = uploadLogAction_1.UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
         await this.instance.uploadTodayLog();
@@ -124,10 +124,10 @@ class UploadLogAction {
     // 上传非当日日志的方法
     static async uploadOtherDayLogAction(client) {
         if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new uploadLogAction_1.UploadLogAction_A8(client);
+            this.instance = uploadLogAction_1.UploadLogAction_A8.getInstance(client);
         }
         else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new uploadLogAction_1.UploadLogAction_Elo(client);
+            this.instance = uploadLogAction_1.UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
         await this.instance.uploadOtherDayLog();

@@ -43,6 +43,12 @@ exports.CancelReturns = CancelReturns;
  * a8 直接继承
  */
 class CancelReturns_A8 extends CancelReturns {
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new CancelReturns_A8(client);
+        }
+        return this.instance;
+    }
 }
 exports.CancelReturns_A8 = CancelReturns_A8;
 /**
@@ -51,6 +57,12 @@ exports.CancelReturns_A8 = CancelReturns_A8;
 class CancelReturns_ELO extends CancelReturns {
     constructor(client, backBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.BACK) {
         super(client, backBtnXPath);
+    }
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new CancelReturns_ELO(client);
+        }
+        return this.instance;
     }
 }
 exports.CancelReturns_ELO = CancelReturns_ELO;

@@ -9,13 +9,26 @@ import NP from 'number-precision';
 const csvFixedHeader:string[] = ['saleTime','orderNo','price'];  // 输出csv的固定字段部分
 /**
  * 全部条销售测试用例的数据准备
+ * 单例模式
  */
 export class SaleDataPreparation {
     private rows:string[] = [];  // 从销售测试用例csv文件中读取到的每一行数据的数组
     private title:string[] = [];  // csv文件的首行是销售测试用例的字段
+    private static instance:SaleDataPreparation;
 
-    public constructor() {
+    private constructor() {
 
+    }
+
+    /**
+     * 获取SaleDataPreparation实例
+     * @returns {SaleDataPreparation}
+     */
+    public static getInstance():SaleDataPreparation {
+        if (!this.instance) {
+            this.instance = new SaleDataPreparation();
+        }
+        return this.instance;
     }
 
     /**

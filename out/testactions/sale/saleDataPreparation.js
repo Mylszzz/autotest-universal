@@ -12,11 +12,22 @@ const number_precision_1 = __importDefault(require("number-precision"));
 const csvFixedHeader = ['saleTime', 'orderNo', 'price']; // 输出csv的固定字段部分
 /**
  * 全部条销售测试用例的数据准备
+ * 单例模式
  */
 class SaleDataPreparation {
     constructor() {
         this.rows = []; // 从销售测试用例csv文件中读取到的每一行数据的数组
         this.title = []; // csv文件的首行是销售测试用例的字段
+    }
+    /**
+     * 获取SaleDataPreparation实例
+     * @returns {SaleDataPreparation}
+     */
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new SaleDataPreparation();
+        }
+        return this.instance;
     }
     /**
      * 用于读取销售流程的测试用例

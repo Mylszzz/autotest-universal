@@ -12,7 +12,7 @@ class RefreshAction {
     /*
     传入参数：client: webdriverio.BrowserObject, menuBtnXPath:菜单键的xPath, refreshBtnXPath:刷新店铺键的xPath
      */
-    public constructor (client:wdio.BrowserObject, menuBtnXPath?:string, refreshBtnXPath?:string) {
+    protected constructor (client:wdio.BrowserObject, menuBtnXPath?:string, refreshBtnXPath?:string) {
         this.client = client;
         if (menuBtnXPath != undefined) {  //如果传入参数，则修改menu button的xPath
             this.menuBtnXPath = menuBtnXPath;
@@ -38,17 +38,36 @@ class RefreshAction {
 
 /**
  * A8的菜单键和刷新店铺键的xPath与父类中默认的不同，需要修改
+ * 单例模式
  */
 const menuBtnXPath_A8 = ButtonXPaths_A8.MENU;
 const refreshBtnXPath_A8 = ButtonXPaths_A8.REFRESH;
 export class RefreshAction_A8 extends RefreshAction {
-    public constructor (client:wdio.BrowserObject, menuBtnXPath = menuBtnXPath_A8,
+    private static instance:RefreshAction_A8;
+
+    private constructor (client:wdio.BrowserObject, menuBtnXPath = menuBtnXPath_A8,
                         refreshBtnXPath = refreshBtnXPath_A8) {
         super(client, menuBtnXPath, refreshBtnXPath);
+    }
+
+    public static getInstance(client:wdio.BrowserObject):RefreshAction {
+        if (null == this.instance) {
+            this.instance = new RefreshAction_A8(client);
+        }
+        return this.instance;
     }
 }
 
 /**
  * Elo可以直接继承
  */
-export class RefreshAction_Elo extends RefreshAction {}
+export class RefreshAction_Elo extends RefreshAction {
+    private static instance:RefreshAction_Elo;
+
+    public static getInstance(client:wdio.BrowserObject):RefreshAction {
+        if (null == this.instance) {
+            this.instance = new RefreshAction_Elo(client);
+        }
+        return this.instance;
+    }
+}
