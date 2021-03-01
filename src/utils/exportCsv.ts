@@ -1,5 +1,6 @@
 import fs from "fs";
 import {ExportToCsv, Options} from "ts-export-to-csv";
+import {SaleData} from "../entity/saleData";
 import * as path from "path";
 
 
@@ -11,7 +12,7 @@ export class ExportCsv {
      * @param data: 二元数组 string[][]
      * @param {string} fileName: 输出的文件名
      */
-    public static printSaleData(options:any,data:any,fileName:string) {
+    public static printSaleData(options:any,data:SaleData[],fileName:string) {
         const csvExporter = new ExportToCsv(options);
 
         const csvData = csvExporter.generateCsv(data, true);
@@ -23,6 +24,7 @@ export class ExportCsv {
         // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
         // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
     }
+
     public static printRefundData(options:any,refundData:any,fileName:string) {
         const csvExporter = new ExportToCsv(options);
         const csvData = csvExporter.generateCsv(refundData, true);

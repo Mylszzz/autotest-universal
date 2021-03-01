@@ -41,7 +41,6 @@ export class GlobalUtil {
         let fileName:string = '../../globalconfig_'+deviceName+'.json';  // 例如: ../../globalconfig_a8.json
         buffer=fs.readFileSync(path.join(__dirname, fileName));
         let data=buffer.toString();
-        console.log(JSON.parse(data));
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值
         for (let obj of Object.keys(JSON.parse(data))){
             GlobalUtil.configMap.set(obj,JSON.parse(data)[obj])

@@ -5,7 +5,7 @@ export class TouchMethod {
     /**
      * @returns 返回点击屏幕输入的方法
      * str: 需要点击的数字转化成的字符串，支持0~9和.
-     * coordMap: 触摸事件需要的相关的坐标Map
+     * coordMap: 触摸事件需要的相关的坐标Map，可以使用src/static/inputCoordinates.ts下get方法获得
      */
     public static getTouchMethod(): any {
 
@@ -19,7 +19,7 @@ export class TouchMethod {
                     y = coorMap.get(char).y;
                 }
                 catch (e) {
-                    LogUtils.log.error(new BasicException('A0001', '尝试只用触摸输入失败').toString());
+                    LogUtils.log.error(new BasicException('A0001', '尝试使用触摸输入失败').toString());
                 } finally {
                     await this.touchXY(client, Number.parseInt(x), Number.parseInt(y));
                 }

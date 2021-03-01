@@ -18,8 +18,6 @@ export class CsvOptions {
                 useBom: true,
                 useKeysAsHeaders: false,
                 columnHeaders:headers,
-                // headers: ['Column 1', 'Column 2', etc...], <-- Won't work with useKeysAsHeaders present!
-                // additionalHeaders: [{columns: ["HeaderRow1Column1", "HeaderRow1Column2"]}, {columns: ["HeaderRow2Column1","HeaderRow2Column2"]}]
             }
         }
         else {
@@ -32,8 +30,6 @@ export class CsvOptions {
                 useBom: true,
                 useKeysAsHeaders: false,
                 // columnHeaders:headers,
-                // headers: ['Column 1', 'Column 2', etc...], <-- Won't work with useKeysAsHeaders present!
-                // additionalHeaders: [{columns: ["HeaderRow1Column1", "HeaderRow1Column2"]}, {columns: ["HeaderRow2Column1","HeaderRow2Column2"]}]
             }
         }
         return this.options;
@@ -41,7 +37,6 @@ export class CsvOptions {
 
     /**
      * 退款的Option
-     * @type {{fieldSeparator: string; quoteStrings: string; decimalSeparator: string; showLabels: boolean; useTextFile: boolean; useBom: boolean; useKeysAsHeaders: boolean}}
      */
     public static refundOptions = {
         fieldSeparator: ',',
