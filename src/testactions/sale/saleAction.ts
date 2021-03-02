@@ -88,7 +88,7 @@ class SaleAction_A8 extends SaleAction {
     async saleActionStep2() {
         try {
             LogUtils.saleLog.info("******开始执行脚本******");
-            let configMap: Map = GlobalUtil.getConfigMap();
+            let configMap: Map<string, string> = GlobalUtil.getConfigMap();
             let toSale = await this.client.$('//android.view.View[@content-desc="货号:' +
                 configMap.get('storeNumber') + '"]');
             await toSale.click();

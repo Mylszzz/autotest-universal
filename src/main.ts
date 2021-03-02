@@ -1,16 +1,10 @@
 import {SingleDriver} from "./driver";
-import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
+import {LoginAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
-import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
-import {Screen} from "./testactions/basicActions/screen";
-import {Search, Search_a8} from "./testactions/basicActions/search";
-import {CancelReturns} from "./testactions/refund/cancelReturns";
-import {RefundAction} from "./testactions/refund/refundAction";
 import {SaleMainLoop} from "./testactions/sale/saleMainLoop";
-import {VipLoginAction} from "./testactions/deviceActions";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";

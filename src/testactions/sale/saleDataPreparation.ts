@@ -37,7 +37,7 @@ export class SaleDataPreparation {
      * @returns {Map}
      */
     public readFile() {
-        let data = fs.readFileSync(GlobalUtil.getConfigMap().get('csv'));
+        let data = fs.readFileSync(<string>GlobalUtil.getConfigMap().get('csv'));
         let buffer = iconv.decode(data, "gbk");  // 文件的编码格式是GBK
         let string = buffer.toString();
         //读取每一行的数据

@@ -1,4 +1,4 @@
-import {Login, Device_A8, Device_Elo} from "./login/loginUtil";
+import {Device_A8, Device_Elo, Login} from "./login/loginUtil";
 import {LogoutAction_A8, LogoutAction_Elo} from "./basicActions/logoutAction";
 import {RefreshAction_A8, RefreshAction_Elo} from "./basicActions/refreshAction";
 import {UploadLogAction_A8, UploadLogAction_Elo} from "./basicActions/uploadLogAction";
