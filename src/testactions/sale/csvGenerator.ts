@@ -1,5 +1,4 @@
 import {ExportCsv} from "../../utils/exportCsv";
-import {SaleData} from "../../entity/saleData";
 import {CsvOptions} from "../../utils/csvOptions";
 
 /**
@@ -23,7 +22,7 @@ export class CsvGenerator {
 
     /**
      * 打印销售记录到csv文件
-     * @param {SaleData[]} data: TODO
+     * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
      */
     public printCsv(data: string[][], seqNum: number) {

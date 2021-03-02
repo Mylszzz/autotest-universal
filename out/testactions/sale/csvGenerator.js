@@ -20,7 +20,7 @@ class CsvGenerator {
     }
     /**
      * 打印销售记录到csv文件
-     * @param {SaleData[]} data: TODO
+     * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
      */
     printCsv(data, seqNum) {

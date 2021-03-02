@@ -10,5 +10,4 @@ export class RefundData {
     //退货是否成功
     public isSuccess:boolean=false;
 
-
 }
