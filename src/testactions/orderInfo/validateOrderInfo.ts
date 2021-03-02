@@ -11,14 +11,14 @@ export class ValidateOrderInfo {
      * @param {WebdriverIO.BrowserObject} client
      * @returns {Promise<any>}
      */
-    static async getOrderInfo(client:wdio.BrowserObject) {
+    static async getOrderInfo(client: wdio.BrowserObject) {
         let infoMap = await OrderInfoMap.getInfoMap();
         for (let key of infoMap.keys()) {  // 迭代infoMap，获取订单信息中需要检查的项目名称
             try {
                 // 获取订单信息中的需要检查的项目名称的下一个控件名称即为需要的值，如：总数量：1
-                let tempValueObject = await client.$('//android.view.View[@content-desc="'+key+
+                let tempValueObject = await client.$('//android.view.View[@content-desc="' + key +
                     '"]/following-sibling::android.view.View');
-                let tempValue:string = await tempValueObject.getAttribute('content-desc');
+                let tempValue: string = await tempValueObject.getAttribute('content-desc');
                 await infoMap.set(key, tempValue);  // 更新信息储存map
             } catch (e) {
                 LogUtils.log.info(e);
@@ -32,10 +32,10 @@ export class ValidateOrderInfo {
      * 将订单信息保存在csv中
      * 之后可以对比预计输出的csv以判断是否符合预期
      */
-    static async saveOrderInfoToCsv(client:wdio.BrowserObject) {
+    static async saveOrderInfoToCsv(client: wdio.BrowserObject) {
         let infoMap = await this.getOrderInfo(client);
-        let headers:string[] = [];  // 表头
-        let values:string[] = [];  // 信息
+        let headers: string[] = [];  // 表头
+        let values: string[] = [];  // 信息
         let fileName = 'saveOrderInfoTest.csv';  // 输出文件名
         console.log(infoMap);
         for (let [key, value] of infoMap) {

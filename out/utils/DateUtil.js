@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DateUtil = void 0;
-//选择日历上的时间
+/**
+ * 提供选择日历上的时间的方法
+ */
 class DateUtil {
     static async selectDate(client, date) {
         //选择日期

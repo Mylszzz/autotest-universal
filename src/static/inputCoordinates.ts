@@ -39,7 +39,7 @@ class InputCoordinates_A8 implements ICoordinatesMap {
  * 键盘输入需要的绝对坐标类
  * Elo
  */
-class InputCoordinates_Elo implements ICoordinatesMap {
+export class InputCoordinates_Elo implements ICoordinatesMap {
     coordMap: Map<string, any>;  // 主数字键盘
     coordMapForRedundPwd:  Map<string, any>;  // 退款密码数字键盘
 
@@ -77,6 +77,17 @@ class InputCoordinates_Elo implements ICoordinatesMap {
 
     public getCoordMapForRedundPwd(): Map<string, any> {
         return this.coordMapForRedundPwd;
+    }
+
+    /**
+     * Elo退出账号关联坐标
+     */
+    public static getExitAccountCoor(): any{
+        return [
+            {x: 1693, y: 230},  // 退出账号按钮坐标
+            {x: 948, y: 933},  // 确定
+            {x: 948, y: 1025},  // 取消
+];
     }
 }
 

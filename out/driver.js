@@ -23,14 +23,13 @@ exports.SingleDriver = void 0;
 const wdio = __importStar(require("webdriverio"));
 const deviceName_1 = require("./static/deviceName");
 const driverConfig_1 = require("./static/driverConfig");
-// const chromedriverpath = path.join(__dirname,'../app/chromedriver')
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 class SingleDriver {
     /**
      * 1.声明一个空的变量 client
      * 2.提供静态方法，如果 clietn 为 null，就创建一个新的 client 对象并返回
      * 3.每次创建的是返回的都是同一个实例。
-    */
+     */
     static async createClient() {
         if (!this.client) {
             if (deviceName == 'a8') {

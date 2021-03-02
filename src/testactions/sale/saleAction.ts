@@ -5,20 +5,26 @@ import {GlobalUtil} from "../../utils/globalUtil";
 import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
 import {CsvGenerator} from "./csvGenerator";
+
 const MAX_SCROLL_TIMES_A8 = 1;  // TODO: Make it global
 
 
+/**
+ * 销售脚本的抽象类，用于单条销售测试用例的脚本执行
+ * 添加新设备是继承此类
+ * 实现了ISaleData接口，用于规范单次销售需要的数据
+ */
 abstract class SaleAction implements ISaleData {
-    seqNum:number;
-    paymentInfoMap:Map<string, string>;
-    saleOptionsInfoMap:Map<string, string>;
-    price:number;
+    seqNum: number;
+    paymentInfoMap: Map<string, string>;
+    saleOptionsInfoMap: Map<string, string>;
+    price: number;
 
-    client:any;
-    csvGenerator:CsvGenerator;
+    client: any;
+    csvGenerator: CsvGenerator;
 
 
-    protected constructor(saleData:ISaleData, client:any, csvGenerator:CsvGenerator) {
+    protected constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
         this.client = client;
         this.seqNum = saleData.seqNum;
         this.paymentInfoMap = saleData.paymentInfoMap;
@@ -35,7 +41,7 @@ abstract class SaleAction implements ISaleData {
      */
     public async saleAction() {
         try {
-           await VipLoginAction.vipLogin(this.client);
+            await VipLoginAction.vipLogin(this.client);
         } catch (e) {
             console.error(e);
             throw new AutoTestException('A9999', '登录vip失败').toString();
@@ -57,12 +63,12 @@ abstract class SaleAction implements ISaleData {
     /**
      * 从输入vip手机号完成后到销售完成的脚本
      */
-    abstract saleActionStep2():any;
+    abstract saleActionStep2(): any;
 
     /**
      * 记录销售信息到csv文档
      */
-    abstract generateCsv():void;
+    abstract generateCsv(): void;
 }
 
 
@@ -71,8 +77,8 @@ abstract class SaleAction implements ISaleData {
  */
 class SaleAction_A8 extends SaleAction {
 
-    public constructor(saleData:ISaleData, client:any, csvGenerator:CsvGenerator){
-        super(saleData,client, csvGenerator);
+    public constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
+        super(saleData, client, csvGenerator);
     }
 
     /**
@@ -82,9 +88,9 @@ class SaleAction_A8 extends SaleAction {
     async saleActionStep2() {
         try {
             LogUtils.saleLog.info("******开始执行脚本******");
-            let configMap:Map = GlobalUtil.getConfigMap();
-            let toSale = await this.client.$('//android.view.View[@content-desc="货号:'+
-                configMap.get('storeNumber')+'"]');
+            let configMap: Map = GlobalUtil.getConfigMap();
+            let toSale = await this.client.$('//android.view.View[@content-desc="货号:' +
+                configMap.get('storeNumber') + '"]');
             await toSale.click();
             await this.client.pause(1000);
 
@@ -111,7 +117,7 @@ class SaleAction_A8 extends SaleAction {
             //完成
             let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
             await complete.click();
-        }catch (e) {
+        } catch (e) {
             LogUtils.saleLog.error(e);  // TODO
 
         }
@@ -122,11 +128,11 @@ class SaleAction_A8 extends SaleAction {
      * @returns {Promise<void>}
      */
     private async payMethodLoop() {
-        let scrollTimes:number = 0;  // 已经滑动的次数
+        let scrollTimes: number = 0;  // 已经滑动的次数
         // [支付方式名字, 金额]
         for (let [key, value] of this.paymentInfoMap) {
-            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="'+key+'"]');
-            LogUtils.saleLog.info(key+": 需要支付"+value+"元!");
+            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
+            LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
 
             await this.clickOnPayMethod(payMethodBtn, scrollTimes, value);
             await this.client.pause(1000);
@@ -142,7 +148,7 @@ class SaleAction_A8 extends SaleAction {
      * @param {string} amount: 该支付方式的金额
      * @returns {Promise<void>}
      */
-    private async clickOnPayMethod(payMethodBtn:any,scrollTimes:number, amount:string) {
+    private async clickOnPayMethod(payMethodBtn: any, scrollTimes: number, amount: string) {
         try {
             await payMethodBtn.click();
             await this.client.pause(1000);
@@ -190,10 +196,10 @@ class SaleAction_A8 extends SaleAction {
     private async scrollDown() {
         LogUtils.saleLog.info('向下滑动一次！');
         await this.client.touchAction([
-            { action: 'press', x: 354, y: 900 },
-            { action: 'moveTo', x: 354, y: 572 },
-            { action: 'release' }
-         ]);
+            {action: 'press', x: 354, y: 900},
+            {action: 'moveTo', x: 354, y: 572},
+            {action: 'release'}
+        ]);
         //await this.client.swipe(354, 900, 354, 572, 1000);
         await this.client.pause(1000);
 
@@ -210,8 +216,8 @@ class SaleAction_A8 extends SaleAction {
  */
 class SaleAction_Elo extends SaleAction {
 
-    public constructor(saleData:ISaleData, client:any, csvGenerator:CsvGenerator){
-        super(saleData,client, csvGenerator);
+    public constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
+        super(saleData, client, csvGenerator);
     }
 
     public async saleActionStep2() {
@@ -223,11 +229,11 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     private async payMethodLoop() {
-        let scrollTimes:number = 0;  // 已经滑动的次数
+        let scrollTimes: number = 0;  // 已经滑动的次数
         // [支付方式名字, 金额]
         for (let [key, value] of this.paymentInfoMap) {
-            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="'+key+'"]');
-            LogUtils.saleLog.info(key+": 需要支付"+value+"元!");
+            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
+            LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
 
             await this.clickOnPayMethod(payMethodBtn, scrollTimes, value);
             await this.client.pause(1000);
@@ -236,7 +242,7 @@ class SaleAction_Elo extends SaleAction {
         }
     }
 
-    private async clickOnPayMethod(payMethodBtn:any,scrollTimes:number, amount:string) {
+    private async clickOnPayMethod(payMethodBtn: any, scrollTimes: number, amount: string) {
         try {
             await payMethodBtn.click();
             await this.client.pause(1000);
@@ -294,10 +300,10 @@ class SaleAction_Elo extends SaleAction {
  * 单次销售活动所需的数据
  */
 interface ISaleData {
-    seqNum:number;  // 序号（全部测试用例中的第几单)
-    paymentInfoMap:Map<string, string>;  // Example: {'现金'=>'2','春风里礼券'=>'1'}
-    saleOptionsInfoMap:Map<string, string>;  // Example: {'取消交易'=>'N','退货'=>'N'}
-    price:number;  // 总价
+    seqNum: number;  // 序号（全部测试用例中的第几单)
+    paymentInfoMap: Map<string, string>;  // Example: {'现金'=>'2','春风里礼券'=>'1'}
+    saleOptionsInfoMap: Map<string, string>;  // Example: {'取消交易'=>'N','退货'=>'N'}
+    price: number;  // 总价
 }
 
 export {ISaleData, SaleAction_A8, SaleAction_Elo}

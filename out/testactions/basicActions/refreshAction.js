@@ -4,7 +4,8 @@ exports.RefreshAction_Elo = exports.RefreshAction_A8 = void 0;
 const logUtils_1 = require("../../utils/logUtils");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 /**
- * 刷新店铺
+ * 刷新店铺的基类
+ * 继承时: 参考RefreshAction_A8{}，子类需要使用单例模式，通过super()传入按键xpath
  */
 class RefreshAction {
     /*

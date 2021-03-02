@@ -1,13 +1,12 @@
-import {TouchAction} from "./touchAction";
-import {LogUtils} from "../utils/logUtils";
+import {PhoneNum} from "../phoneNum";
+import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
-import {CommonXpath} from "../static/commonXpath";
-import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
-import set = Reflect.set;
+import {CommonXpath} from "../../static/commonXpath";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 
 
 /**
- * 查询操作
+ * 查询操作的基类
  */
 export class Search {
     client: wdio.BrowserObject;
@@ -34,7 +33,7 @@ export class Search {
         //  点击查询
         let chooseBackGood = await this.client.$(this.searchBtnXPath);
         await chooseBackGood.click();
-       // await this.client.pause(2000);
+        // await this.client.pause(2000);
     }
 
     /**
@@ -47,7 +46,7 @@ export class Search {
         let codeNoText = await this.client.$(CommonXpath.ORDERTEXT);
         await codeNoText.click();
         await this.client.pause(1000);
-        await TouchAction.phoneNum(this.client, num);
+        await PhoneNum.phoneNum(this.client, num);
         await this.client.pause(10000);
         try {
             let ok = await this.client.$(CommonXpath.DETERMINE);

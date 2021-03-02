@@ -13,7 +13,8 @@ const deviceActions_1 = require("../deviceActions");
  * 对于dataPreparationInstance和csvGenerator都是单例模式
  */
 class SaleMainLoop {
-    constructor() { }
+    constructor() {
+    }
     /**
      * 对于整个销售测试的准备，包括初始化csvGenerator, fileName和对应机器的SaleDataPreparation的实例
      * @param client

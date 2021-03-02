@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logger = exports.LogUtils = void 0;
+exports.LogUtils = void 0;
 const log4js_1 = require("log4js");
-// configure("../logConfig.json");
 log4js_1.configure({
     appenders: {
         console: { type: 'stdout', layout: { type: 'colored' } },
@@ -44,4 +43,3 @@ LogUtils.loginLog = log4js_1.getLogger('loginActivity');
 LogUtils.saleLog = log4js_1.getLogger('sale');
 LogUtils.refundLog = log4js_1.getLogger('refund');
 LogUtils.search = log4js_1.getLogger('search');
-exports.logger = log4js_1.getLogger("ZM_TEST");

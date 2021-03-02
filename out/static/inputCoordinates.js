@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InputCoordinates = void 0;
+exports.InputCoordinates = exports.InputCoordinates_Elo = void 0;
 const deviceName_1 = require("./deviceName");
 /**
  * 键盘输入需要的绝对坐标类
@@ -65,7 +65,18 @@ class InputCoordinates_Elo {
     getCoordMapForRedundPwd() {
         return this.coordMapForRedundPwd;
     }
+    /**
+     * Elo退出账号关联坐标
+     */
+    static getExitAccountCoor() {
+        return [
+            { x: 1693, y: 230 },
+            { x: 948, y: 933 },
+            { x: 948, y: 1025 },
+        ];
+    }
 }
+exports.InputCoordinates_Elo = InputCoordinates_Elo;
 /**
  * 如果需要获得坐标Map, 请直接调用此getCoordMap()方法
  */

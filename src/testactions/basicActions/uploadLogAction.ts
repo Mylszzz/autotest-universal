@@ -7,16 +7,16 @@ import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
  * 分为上传当日和上传其他日期日志
  */
 class UploadLogAction {
-    private client:wdio.BrowserObject;
-    readonly menuBtnXPath:string;  // 菜单键的xPath
-    readonly uploadLogBtnXPath:string;  // 上传日志键的xPath
-    readonly uploadTodayLogBtnXPath:string;  // 上传当天日志键的xPath
-    readonly uploadOtherDayLogBtnXPath:string;  // 上传其他日期日志键的xPath
+    private client: wdio.BrowserObject;
+    readonly menuBtnXPath: string;  // 菜单键的xPath
+    readonly uploadLogBtnXPath: string;  // 上传日志键的xPath
+    readonly uploadTodayLogBtnXPath: string;  // 上传当天日志键的xPath
+    readonly uploadOtherDayLogBtnXPath: string;  // 上传其他日期日志键的xPath
 
     /*
     xPaths: IXPaths对象，包括了四个按键的xPath
      */
-    protected constructor(client:wdio.BrowserObject, xPaths:IXPaths) {
+    protected constructor(client: wdio.BrowserObject, xPaths: IXPaths) {
         this.client = client;
         this.menuBtnXPath = xPaths.menuBtnXPath;
         this.uploadLogBtnXPath = xPaths.uploadLogBtnXPath;
@@ -57,24 +57,24 @@ class UploadLogAction {
 /**
  * A8
  */
-const xPaths_a8:IXPaths = {
-    menuBtnXPath:ButtonXPaths_A8.MENU,
-    uploadLogBtnXPath:ButtonXPaths_A8.UPLOADLOG,
-    uploadTodayLogBtnXPath:ButtonXPaths_A8.UPLOADTODAYLOG,
-    uploadOtherDayLogBtnXPath:ButtonXPaths_A8.UPLOADOTHERDAYLOG
+const xPaths_a8: IXPaths = {
+    menuBtnXPath: ButtonXPaths_A8.MENU,
+    uploadLogBtnXPath: ButtonXPaths_A8.UPLOADLOG,
+    uploadTodayLogBtnXPath: ButtonXPaths_A8.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath: ButtonXPaths_A8.UPLOADOTHERDAYLOG
 };
 
 /**
  * A8的具体类, 单例模式
  */
 export class UploadLogAction_A8 extends UploadLogAction {
-    private static instance:UploadLogAction_A8;
+    private static instance: UploadLogAction_A8;
 
-    private constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_a8) {
+    private constructor(client: wdio.BrowserObject, xPaths: IXPaths = xPaths_a8) {
         super(client, xPaths);
     }
 
-    public static getInstance(client:wdio.BrowserObject) {
+    public static getInstance(client: wdio.BrowserObject) {
         if (null == this.instance) {
             this.instance = new UploadLogAction_A8(client);
         }
@@ -85,24 +85,24 @@ export class UploadLogAction_A8 extends UploadLogAction {
 /**
  * Elo
  */
-const xPaths_elo:IXPaths = {
-    menuBtnXPath:ButtonXPaths_Elo.MENU,
-    uploadLogBtnXPath:ButtonXPaths_Elo.UPLOADLOG,
-    uploadTodayLogBtnXPath:ButtonXPaths_Elo.UPLOADTODAYLOG,
-    uploadOtherDayLogBtnXPath:ButtonXPaths_Elo.UPLOADOTHERDAYLOG
+const xPaths_elo: IXPaths = {
+    menuBtnXPath: ButtonXPaths_Elo.MENU,
+    uploadLogBtnXPath: ButtonXPaths_Elo.UPLOADLOG,
+    uploadTodayLogBtnXPath: ButtonXPaths_Elo.UPLOADTODAYLOG,
+    uploadOtherDayLogBtnXPath: ButtonXPaths_Elo.UPLOADOTHERDAYLOG
 };
 
 /**
  * Elo的具体类, 单例模式
  */
 export class UploadLogAction_Elo extends UploadLogAction {
-    private static instance:UploadLogAction_Elo;
+    private static instance: UploadLogAction_Elo;
 
-    private constructor(client:wdio.BrowserObject, xPaths:IXPaths = xPaths_elo) {
+    private constructor(client: wdio.BrowserObject, xPaths: IXPaths = xPaths_elo) {
         super(client, xPaths);
     }
 
-    public static getInstance(client:wdio.BrowserObject) {
+    public static getInstance(client: wdio.BrowserObject) {
         if (null == this.instance) {
             this.instance = new UploadLogAction_Elo(client);
         }
@@ -115,8 +115,8 @@ export class UploadLogAction_Elo extends UploadLogAction {
  * 参数整合
  */
 interface IXPaths {
-    menuBtnXPath:string,  // 菜单键的xPath
-    uploadLogBtnXPath:string,  // 上传日志键的xPath
-    uploadTodayLogBtnXPath:string,  // 上传当天日志键的xPath
-    uploadOtherDayLogBtnXPath:string  // 上传其他日期日志键的xPath
+    menuBtnXPath: string,  // 菜单键的xPath
+    uploadLogBtnXPath: string,  // 上传日志键的xPath
+    uploadTodayLogBtnXPath: string,  // 上传当天日志键的xPath
+    uploadOtherDayLogBtnXPath: string  // 上传其他日期日志键的xPath
 }

@@ -26,9 +26,12 @@ exports.ExportCsv = void 0;
 const fs_1 = __importDefault(require("fs"));
 const ts_export_to_csv_1 = require("ts-export-to-csv");
 const path = __importStar(require("path"));
+/**
+ * 打印CSV的工具类
+ */
 class ExportCsv {
     /**
-     *
+     * 打印销售文档
      * @param options: 输出csv的配置，在csvOptions.ts中配置
      * @param data: 二元数组 string[][]
      * @param {string} fileName: 输出的文件名
@@ -40,9 +43,13 @@ class ExportCsv {
             flag: 'a',
             encoding: 'utf8'
         });
-        // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
-        // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
     }
+    /**
+     * 打印退货文档
+     * @param options
+     * @param refundData
+     * @param {string} fileName
+     */
     static printRefundData(options, refundData, fileName) {
         const csvExporter = new ts_export_to_csv_1.ExportToCsv(options);
         const csvData = csvExporter.generateCsv(refundData, true);
@@ -51,8 +58,6 @@ class ExportCsv {
             flag: 'a',
             encoding: 'utf8'
         });
-        // fs.writeFileSync('data.csv',csvData,{flag:'a',encoding:'utf8'});
-        // fs.writeFileSync('/data/'+new Date().toLocaleDateString()+"-"+Tools.guid()+'.csv',csvData,{flag:'a',encoding:'utf8'});
     }
 }
 exports.ExportCsv = ExportCsv;

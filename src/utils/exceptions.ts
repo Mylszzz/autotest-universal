@@ -12,7 +12,7 @@ export class AutoTestException extends Error {
      * @param {string} code 错误代码
      * @param {string} detail  错误详情
      */
-    constructor(code:string = 'A9999', detail:string = '') {
+    constructor(code: string = 'A9999', detail: string = '') {
         super();
         this.map = new Map([
             ['A0001', '未找到相关控件'],
@@ -35,8 +35,7 @@ export class AutoTestException extends Error {
      * @param code 业务状态码
      * @param detail 错误明细
      */
-    protected check(code: string = 'A9999', detail: string = '')
-    {
+    protected check(code: string = 'A9999', detail: string = '') {
         this.detail = detail;
         if (this.map.has(code)) {
             this.code = code;
@@ -49,17 +48,17 @@ export class AutoTestException extends Error {
 
 
     // 获取错误状态码
-    public getCode():string  {
+    public getCode(): string {
         return this.code;
     }
 
     // 获取错误码描述
-    public getMsg():string|undefined{
+    public getMsg(): string | undefined {
         return this.msg;
     }
 
     // 获取错误明细(错误明细是抛出错误时手动传入的)
-    public getDetail():string  {
+    public getDetail(): string {
         return this.detail;
     }
 
@@ -72,7 +71,7 @@ export class AutoTestException extends Error {
  * 登录中的异常
  */
 export class LoginException extends AutoTestException {
-    constructor(code:string = 'A9999', detail:string = '') {
+    constructor(code: string = 'A9999', detail: string = '') {
         super(code, detail);
 
         super.appendMap(new Map([

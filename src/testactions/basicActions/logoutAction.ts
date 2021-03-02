@@ -1,6 +1,7 @@
 import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {Position} from "../../utils/position";
+import {InputCoordinates_Elo} from "../../static/inputCoordinates";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 
 
@@ -50,17 +51,18 @@ export class LogoutAction_A8 implements ILogout {
         await this.client.pause(1000);
         let confirmBtn = await this.client.$(ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        LogUtils.log.info("******账号登出--》手动登出符合预期******");
         await this.client.pause(5000);
     }
 
+    // 退出系统
     public async sysLogout() {
         let menu = await this.client.$(ButtonXPaths_A8.MENU);
         await menu.click();
         await this.client.pause(1000);
         let sysLogout = await this.client.$(ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        LogUtils.log.info("******账号登出--》手动登出符合预期******");
         await this.client.pause(5000);
     }
 }
@@ -98,23 +100,23 @@ export class LogoutAction_Elo implements ILogout {
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: Position.exit_account[0].x,
-                y: Position.exit_account[0].y,
+                x: InputCoordinates_Elo.getExitAccountCoor()[0].x,
+                y: InputCoordinates_Elo.getExitAccountCoor()[0].y,
             },
         ]);
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: Position.exit_account[1].x,
-                y: Position.exit_account[1].y,
+                x: InputCoordinates_Elo.getExitAccountCoor()[1].x,
+                y: InputCoordinates_Elo.getExitAccountCoor()[1].y,
             },
         ]);
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
-            LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            LogUtils.log.info("******账号登出--》手动登出符合预期******");
             await this.client.pause(5000);
         } catch (e) {
-            LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
+            LogUtils.log.info("******账号登出--》手动登出不符合预期******");
         }
     }
 

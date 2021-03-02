@@ -30,48 +30,6 @@ const logUtils_1 = require("./logUtils");
 const deviceName_1 = require("../static/deviceName");
 const deviceName = deviceName_1.DeviceName.getDeviceName();
 class ReadUtils {
-    async readTextContent(filePath) {
-        let map = [];
-        await fs.readFile(filePath, "utf-8", function (err, data) {
-            if (err) {
-                return console.error(err);
-            }
-            if (data != null) {
-                let d = data.toString();
-                let strings = d.split(new RegExp(/\r\n/));
-                for (let string of strings) {
-                    if (string != "") {
-                        let str = string.split("：");
-                        // for (let s of str) {
-                        //     console.log(s);
-                        // }
-                        let s1 = str[0];
-                        console.log(s1);
-                        map.push(s1);
-                        let s2 = Number(str[1]);
-                        for (let i = 0; i < s2; i++) {
-                            console.log(s1 + "=>>" + i);
-                        }
-                        console.log(s2);
-                        //  map.set(s1,s2);
-                        //map.push(s2);
-                    }
-                }
-            }
-        });
-    }
-    static readTestforSale() {
-        let map = new Map();
-        this.readTest(map);
-        let path = map.get("testPath"); //获取得到自动化测试文件
-        let fileStr = fs.readFileSync(path, { encoding: 'binary' });
-        //文件为gbk编码 读取的编码格式为utf8，需要进行gbk编码
-        let buffer = new Buffer(fileStr, 'binary');
-        let data = iconv_lite_1.default.decode(buffer, 'GBK');
-        //console.log(data);
-        logUtils_1.LogUtils.log.info("获取的自动化测试数据====>>" + data);
-        return data;
-    }
     static readForRefund() {
         let map = new Map();
         this.readTest(map);
@@ -87,20 +45,14 @@ class ReadUtils {
     // TODO: 这里要改！
     //读取json文件，获得配置参数的map集合
     static readTest(map) {
-        //LogUtils.log.info("===开始获取自动化测试的配置参数===");
-        //读取json自动化测试所需参数
         this.sleep(2000);
         let buffer;
         let fileName = '../../globalconfig_' + deviceName + '.json'; // 例如: ../../globalconfig_a8.json
         buffer = fs.readFileSync(path.join(__dirname, fileName));
         let data = buffer.toString();
-        // console.log(JSON.parse(data));
-        //将json转换为字符串，再将字符串转换为map集合 获取对应参数值
-        //let map=new Map();ss
         for (let obj of Object.keys(JSON.parse(data))) {
             map.set(obj, JSON.parse(data)[obj]);
         }
-        //LogUtils.log.info("===获取自动化测试的配置参数完成===");
     }
     static sleep(ms) {
         return new Promise((resolve) => {

@@ -1,15 +1,15 @@
-import {TouchAction} from "../touchAction";
+import {PhoneNum} from "../phoneNum";
 import {GlobalUtil} from "../../utils/globalUtil";
 
 /**
  * A8
  */
-export class VipLogin_A8 implements VipLogin{
-    client:any;
-    phoneNum:string;
-    private static instance:VipLogin_A8;
+export class VipLogin_A8 implements VipLogin {
+    client: any;
+    phoneNum: string;
+    private static instance: VipLogin_A8;
 
-    private constructor(client:any) {
+    private constructor(client: any) {
         this.client = client;
         this.phoneNum = <string>GlobalUtil.getConfigMap().get('vipPhone');
     }
@@ -19,7 +19,7 @@ export class VipLogin_A8 implements VipLogin{
      * @param client
      * @returns {VipLogin_A8}
      */
-    public static getInstance(client:any):VipLogin_A8 {
+    public static getInstance(client: any): VipLogin_A8 {
         if (null == this.instance) {
             this.instance = new VipLogin_A8(client);
         }
@@ -27,10 +27,10 @@ export class VipLogin_A8 implements VipLogin{
     }
 
     public async vipLogin() {
-        let vipBtn= await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
+        let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
         await vipBtn.click();
         //输入会员号码
-        await TouchAction.phoneNum(this.client, this.phoneNum);
+        await PhoneNum.phoneNum(this.client, this.phoneNum);
         await this.client.pause(1000);
         //点击确定
         let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
@@ -43,11 +43,11 @@ export class VipLogin_A8 implements VipLogin{
  * ELO
  */
 export class VipLogin_Elo implements VipLogin {
-    client:any;
-    phoneNum:string;
-    private static instance:VipLogin_Elo;
+    client: any;
+    phoneNum: string;
+    private static instance: VipLogin_Elo;
 
-    private constructor(client:any) {
+    private constructor(client: any) {
         this.client = client;
         this.phoneNum = <string>GlobalUtil.getConfigMap().get('vipPhone');
     }
@@ -57,7 +57,7 @@ export class VipLogin_Elo implements VipLogin {
      * @param client
      * @returns {VipLogin_Elo}
      */
-    public static getInstance(client:any):VipLogin_Elo {
+    public static getInstance(client: any): VipLogin_Elo {
         if (null == this.instance) {
             this.instance = new VipLogin_Elo(client);
         }
@@ -66,7 +66,7 @@ export class VipLogin_Elo implements VipLogin {
 
     public async vipLogin() {
         //输入会员号码
-        await TouchAction.phoneNum(this.client, this.phoneNum);
+        await PhoneNum.phoneNum(this.client, this.phoneNum);
         await this.client.pause(1000);
         //点击确定
         let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
@@ -75,9 +75,12 @@ export class VipLogin_Elo implements VipLogin {
     }
 }
 
+/**
+ * Vip 登录的接口
+ */
 interface VipLogin {
     client: any;
-    phoneNum: string;
+    phoneNum: string;  // vip登录账号（电话号码）
 
-    vipLogin(): void;
+    vipLogin(): void;  // vip登录脚本
 }

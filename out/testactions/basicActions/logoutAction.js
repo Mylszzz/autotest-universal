@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogoutAction_Elo = exports.LogoutAction_A8 = void 0;
 const logUtils_1 = require("../../utils/logUtils");
-const position_1 = require("../../utils/position");
+const inputCoordinates_1 = require("../../static/inputCoordinates");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 /**
  * A8的退出脚本具体类
@@ -33,16 +33,17 @@ class LogoutAction_A8 {
         await this.client.pause(1000);
         let confirmBtn = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
-        logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        logUtils_1.LogUtils.log.info("******账号登出--》手动登出符合预期******");
         await this.client.pause(5000);
     }
+    // 退出系统
     async sysLogout() {
         let menu = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.MENU);
         await menu.click();
         await this.client.pause(1000);
         let sysLogout = await this.client.$(buttonXPaths_1.ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
-        logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+        logUtils_1.LogUtils.log.info("******账号登出--》手动登出符合预期******");
         await this.client.pause(5000);
     }
 }
@@ -74,24 +75,24 @@ class LogoutAction_Elo {
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: position_1.Position.exit_account[0].x,
-                y: position_1.Position.exit_account[0].y,
+                x: inputCoordinates_1.InputCoordinates_Elo.getExitAccountCoor()[0].x,
+                y: inputCoordinates_1.InputCoordinates_Elo.getExitAccountCoor()[0].y,
             },
         ]);
         await this.client.touchAction([
             {
                 action: 'tap',
-                x: position_1.Position.exit_account[1].x,
-                y: position_1.Position.exit_account[1].y,
+                x: inputCoordinates_1.InputCoordinates_Elo.getExitAccountCoor()[1].x,
+                y: inputCoordinates_1.InputCoordinates_Elo.getExitAccountCoor()[1].y,
             },
         ]);
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
-            logUtils_1.LogUtils.log.info("=====账号登出--》手动登出符合预期==");
+            logUtils_1.LogUtils.log.info("******账号登出--》手动登出符合预期******");
             await this.client.pause(5000);
         }
         catch (e) {
-            logUtils_1.LogUtils.log.info("=====账号登出--》手动登出不符合预期==");
+            logUtils_1.LogUtils.log.info("******账号登出--》手动登出不符合预期******");
         }
     }
     // 退出系统

@@ -1,5 +1,5 @@
 export class CsvOptions {
-    public static options:any ={};
+    public static options: any = {};
 
     /**
      * 输出csv的配置
@@ -7,8 +7,8 @@ export class CsvOptions {
      * @param headers：表头
      * @returns {any} 返回配置
      */
-    public static configurationOption(count:number,headers:any){
-        if (count===1){
+    public static configurationOption(count: number, headers: any) {
+        if (count === 1) {
             this.options = {
                 fieldSeparator: ',',
                 quoteStrings: '"',
@@ -17,7 +17,7 @@ export class CsvOptions {
                 useTextFile: false,
                 useBom: true,
                 useKeysAsHeaders: false,
-                columnHeaders:headers,
+                columnHeaders: headers,
             }
         }
         else {

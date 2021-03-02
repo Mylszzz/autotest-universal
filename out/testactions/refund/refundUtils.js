@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOnce = exports.RefundPreparation = void 0;
 const readUtils_1 = require("../../utils/readUtils");
 const exceptions_1 = require("../../utils/exceptions");
+/**
+ * 退货的准备工作
+ */
 class RefundPreparation {
     /**
      * 构造函数，并调用初始化退款数据的方法
@@ -42,7 +45,7 @@ class RefundPreparation {
 }
 exports.RefundPreparation = RefundPreparation;
 /**
- *
+ * 单次退货
  */
 class RefundOnce {
     /**

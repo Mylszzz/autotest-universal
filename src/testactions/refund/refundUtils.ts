@@ -2,6 +2,10 @@ import {ReadUtils} from "../../utils/readUtils";
 import {AutoTestException} from "../../utils/exceptions";
 
 
+/**
+ * 退货需要信息的接口
+ * 用于单次退货是实现
+ */
 interface IRefundInfo {
     orderNo:string;
     price:string;
@@ -11,6 +15,10 @@ interface IRefundInfo {
     saleTime:string
 }
 
+
+/**
+ * 退货的准备工作
+ */
 export class RefundPreparation {
     rows:string[] = [];  //
     titleList:string[] = [];  // 标题分类为各自一列
@@ -55,7 +63,7 @@ export class RefundPreparation {
 
 
 /**
- *
+ * 单次退货
  */
 export class RefundOnce implements IRefundInfo{
     private refundable:boolean = false;  // 该退款条目就是否需要退款

@@ -10,8 +10,8 @@ export class TouchMethod {
     public static getTouchMethod(): any {
 
         return async (client: any, str: string, coorMap: Map<string, any>) => {
-            let x:string = '';
-            let y:string = '';
+            let x: string = '';
+            let y: string = '';
             let arrList: string[] = str.split('');
             for (let char of arrList) {
                 try {

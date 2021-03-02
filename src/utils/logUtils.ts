@@ -1,9 +1,9 @@
-import {getLogger, Logger, Log4js, configure} from "log4js";
+import {getLogger, configure} from "log4js";
 
-// configure("../logConfig.json");
+
 configure({
     appenders: {
-        console: { type: 'stdout', layout: { type: 'colored' } },
+        console: {type: 'stdout', layout: {type: 'colored'}},
         test: {
             type: "dateFile",
             filename: "log/test",
@@ -25,7 +25,7 @@ configure({
     },
     categories: {
         default: {
-            appenders: ["test","console"],
+            appenders: ["test", "console"],
             level: "info"
         },
         saleOrder: {
@@ -34,7 +34,8 @@ configure({
         }
     }
 });
-export class LogUtils{
+
+export class LogUtils {
 
     static log = getLogger('test');
     static loginLog = getLogger('loginActivity');
@@ -42,5 +43,3 @@ export class LogUtils{
     static refundLog = getLogger('refund');
     static search = getLogger('search');
 }
-
-export const logger = getLogger("ZM_TEST");

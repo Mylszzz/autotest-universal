@@ -1,7 +1,7 @@
 import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
-import { LoginException} from "../../utils/exceptions";
+import {LoginException} from "../../utils/exceptions";
 
 
 /**
@@ -35,14 +35,14 @@ export abstract class Login {
  * A8
  */
 export class Device_A8 extends Login {
-    private static instance :Device_A8;
+    private static instance: Device_A8;
 
     private constructor(client: wdio.BrowserObject) {
         super(client)
     }
 
-    public static getInstance(client:wdio.BrowserObject) {
-        if (null ==  this.instance) {
+    public static getInstance(client: wdio.BrowserObject) {
+        if (null == this.instance) {
             this.instance = new Device_A8(client);
         }
         return this.instance;
@@ -79,7 +79,7 @@ export class Device_A8 extends Login {
                 await this.client.setImplicitTimeout(100);  // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
-                    LogUtils.loginLog.info("*********商户登录成功*********"+ new Date());
+                    LogUtils.loginLog.info("*********商户登录成功*********" + new Date());
                 } else {
                     await this.client.setImplicitTimeout(10000);  // 10秒Timeout
                     throw new LoginException('L0001', '登录失败！');
@@ -110,14 +110,14 @@ export class Device_A8 extends Login {
  * Elo
  */
 export class Device_Elo extends Login {
-    private static instance:Device_Elo;
+    private static instance: Device_Elo;
 
     private constructor(client: wdio.BrowserObject) {
         super(client)
     }
 
-    public static getInstance(client:wdio.BrowserObject) {
-        if (null ==  this.instance) {
+    public static getInstance(client: wdio.BrowserObject) {
+        if (null == this.instance) {
             this.instance = new Device_Elo(client);
         }
         return this.instance;
@@ -151,13 +151,14 @@ export class Device_Elo extends Login {
             );
             // 缓冲
             await this.client.$('//android.view.View[@content-desc="会员"]');
-            LogUtils.loginLog.info("*********商户登录成功*********"+ new Date());
+            LogUtils.loginLog.info("*********商户登录成功*********" + new Date());
         } catch (e) {
             LogUtils.loginLog.error(e);
         }
     }
 
     async reboot() {
+        //TODO
 
     }
 }

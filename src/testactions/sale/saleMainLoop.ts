@@ -12,25 +12,26 @@ import {SaleActionInstance} from "../deviceActions";
  * 对于dataPreparationInstance和csvGenerator都是单例模式
  */
 export class SaleMainLoop {
-    private static dataPreparationInstance:SaleDataPreparation;
-    private static csvGenerator:CsvGenerator;
-    private static fileName:string = '';  // 保存测试输出的csv文件名
+    private static dataPreparationInstance: SaleDataPreparation;
+    private static csvGenerator: CsvGenerator;
+    private static fileName: string = '';  // 保存测试输出的csv文件名
 
-    private static dataInstance:SingleSaleDataPreparation;  // 单次销售测试用例的数据准备实例
-    private static saleInstance:SaleAction_A8|SaleAction_Elo;  // 单次销售测试用例执行的实例
+    private static dataInstance: SingleSaleDataPreparation;  // 单次销售测试用例的数据准备实例
+    private static saleInstance: SaleAction_A8 | SaleAction_Elo;  // 单次销售测试用例执行的实例
 
-    private static client:any;
-    private static title:string[];
-    private static rows:string[];
+    private static client: any;
+    private static title: string[];
+    private static rows: string[];
 
 
-    private constructor(){}
+    private constructor() {
+    }
 
     /**
      * 对于整个销售测试的准备，包括初始化csvGenerator, fileName和对应机器的SaleDataPreparation的实例
      * @param client
      */
-    public static salePreparation(client:any) {
+    public static salePreparation(client: any) {
         if (null == this.dataPreparationInstance) {
             this.dataPreparationInstance = SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();
@@ -41,7 +42,7 @@ export class SaleMainLoop {
         }
 
         if (this.fileName = '') {
-            this.fileName = new Date().getFullYear()+"-"+ (new Date().getMonth()+1) + "-" +
+            this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
                 new Date().getDate() + "-" + Tools.guid() + ".csv";
         }
 
@@ -58,7 +59,7 @@ export class SaleMainLoop {
         for (let i = 1; i < this.rows.length - 1; i++) {
             this.dataInstance = await new SingleSaleDataPreparation(i, this.title, this.rows[i]);
 
-            LogUtils.saleLog.info('******开始测试第【' + i.toString() +'】单销售测试用例******');
+            LogUtils.saleLog.info('******开始测试第【' + i.toString() + '】单销售测试用例******');
 
             LogUtils.saleLog.info(this.dataInstance.getSaleData());
             this.saleInstance = SaleActionInstance.getSaleActionInstance(this.dataInstance.getSaleData(),

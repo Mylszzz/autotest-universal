@@ -1,26 +1,26 @@
 import {Search} from "./search";
-import {DateUtil} from "../utils/dateUtil";
-import {LogUtils} from "../utils/logUtils";
+import {DateUtil} from "../../utils/dateUtil";
+import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
-import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../static/buttonXPaths";
-import {CommonXpath} from "../static/commonXpath";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {CommonXpath} from "../../static/commonXpath";
 
 /**
-* 选择筛选条件
-*/
+ * 选择筛选条件的基类
+ */
 export class Screen {
-    client:wdio.BrowserObject;
-    funnelBtnXPath:string = ButtonXPaths_A8.FUNNEL;  //
+    client: wdio.BrowserObject;
+    funnelBtnXPath: string = ButtonXPaths_A8.FUNNEL;  //
 
-    public constructor (client:wdio.BrowserObject, funnelBtnXPath?:string) {
+    public constructor(client: wdio.BrowserObject, funnelBtnXPath?: string) {
         this.client = client;
         if (funnelBtnXPath != undefined) {  //
             this.funnelBtnXPath = funnelBtnXPath;
         }
-
     }
+
     //筛选条件
-    public async screenNo(date:string,orderType: any, orderState: any) {
+    public async screenNo(date: string, orderType: any, orderState: any) {
         await new Search(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
@@ -38,13 +38,13 @@ export class Screen {
         await chooseAll_2.click();
 
         // 点击选择订单类型
-        for (let i=0;i<orderType.length;i++){
-            let oneOfOrderType= await this.client.$('//android.widget.CheckBox[@content-desc="'+orderType[i]+'"]');
+        for (let i = 0; i < orderType.length; i++) {
+            let oneOfOrderType = await this.client.$('//android.widget.CheckBox[@content-desc="' + orderType[i] + '"]');
             await oneOfOrderType.click();
         }
         // 点击选择订单状态
-        for (let i=0;i<orderState.length;i++){
-            let oneOfOrderState= await this.client.$('//android.widget.CheckBox[@content-desc="'+orderState[i]+'"]');
+        for (let i = 0; i < orderState.length; i++) {
+            let oneOfOrderState = await this.client.$('//android.widget.CheckBox[@content-desc="' + orderState[i] + '"]');
             await oneOfOrderState.click();
         }
         //完成
@@ -52,7 +52,7 @@ export class Screen {
         await ok.click();
     }
 
-    public async refScreen(){
+    public async refScreen() {
         await new Search(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
@@ -62,27 +62,36 @@ export class Screen {
         await ok.click();
         //重置后的条件判断，是否符合条件
         let generalSalesOrderCheck = await this.client.$('//android.widget.CheckBox[@content-desc="一般销售单"]');
-        let isGeneralSalesOrderCheck =  await generalSalesOrderCheck.getAttribute('checked');
-        if (isGeneralSalesOrderCheck){
+        let isGeneralSalesOrderCheck = await generalSalesOrderCheck.getAttribute('checked');
+        if (isGeneralSalesOrderCheck) {
             let completed = await this.client.$('//android.widget.CheckBox[@content-desc="已完成"]');
-            let isCompleted =  await completed.getAttribute('checked');
-            if (isCompleted){
+            let isCompleted = await completed.getAttribute('checked');
+            if (isCompleted) {
                 let complete = await this.client.$(CommonXpath.OK);
                 await complete.click();
                 LogUtils.search.info("=====订单查询--》重置筛选条件符合预期==");
-            }else {
+            } else {
                 LogUtils.search.info("=====订单查询--》重置筛选条件不符预期==");
             }
-        }else {
+        } else {
             LogUtils.search.info("=====订单查询--》重置筛选条件不符预期==");
         }
     }
 }
 
-export class Screen_A8 extends Screen{}
 
+/**
+ * A8
+ */
+export class Screen_A8 extends Screen {
+}
+
+
+/**
+ * Elo
+ */
 export class Search_elo extends Search {
-    public constructor (client:wdio.BrowserObject, funnelBtnXPath = ButtonXPaths_Elo.FUNNEL) {
+    public constructor(client: wdio.BrowserObject, funnelBtnXPath = ButtonXPaths_Elo.FUNNEL) {
         super(client, funnelBtnXPath);
     }
 }

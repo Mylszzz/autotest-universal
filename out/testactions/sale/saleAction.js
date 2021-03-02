@@ -8,6 +8,11 @@ const globalUtil_1 = require("../../utils/globalUtil");
 const touchMethod_1 = require("../../utils/touchMethod");
 const inputCoordinates_1 = require("../../static/inputCoordinates");
 const MAX_SCROLL_TIMES_A8 = 1; // TODO: Make it global
+/**
+ * 销售脚本的抽象类，用于单条销售测试用例的脚本执行
+ * 添加新设备是继承此类
+ * 实现了ISaleData接口，用于规范单次销售需要的数据
+ */
 class SaleAction {
     constructor(saleData, client, csvGenerator) {
         this.client = client;

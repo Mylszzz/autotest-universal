@@ -30,7 +30,6 @@ class ScreenShotUtil {
     // @ts-ignore
     static async takeScreenShot(client, orderNo) {
         let screenshot = await client.takeScreenshot();
-        //console.log(screenshot);
         //定义生成图片的路径
         let path1 = '../../errorScreenShot/' + new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + '-' + Date.now() + '-' + orderNo + '.png';
         // @ts-ignore

@@ -5,22 +5,33 @@ import {UploadLogAction_A8, UploadLogAction_Elo} from "./basicActions/uploadLogA
 import {VipLogin_A8, VipLogin_Elo} from "./sale/loginVip";
 import {ISaleData, SaleAction_A8, SaleAction_Elo} from "./sale/saleAction";
 import {DeviceName} from "../static/deviceName";
-import {CancelReturns_A8, CancelReturns_ELO} from "./CancelReturns";
+import {CancelReturns_A8, CancelReturns_ELO} from "./refund/cancelReturns";
 import {CsvGenerator} from "./sale/csvGenerator";
 
 
-const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
+/****************************************************************
+ *   此文件提供了各种不同模块可以直接调用的静态方法                      *
+ *   在此文件中完成了对设备名的判断, 因而可以在需要的地方直接调用          *
+ *   在扩展此项目时, 如需添加新设备, 请在需要的模块下添加对新设备的支持     *
+ *   包括的模块有:                                                *
+ *   1. 登录 2. 退出 3. 刷新店铺 4. 取消退货 5. 上传日志 6. 登录VIP    *
+ *   7. 获取SaleAction实例                                       *
+ ***************************************************************/
+
+const deviceName: string = DeviceName.getDeviceName();  // a8或者elo
 
 /**
  * 用于直接调用登录的静态方法
  * 懒汉式单例模式
  */
 export class LoginAction {
-    private static device_instance:Login;
-    private constructor() {}
+    private static device_instance: Login;
+
+    private constructor() {
+    }
 
     // main中需要调用的方法
-    static async login(client:any) {
+    static async login(client: any) {
         if (deviceName == 'a8' && null == this.device_instance) {
             this.device_instance = Device_A8.getInstance(client);
         } else if (deviceName == 'elo' && this.device_instance == null) {
@@ -45,11 +56,13 @@ export class LoginAction {
  * 懒汉式单例模式
  */
 export class LogoutAction {
-    private static instance:LogoutAction_A8|LogoutAction_Elo;
-    private constructor() {}
+    private static instance: LogoutAction_A8 | LogoutAction_Elo;
+
+    private constructor() {
+    }
 
     // 退出登录
-    static async accountLogout(client:any) {
+    static async accountLogout(client: any) {
         if (deviceName == 'a8' && null == this.instance) {
             this.instance = LogoutAction_A8.getInstance(client);
         } else if (deviceName == 'elo' && null == this.instance) {
@@ -60,7 +73,7 @@ export class LogoutAction {
     }
 
     // 退出程序
-    static async sysLogout(client:any) {
+    static async sysLogout(client: any) {
         if (deviceName == 'a8' && null == this.instance) {
             this.instance = LogoutAction_A8.getInstance(client);
         } else if (deviceName == 'elo' && null == this.instance) {
@@ -76,10 +89,12 @@ export class LogoutAction {
  * 懒汉式单例模式
  */
 export class RefreshAction {
-    private static instance:RefreshAction_A8|RefreshAction_Elo;
-    private constructor() {}
+    private static instance: RefreshAction_A8 | RefreshAction_Elo;
 
-    static async refreshAction(client:any) {
+    private constructor() {
+    }
+
+    static async refreshAction(client: any) {
         if (deviceName == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
             this.instance = RefreshAction_A8.getInstance(client);  // 创建用于刷新的A8实例
         } else if (deviceName == 'elo' && null == this.instance) {
@@ -95,10 +110,12 @@ export class RefreshAction {
  * 懒汉式单例模式
  */
 export class CancelReturns {
-    private static instance:CancelReturns_A8|CancelReturns_ELO;
-    private constructor() {}
+    private static instance: CancelReturns_A8 | CancelReturns_ELO;
 
-    static async refreshAction(client:any) {
+    private constructor() {
+    }
+
+    static async refreshAction(client: any) {
         if (deviceName == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
             this.instance = CancelReturns_A8.getInstance(client);  // 创建用于刷新的A8实例
         } else if (deviceName == 'elo' && null == this.instance) {
@@ -115,11 +132,13 @@ export class CancelReturns {
  * 懒汉式单例模式
  */
 export class UploadLogAction {
-    private static instance:UploadLogAction_A8|UploadLogAction_Elo;
-    private constructor() {}
+    private static instance: UploadLogAction_A8 | UploadLogAction_Elo;
+
+    private constructor() {
+    }
 
     // 上传当日日志的方法
-    static async uploadTodayLogAction(client:any) {
+    static async uploadTodayLogAction(client: any) {
         if (deviceName == 'a8' && null == this.instance) {
             this.instance = UploadLogAction_A8.getInstance(client);
         } else if (deviceName == 'elo' && null == this.instance) {
@@ -130,7 +149,7 @@ export class UploadLogAction {
     }
 
     // 上传非当日日志的方法
-    static async uploadOtherDayLogAction(client:any) {
+    static async uploadOtherDayLogAction(client: any) {
         if (deviceName == 'a8' && this.instance == null) {
             this.instance = UploadLogAction_A8.getInstance(client);
         } else if (deviceName == 'elo' && this.instance == null) {
@@ -146,10 +165,12 @@ export class UploadLogAction {
  * 懒汉式单例模式
  */
 export class VipLoginAction {
-    private static instance:VipLogin_A8|VipLogin_Elo;
-    private constructor(){}
+    private static instance: VipLogin_A8 | VipLogin_Elo;
 
-    public static async vipLogin(client:any) {
+    private constructor() {
+    }
+
+    public static async vipLogin(client: any) {
         if (deviceName == 'a8' && this.instance == null) {
             this.instance = VipLogin_A8.getInstance(client);
         } else if (deviceName == 'elo' && this.instance == null) {
@@ -163,9 +184,10 @@ export class VipLoginAction {
  * 直接获取 SaleAction 实例的静态方法
  */
 export class SaleActionInstance {
-    private constructor(){}
+    private constructor() {
+    }
 
-    public static getSaleActionInstance(saleData:ISaleData, client:any, csvGenerator:CsvGenerator):SaleAction_A8|SaleAction_Elo {
+    public static getSaleActionInstance(saleData: ISaleData, client: any, csvGenerator: CsvGenerator): SaleAction_A8 | SaleAction_Elo {
         if (deviceName == 'a8') {
             return new SaleAction_A8(saleData, client, csvGenerator);
         } else if (deviceName == 'elo') {

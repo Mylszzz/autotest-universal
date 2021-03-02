@@ -7,10 +7,13 @@ const refundUtils_1 = require("./refundUtils");
 const logUtils_1 = require("../../utils/logUtils");
 const refundData_1 = require("../../entity/refundData");
 const screenShotUtil_1 = require("../../utils/screenShotUtil");
-const search_1 = require("../search");
+const search_1 = require("../basicActions/search");
 const refundOrder_1 = require("./refundOrder");
 const exportCsv_1 = require("../../utils/exportCsv");
 const tools_1 = require("../../utils/tools");
+/**
+ * 用于退货的主脚本
+ */
 class RefundAction {
     /**
      * 构造方法

@@ -1,14 +1,13 @@
 import {SingleDriver} from "./driver";
 import {LoginAction, LogoutAction, UploadLogAction, RefreshAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
-import {ReadCSV} from "./utils/readCSV";
 import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {ValidateOrderInfo} from "./testactions/orderInfo/validateOrderInfo";
-import {Screen} from "./testactions/screen";
-import {Search, Search_a8} from "./testactions/search";
-import {CancelReturns} from "./testactions/CancelReturns";
+import {Screen} from "./testactions/basicActions/screen";
+import {Search, Search_a8} from "./testactions/basicActions/search";
+import {CancelReturns} from "./testactions/refund/cancelReturns";
 import {RefundAction} from "./testactions/refund/refundAction";
 import {SaleMainLoop} from "./testactions/sale/saleMainLoop";
 import {VipLoginAction} from "./testactions/deviceActions";

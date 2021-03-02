@@ -135,6 +135,7 @@ class Device_Elo extends Login {
         }
     }
     async reboot() {
+        //TODO
     }
 }
 exports.Device_Elo = Device_Elo;
