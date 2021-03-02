@@ -19,6 +19,8 @@ class SaleAction {
     }
     /**
      * 销售脚本,先登录vip
+     * 无论成功与否应调用后面的销售脚本
+     * TODO：如果号码未注册
      * @returns {Promise<void>}
      */
     async saleAction() {
@@ -27,11 +29,20 @@ class SaleAction {
         }
         catch (e) {
             console.error(e);
-            throw new exceptions_1.BasicException('A9999', '登录vip失败').toString();
+            throw new exceptions_1.AutoTestException('A9999', '登录vip失败').toString();
         }
         finally {
             await this.saleActionStep2();
         }
+    }
+    /**
+     * 点击“确定”按键并等待响应
+     * @returns {Promise<void>}
+     */
+    async clickOnConfirm() {
+        let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+        await confirm.click();
+        await this.client.pause(1000);
     }
 }
 /**
@@ -42,7 +53,7 @@ class SaleAction_A8 extends SaleAction {
         super(saleData, client, csvGenerator);
     }
     /**
-     *
+     * 登录VIP后开始执行销售流程脚本
      * @returns {Promise<void>}
      */
     async saleActionStep2() {
@@ -118,7 +129,7 @@ class SaleAction_A8 extends SaleAction {
                 await this.clickOnPayMethod(payMethodBtn, scrollTimes, amount);
             }
             else {
-                throw new exceptions_1.BasicException(); // TODO
+                throw new exceptions_1.AutoTestException('A9999'); // TODO
             }
         }
         catch (e) {
@@ -144,14 +155,12 @@ class SaleAction_A8 extends SaleAction {
      */
     async scrollDown() {
         logUtils_1.LogUtils.saleLog.info('向下滑动一次！');
-    }
-    /**
-     * 点击“确定”按键并等待响应
-     * @returns {Promise<void>}
-     */
-    async clickOnConfirm() {
-        let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-        await confirm.click();
+        await this.client.touchAction([
+            { action: 'press', x: 354, y: 900 },
+            { action: 'moveTo', x: 354, y: 572 },
+            { action: 'release' }
+        ]);
+        //await this.client.swipe(354, 900, 354, 572, 1000);
         await this.client.pause(1000);
     }
     generateCsv() {
@@ -167,6 +176,67 @@ class SaleAction_Elo extends SaleAction {
         super(saleData, client, csvGenerator);
     }
     async saleActionStep2() {
+    }
+    /**
+     * 所有支付方式的循环
+     * @returns {Promise<void>}
+     */
+    async payMethodLoop() {
+        let scrollTimes = 0; // 已经滑动的次数
+        // [支付方式名字, 金额]
+        for (let [key, value] of this.paymentInfoMap) {
+            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
+            logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
+            await this.clickOnPayMethod(payMethodBtn, scrollTimes, value);
+            await this.client.pause(1000);
+            scrollTimes = 0;
+        }
+    }
+    async clickOnPayMethod(payMethodBtn, scrollTimes, amount) {
+        try {
+            await payMethodBtn.click();
+            await this.client.pause(1000);
+            /*
+            如果可以点击确定键，则需要输入金额并点击
+             */
+            if (await this.payMethodDisplayed()) {
+                let touchMethod = touchMethod_1.TouchMethod.getTouchMethod();
+                await touchMethod(this.client, amount, inputCoordinates_1.InputCoordinates.getCoordMap());
+                await this.clickOnConfirm();
+            }
+            else if (scrollTimes < MAX_SCROLL_TIMES_A8) {
+                logUtils_1.LogUtils.saleLog.info('支付方式不在本页');
+                await this.scrollDown();
+                scrollTimes++;
+                await this.clickOnPayMethod(payMethodBtn, scrollTimes, amount);
+            }
+            else {
+                throw new exceptions_1.AutoTestException('A9999'); // TODO
+            }
+        }
+        catch (e) {
+            logUtils_1.LogUtils.saleLog.error(e.toString());
+            logUtils_1.LogUtils.saleLog.warn('未找到支付方式');
+        }
+    }
+    /**
+     * 通过判断点击后是否出现'确定'按钮
+     * 判断该支付方式是否在页面上显示
+     * @returns {boolean}
+     */
+    async payMethodDisplayed() {
+        this.client.setImplicitTimeout(500);
+        let confirmBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+        let isDisplayed = await confirmBtn.isDisplayed();
+        this.client.setImplicitTimeout(10000);
+        return isDisplayed;
+    }
+    /**
+     * 向下滑动
+     * @returns {Promise<void>}
+     */
+    async scrollDown() {
+        logUtils_1.LogUtils.saleLog.info('向下滑动一次！');
     }
     generateCsv() {
         // this.csvGenerator.printCsv(, this.seqNum);

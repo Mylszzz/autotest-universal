@@ -1,4 +1,4 @@
-import {BasicException} from "./exceptions";
+import {AutoTestException} from "./exceptions";
 import {LogUtils} from "./logUtils";
 
 export class TouchMethod {
@@ -19,7 +19,7 @@ export class TouchMethod {
                     y = coorMap.get(char).y;
                 }
                 catch (e) {
-                    LogUtils.log.error(new BasicException('A0001', '尝试使用触摸输入失败').toString());
+                    LogUtils.log.error(new AutoTestException('A0001', '尝试使用触摸输入失败').toString());
                 } finally {
                     await this.touchXY(client, Number.parseInt(x), Number.parseInt(y));
                 }

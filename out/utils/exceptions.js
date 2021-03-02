@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginException = exports.BasicException = void 0;
+exports.LoginException = exports.AutoTestException = void 0;
 /**
  * 自定义基本异常类
  */
-class BasicException extends Error {
+class AutoTestException extends Error {
     /**
      * 构造函数，如果子类继承了该基类，请在子类构造器中依次执行super()、this.appendMap(map)、this.check(code,detail
      * @param {string} code 错误代码
@@ -12,7 +12,7 @@ class BasicException extends Error {
      */
     constructor(code = 'A9999', detail = '') {
         super();
-        this.code = '';
+        this.code = ''; // 错误代码
         this.msg = '';
         this.detail = '';
         this.map = new Map([
@@ -61,11 +61,11 @@ class BasicException extends Error {
         return `code:${this.code}, msg:${this.msg}, detail:${this.detail}`; // 拼接字符串
     }
 }
-exports.BasicException = BasicException;
+exports.AutoTestException = AutoTestException;
 /**
  * 登录中的异常
  */
-class LoginException extends BasicException {
+class LoginException extends AutoTestException {
     constructor(code = 'A9999', detail = '') {
         super(code, detail);
         super.appendMap(new Map([

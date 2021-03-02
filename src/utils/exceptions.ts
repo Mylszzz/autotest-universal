@@ -1,9 +1,9 @@
 /**
  * 自定义基本异常类
  */
-export class BasicException extends Error {
+export class AutoTestException extends Error {
     protected map: Map<string, string>;  // [code, msg]
-    protected code: string = '';
+    protected code: string = '';  // 错误代码
     protected msg: string | undefined = '';
     protected detail: string = '';
 
@@ -71,7 +71,7 @@ export class BasicException extends Error {
 /**
  * 登录中的异常
  */
-export class LoginException extends BasicException {
+export class LoginException extends AutoTestException {
     constructor(code:string = 'A9999', detail:string = '') {
         super(code, detail);
 

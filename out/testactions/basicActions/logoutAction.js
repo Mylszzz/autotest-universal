@@ -96,11 +96,11 @@ class LogoutAction_Elo {
     }
     // 退出系统
     async sysLogout() {
-        let menu = await this.client.$(buttonXPaths_1.ButtonXPaths_Elo.MENU);
-        await menu.click();
+        let menuBtn = await this.client.$(buttonXPaths_1.ButtonXPaths_Elo.MENU);
+        await menuBtn.click();
         await this.client.pause(1000);
-        let sysLogout = await this.client.$(buttonXPaths_1.ButtonXPaths_Elo.SYSTEMLOGOUT);
-        await sysLogout.click();
+        let sysLogoutBtn = await this.client.$(buttonXPaths_1.ButtonXPaths_Elo.SYSTEMLOGOUT);
+        await sysLogoutBtn.click();
         await this.client.pause(5000);
     }
 }

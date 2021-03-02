@@ -1,24 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Device_Elo = exports.Device_A8 = exports.Device = void 0;
+exports.Device_Elo = exports.Device_A8 = exports.Login = void 0;
 const logUtils_1 = require("../../utils/logUtils");
 const globalUtil_1 = require("../../utils/globalUtil");
 const exceptions_1 = require("../../utils/exceptions");
 /**
- * device 的抽象类
- * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
+ * 登录的抽象类
+ * 继承此方法还需要考虑在globalUtils.ts中更新机器的配置信息
  * 需要实现3个抽象方法
- * 具体子类应该使用单例是设计模式
+ * 具体子类应该使用单例设计模式
  */
-class Device {
+class Login {
     constructor(client) {
         this.client = client;
         this.username = globalUtil_1.GlobalUtil.getConfigMap().get("username"); // 从map中得到用户名
         this.password = globalUtil_1.GlobalUtil.getConfigMap().get("password"); // 从map中得到密码
     }
 }
-exports.Device = Device;
-class Device_A8 extends Device {
+exports.Login = Login;
+/**
+ * A8
+ */
+class Device_A8 extends Login {
     constructor(client) {
         super(client);
     }
@@ -85,7 +88,10 @@ class Device_A8 extends Device {
     }
 }
 exports.Device_A8 = Device_A8;
-class Device_Elo extends Device {
+/**
+ * Elo
+ */
+class Device_Elo extends Login {
     constructor(client) {
         super(client);
     }

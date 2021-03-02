@@ -1,5 +1,5 @@
-import {TouchAction} from "./touchAction";
-import {GlobalUtil} from "../utils/globalUtil";
+import {TouchAction} from "../touchAction";
+import {GlobalUtil} from "../../utils/globalUtil";
 
 /**
  * A8
@@ -7,9 +7,23 @@ import {GlobalUtil} from "../utils/globalUtil";
 export class VipLogin_A8 implements VipLogin{
     client:any;
     phoneNum:string;
-    public constructor(client:any) {
+    private static instance:VipLogin_A8;
+
+    private constructor(client:any) {
         this.client = client;
         this.phoneNum = <string>GlobalUtil.getConfigMap().get('vipPhone');
+    }
+
+    /**
+     * 获得VipLogin_A8的实例
+     * @param client
+     * @returns {VipLogin_A8}
+     */
+    public static getInstance(client:any):VipLogin_A8 {
+        if (null == this.instance) {
+            this.instance = new VipLogin_A8(client);
+        }
+        return this.instance;
     }
 
     public async vipLogin() {
@@ -31,10 +45,23 @@ export class VipLogin_A8 implements VipLogin{
 export class VipLogin_Elo implements VipLogin {
     client:any;
     phoneNum:string;
+    private static instance:VipLogin_Elo;
 
-    public constructor(client:any) {
+    private constructor(client:any) {
         this.client = client;
         this.phoneNum = <string>GlobalUtil.getConfigMap().get('vipPhone');
+    }
+
+    /**
+     * 获得VipLogin_Elo的实例
+     * @param client
+     * @returns {VipLogin_Elo}
+     */
+    public static getInstance(client:any):VipLogin_Elo {
+        if (null == this.instance) {
+            this.instance = new VipLogin_Elo(client);
+        }
+        return this.instance;
     }
 
     public async vipLogin() {
@@ -49,7 +76,8 @@ export class VipLogin_Elo implements VipLogin {
 }
 
 interface VipLogin {
-    client:any;
-    phoneNum:string;
-    vipLogin():void;
+    client: any;
+    phoneNum: string;
+
+    vipLogin(): void;
 }

@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
+exports.SaleActionInstance = exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
 const logoutAction_1 = require("./basicActions/logoutAction");
 const refreshAction_1 = require("./basicActions/refreshAction");
 const uploadLogAction_1 = require("./basicActions/uploadLogAction");
-const loginVip_1 = require("./loginVip");
+const loginVip_1 = require("./sale/loginVip");
+const saleAction_1 = require("./sale/saleAction");
 const deviceName_1 = require("../static/deviceName");
 const CancelReturns_1 = require("./CancelReturns");
 const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
@@ -142,12 +143,30 @@ class VipLoginAction {
     constructor() { }
     static async vipLogin(client) {
         if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new loginVip_1.VipLogin_A8(client);
+            this.instance = loginVip_1.VipLogin_A8.getInstance(client);
         }
         else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new loginVip_1.VipLogin_Elo(client);
+            this.instance = loginVip_1.VipLogin_Elo.getInstance(client);
         }
         await this.instance.vipLogin();
     }
 }
 exports.VipLoginAction = VipLoginAction;
+/**
+ * 直接获取 SaleAction 实例的静态方法
+ */
+class SaleActionInstance {
+    constructor() { }
+    static getSaleActionInstance(saleData, client, csvGenerator) {
+        if (deviceName == 'a8') {
+            return new saleAction_1.SaleAction_A8(saleData, client, csvGenerator);
+        }
+        else if (deviceName == 'elo') {
+            return new saleAction_1.SaleAction_Elo(saleData, client, csvGenerator);
+        }
+        else { // 需要默认返回
+            return new saleAction_1.SaleAction_A8(saleData, client, csvGenerator);
+        }
+    }
+}
+exports.SaleActionInstance = SaleActionInstance;

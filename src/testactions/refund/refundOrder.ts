@@ -64,7 +64,6 @@ export class RefundOrder {
         //输入密码
         console.log('以下是新的触摸方法的测试');
         if (deviceName == 'a8'){
-            // TODO: 以下是新的触摸方法的测试
             let touchFun = TouchMethod.getTouchMethod();
             await touchFun(client, number, InputCoordinates.getCoordMap());  // A8退款使用A8通用坐标Map
             // await TouchAction.touchPasswordAction(client, number);

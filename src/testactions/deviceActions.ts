@@ -1,10 +1,12 @@
-import {Device, Device_A8, Device_Elo} from "./login/loginUtil";
+import {Login, Device_A8, Device_Elo} from "./login/loginUtil";
 import {LogoutAction_A8, LogoutAction_Elo} from "./basicActions/logoutAction";
 import {RefreshAction_A8, RefreshAction_Elo} from "./basicActions/refreshAction";
 import {UploadLogAction_A8, UploadLogAction_Elo} from "./basicActions/uploadLogAction";
-import {VipLogin_A8, VipLogin_Elo} from "./loginVip";
+import {VipLogin_A8, VipLogin_Elo} from "./sale/loginVip";
+import {ISaleData, SaleAction_A8, SaleAction_Elo} from "./sale/saleAction";
 import {DeviceName} from "../static/deviceName";
 import {CancelReturns_A8, CancelReturns_ELO} from "./CancelReturns";
+import {CsvGenerator} from "./sale/csvGenerator";
 
 
 const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
@@ -14,7 +16,7 @@ const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
  * 懒汉式单例模式
  */
 export class LoginAction {
-    private static device_instance:Device;
+    private static device_instance:Login;
     private constructor() {}
 
     // main中需要调用的方法
@@ -149,10 +151,27 @@ export class VipLoginAction {
 
     public static async vipLogin(client:any) {
         if (deviceName == 'a8' && this.instance == null) {
-            this.instance = new VipLogin_A8(client);
+            this.instance = VipLogin_A8.getInstance(client);
         } else if (deviceName == 'elo' && this.instance == null) {
-            this.instance = new VipLogin_Elo(client);
+            this.instance = VipLogin_Elo.getInstance(client);
         }
         await this.instance.vipLogin();
+    }
+}
+
+/**
+ * 直接获取 SaleAction 实例的静态方法
+ */
+export class SaleActionInstance {
+    private constructor(){}
+
+    public static getSaleActionInstance(saleData:ISaleData, client:any, csvGenerator:CsvGenerator):SaleAction_A8|SaleAction_Elo {
+        if (deviceName == 'a8') {
+            return new SaleAction_A8(saleData, client, csvGenerator);
+        } else if (deviceName == 'elo') {
+            return new SaleAction_Elo(saleData, client, csvGenerator);
+        } else {  // 需要默认返回
+            return new SaleAction_A8(saleData, client, csvGenerator);
+        }
     }
 }

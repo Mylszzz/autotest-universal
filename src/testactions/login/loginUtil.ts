@@ -1,17 +1,17 @@
 import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
-import {BasicException, LoginException} from "../../utils/exceptions";
+import { LoginException} from "../../utils/exceptions";
 
 
 /**
- * device 的抽象类
- * 不同的机器继承次方法需要readUtils.ts中更新机器的配置信息
+ * 登录的抽象类
+ * 继承此方法还需要考虑在globalUtils.ts中更新机器的配置信息
  * 需要实现3个抽象方法
- * 具体子类应该使用单例是设计模式
+ * 具体子类应该使用单例设计模式
  */
-export abstract class Device {
-    public client: wdio.BrowserObject;
+export abstract class Login {
+    protected client: wdio.BrowserObject;
     public usernameText: any;  // 用户名输入框实例
     public passwordText: any;
     public username: string | undefined;  // 用户名
@@ -31,7 +31,10 @@ export abstract class Device {
 }
 
 
-export class Device_A8 extends Device {
+/**
+ * A8
+ */
+export class Device_A8 extends Login {
     private static instance :Device_A8;
 
     private constructor(client: wdio.BrowserObject) {
@@ -102,7 +105,11 @@ export class Device_A8 extends Device {
     }
 }
 
-export class Device_Elo extends Device {
+
+/**
+ * Elo
+ */
+export class Device_Elo extends Login {
     private static instance:Device_Elo;
 
     private constructor(client: wdio.BrowserObject) {

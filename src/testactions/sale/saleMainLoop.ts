@@ -1,9 +1,9 @@
 import {SaleAction_A8, SaleAction_Elo} from "./saleAction";
-import {DeviceName} from "../../static/deviceName";
 import {CsvGenerator} from "./csvGenerator";
 import {Tools} from "../../utils/tools";
 import {LogUtils} from "../../utils/logUtils";
 import {SaleDataPreparation, SingleSaleDataPreparation} from "./saleDataPreparation";
+import {SaleActionInstance} from "../deviceActions";
 
 /**
  * 销售测试用例执行的入口类
@@ -60,13 +60,9 @@ export class SaleMainLoop {
 
             LogUtils.saleLog.info('******开始测试第【' + i.toString() +'】单销售测试用例******');
 
-            if (DeviceName.getDeviceName() == 'a8') {
-                LogUtils.saleLog.info(this.dataInstance.getSaleData());
-                this.saleInstance = await new SaleAction_A8(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
-            } else if (DeviceName.getDeviceName() == 'elo') {
-                LogUtils.saleLog.info(this.dataInstance.getSaleData());
-                this.saleInstance = await new SaleAction_Elo(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
-            }
+            LogUtils.saleLog.info(this.dataInstance.getSaleData());
+            this.saleInstance = SaleActionInstance.getSaleActionInstance(this.dataInstance.getSaleData(),
+                this.client, this.csvGenerator);
 
             await this.saleInstance.saleAction();
         }

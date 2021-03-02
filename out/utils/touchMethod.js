@@ -20,7 +20,7 @@ class TouchMethod {
                     y = coorMap.get(char).y;
                 }
                 catch (e) {
-                    logUtils_1.LogUtils.log.error(new exceptions_1.BasicException('A0001', '尝试使用触摸输入失败').toString());
+                    logUtils_1.LogUtils.log.error(new exceptions_1.AutoTestException('A0001', '尝试使用触摸输入失败').toString());
                 }
                 finally {
                     await this.touchXY(client, Number.parseInt(x), Number.parseInt(y));

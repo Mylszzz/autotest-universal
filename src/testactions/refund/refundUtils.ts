@@ -1,5 +1,5 @@
 import {ReadUtils} from "../../utils/readUtils";
-import {BasicException} from "../../utils/exceptions";
+import {AutoTestException} from "../../utils/exceptions";
 
 
 interface IRefundInfo {
@@ -117,7 +117,7 @@ export class RefundOnce implements IRefundInfo{
                         break;
                 }
             } catch (e) {
-                throw new BasicException('A0002', '退款输入数据异常')
+                throw new AutoTestException('A0002', '退款输入数据异常')
 
             }
         }

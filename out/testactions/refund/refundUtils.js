@@ -98,7 +98,7 @@ class RefundOnce {
                 }
             }
             catch (e) {
-                throw new exceptions_1.BasicException('A0002', '退款输入数据异常');
+                throw new exceptions_1.AutoTestException('A0002', '退款输入数据异常');
             }
         }
     }
