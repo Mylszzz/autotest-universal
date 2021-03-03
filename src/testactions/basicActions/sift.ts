@@ -8,7 +8,7 @@ import {CommonXpath} from "../../static/commonXpath";
 /**
  * 选择筛选条件的基类
  */
-export class Screen {
+export class Sift {
     client: wdio.BrowserObject;
     funnelBtnXPath: string = ButtonXPaths_A8.FUNNEL;  //
 
@@ -19,8 +19,13 @@ export class Screen {
         }
     }
 
-    //筛选条件
-    public async screenNo(date: string, orderType: any, orderState: any) {
+    /**
+     * 选择筛选条件
+     * @param date 日期
+     * @param orderType 订单类型
+     * @param orderState 订单状态
+     */
+    public async siftType(date: string, orderType: any, orderState: any) {
         await new Search(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
@@ -52,7 +57,11 @@ export class Screen {
         await ok.click();
     }
 
-    public async refScreen() {
+    /**
+     * 重置筛选条件
+     *
+     */
+    public async refSift() {
         await new Search(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
@@ -81,16 +90,17 @@ export class Screen {
 
 
 /**
- * A8
+ * A8直接继承
  */
-export class Screen_A8 extends Screen {
+export class Sift_A8 extends Sift {
+
 }
 
 
 /**
- * Elo
+ * Elo需要更改控件
  */
-export class Search_elo extends Search {
+export class Sift_elo extends Sift {
     public constructor(client: wdio.BrowserObject, funnelBtnXPath = ButtonXPaths_Elo.FUNNEL) {
         super(client, funnelBtnXPath);
     }

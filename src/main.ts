@@ -5,6 +5,7 @@ import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {SaleMainLoop} from "./testactions/sale/saleMainLoop";
+import {RefundAction} from "./testactions/refund/refundAction";
 
 let map = new Map();
 let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
@@ -40,10 +41,10 @@ async function salesSettlement() {
     /*
     销售模块
      */
-    LogUtils.log.info("开始进行销售测试");
-    await SaleMainLoop.salePreparation(client);
-    await SaleMainLoop.saleMainLoop();
-    LogUtils.log.info("销售测试完成");
+    // LogUtils.log.info("开始进行销售测试");
+    // await SaleMainLoop.salePreparation(client);
+    // await SaleMainLoop.saleMainLoop();
+    // LogUtils.log.info("销售测试完成");
 
     // await UploadLogAction.uploadTodayLogAction(client);
     // await RefreshAction.refreshAction(client);
@@ -91,8 +92,8 @@ async function salesSettlement() {
     /*
     退款
      */
-    // let refundAction = new RefundAction(client);
-    // await refundAction.refundProcess();
+    let refundAction = new RefundAction(client);
+     await refundAction.refundProcess();
 }
 
 

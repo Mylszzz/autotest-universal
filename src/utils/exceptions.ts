@@ -81,3 +81,56 @@ export class LoginException extends AutoTestException {
         this.check(code, detail);
     }
 }
+
+export class RefunException extends AutoTestException {
+    constructor(code: string = 'A9999', detail: string = '') {
+        super(code, detail);
+
+        super.appendMap(new Map([
+            ['R0001', '密码输入错误'],
+            ['R0002','退货失败'],
+        ]));
+
+        this.check(code, detail);
+    }
+}
+
+export class SearchException extends AutoTestException {
+    constructor(code: string = 'A9999', detail: string = '') {
+        super(code, detail);
+
+        super.appendMap(new Map([
+            ['S0001', '查询错误'],
+        ]));
+
+        this.check(code, detail);
+    }
+}
+
+export class SiftException extends AutoTestException {
+    constructor(code: string = 'A9999', detail: string = '') {
+        super(code, detail);
+
+        super.appendMap(new Map([
+            ['S0002', '筛选错误'],
+        ]));
+
+        this.check(code, detail);
+    }
+}
+
+export class SaleException extends AutoTestException {
+    constructor(code: string = 'A9999', detail: string = '') {
+        super(code, detail);
+
+        super.appendMap(new Map([
+            ['S0003', '支付错误'],
+        ]));
+
+        this.check(code, detail);
+    }
+}
+
+
+
+

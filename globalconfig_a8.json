@@ -10,7 +10,7 @@
   "cardNo": "1000012032800003",
   "key": "DnV5nqGZruvybv6wPagJrxQo34FG0Bwz",
   "csv": "src/static/test.csv",
-  "refundDataPath": "../../csvData/sale/2021-1-26-2191500f-26f5-46b1-b445-f0cc2b101a06-0.csv",
+  "refundDataPath": "../../csvData/sale/2021-3-3-2191500f-26f5-46b1-b445-f0cc2b101a06.csv",
   "TTPAYMethod": "微信",
   "CardType": "电子卡",
   "crossStoreLogin": {
