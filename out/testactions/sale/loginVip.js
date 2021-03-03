@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VipLogin_Elo = exports.VipLogin_A8 = void 0;
 const phoneNum_1 = require("../phoneNum");
 const globalUtil_1 = require("../../utils/globalUtil");
+const exceptions_1 = require("../../utils/exceptions");
 const logUtils_1 = require("../../utils/logUtils");
 /**
  * A8
@@ -24,16 +25,32 @@ class VipLogin_A8 {
         return this.instance;
     }
     async vipLogin() {
-        let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
-        await vipBtn.click();
-        logUtils_1.LogUtils.saleLog.info('******登录vip账号:' + this.phoneNum + '*******');
-        //输入会员号码
-        await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
-        await this.client.pause(1000);
-        //点击确定
-        let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-        await okBtn.click();
-        await this.client.pause(3000);
+        try {
+            let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
+            await vipBtn.click();
+            logUtils_1.LogUtils.saleLog.info('******登录vip账号:' + this.phoneNum + '*******');
+            //输入会员号码
+            await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
+            await this.client.pause(1000);
+            //点击确定
+            let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+            await okBtn.click();
+            await this.client.pause(3000);
+        }
+        catch (e) {
+            throw new exceptions_1.LoginException('L0001', '没有该会员号！');
+            if (e instanceof exceptions_1.LoginException) {
+                logUtils_1.LogUtils.loginLog.error(e.toString());
+                let okBtn2 = await this.client.$('(//android.widget.Button[@content-desc="确定"])[2]');
+                await okBtn2.click();
+                let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+                await okBtn.click();
+                await this.client.pause(3000);
+            }
+            else {
+                logUtils_1.LogUtils.loginLog.error(e.toString());
+            }
+        }
     }
 }
 exports.VipLogin_A8 = VipLogin_A8;
@@ -57,13 +74,21 @@ class VipLogin_Elo {
         return this.instance;
     }
     async vipLogin() {
-        //输入会员号码
-        await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
-        await this.client.pause(1000);
-        //点击确定
-        let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-        await okBtn.click();
-        await this.client.pause(3000);
+        try {
+            //输入会员号码
+            await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
+            await this.client.pause(1000);
+            //点击确定
+            let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+            await okBtn.click();
+            await this.client.pause(3000);
+        }
+        catch (e) {
+            throw new exceptions_1.LoginException('L0001', '没有该会员号！');
+            if (e instanceof exceptions_1.LoginException) {
+                logUtils_1.LogUtils.loginLog.error(e.toString());
+            }
+        }
     }
 }
 exports.VipLogin_Elo = VipLogin_Elo;

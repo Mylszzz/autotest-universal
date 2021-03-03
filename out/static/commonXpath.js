@@ -14,8 +14,6 @@ var CommonXpath;
     CommonXpath["ORDERTEXT"] = "//android.webkit.WebView[@content-desc=\"Ionic App\"]/android.widget.EditText";
     //扫码按钮
     CommonXpath["QR"] = "//android.widget.Button[@content-desc=\"qr scanner\"]";
-    //确认
-    CommonXpath["CONFIRM"] = "//android.widget.Button[@content-desc=\"\u786E\u8BA4\"]";
     //申请退货
     CommonXpath["RETURNS"] = "//android.widget.Button[@content-desc=\"\u7533\u8BF7\u9000\u8D27\"]";
     //关闭
@@ -24,5 +22,6 @@ var CommonXpath;
     CommonXpath["CANCEL"] = "//android.widget.Button[@content-desc=\"\u53D6\u6D88\"]";
     //订单详情第一项
     CommonXpath["ORDER"] = "(//android.widget.Image[@content-desc=\"clipboard\"])[1]";
+    //确定
     CommonXpath["DETERMINE"] = "//android.widget.Button[@content-desc=\"\u786E\u5B9A\"]";
 })(CommonXpath = exports.CommonXpath || (exports.CommonXpath = {}));

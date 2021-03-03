@@ -1,4 +1,4 @@
-import {Screen} from "../basicActions/screen";
+import {Sift} from "../basicActions/sift";
 import {Search} from "../basicActions/search";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
@@ -27,7 +27,7 @@ export class CancelReturns {
         await new Search(this.client).search();
         const orderType: any = ['一般销售单'];
         const orderState: any = ['已完成'];
-        await new Screen(this.client).screenNo(new Date().toLocaleDateString(), orderType, orderState);
+        await new Sift(this.client).siftType(new Date().toLocaleDateString(), orderType, orderState);
         await this.client.pause(3000);
         let close = await this.client.$(CommonXpath.CLOSE);
         await close.click();

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginException = exports.AutoTestException = void 0;
+exports.SaleException = exports.SiftException = exports.SearchException = exports.RefunException = exports.LoginException = exports.AutoTestException = void 0;
 /**
  * 自定义基本异常类
  */
@@ -75,3 +75,44 @@ class LoginException extends AutoTestException {
     }
 }
 exports.LoginException = LoginException;
+class RefunException extends AutoTestException {
+    constructor(code = 'A9999', detail = '') {
+        super(code, detail);
+        super.appendMap(new Map([
+            ['R0001', '密码输入错误'],
+            ['R0002', '退货失败'],
+        ]));
+        this.check(code, detail);
+    }
+}
+exports.RefunException = RefunException;
+class SearchException extends AutoTestException {
+    constructor(code = 'A9999', detail = '') {
+        super(code, detail);
+        super.appendMap(new Map([
+            ['S0001', '查询错误'],
+        ]));
+        this.check(code, detail);
+    }
+}
+exports.SearchException = SearchException;
+class SiftException extends AutoTestException {
+    constructor(code = 'A9999', detail = '') {
+        super(code, detail);
+        super.appendMap(new Map([
+            ['S0002', '筛选错误'],
+        ]));
+        this.check(code, detail);
+    }
+}
+exports.SiftException = SiftException;
+class SaleException extends AutoTestException {
+    constructor(code = 'A9999', detail = '') {
+        super(code, detail);
+        super.appendMap(new Map([
+            ['S0003', '支付错误'],
+        ]));
+        this.check(code, detail);
+    }
+}
+exports.SaleException = SaleException;

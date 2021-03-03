@@ -1,5 +1,6 @@
 import {PhoneNum} from "../phoneNum";
 import {GlobalUtil} from "../../utils/globalUtil";
+import {LoginException} from "../../utils/exceptions";
 import {LogUtils} from "../../utils/logUtils";
 
 /**
@@ -28,6 +29,7 @@ export class VipLogin_A8 implements VipLogin {
     }
 
     public async vipLogin() {
+        try{
         let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
         await vipBtn.click();
         LogUtils.saleLog.info('******登录vip账号:'+this.phoneNum+'*******');
@@ -38,6 +40,21 @@ export class VipLogin_A8 implements VipLogin {
         let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
         await okBtn.click();
         await this.client.pause(3000);
+        }
+        catch (e) {
+            throw new LoginException('L0001', '没有该会员号！');
+            if (e instanceof LoginException) {
+                LogUtils.loginLog.error(e.toString());
+                let okBtn2 = await this.client.$('(//android.widget.Button[@content-desc="确定"])[2]');
+                await okBtn2.click();
+                let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+                await okBtn.click();
+                await this.client.pause(3000);
+            }
+            else {
+                LogUtils.loginLog.error(e.toString());
+            }
+        }
     }
 }
 
@@ -67,13 +84,21 @@ export class VipLogin_Elo implements VipLogin {
     }
 
     public async vipLogin() {
-        //输入会员号码
-        await PhoneNum.phoneNum(this.client, this.phoneNum);
-        await this.client.pause(1000);
-        //点击确定
-        let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-        await okBtn.click();
-        await this.client.pause(3000);
+        try {
+            //输入会员号码
+            await PhoneNum.phoneNum(this.client, this.phoneNum);
+            await this.client.pause(1000);
+            //点击确定
+            let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+            await okBtn.click();
+            await this.client.pause(3000);
+        }
+        catch (e) {
+            throw new LoginException('L0001', '没有该会员号！');
+            if (e instanceof LoginException) {
+            LogUtils.loginLog.error(e.toString());
+        }
+    }
     }
 }
 

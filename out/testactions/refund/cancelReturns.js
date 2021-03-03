@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CancelReturns_ELO = exports.CancelReturns_A8 = exports.CancelReturns = void 0;
-const screen_1 = require("../basicActions/screen");
+const sift_1 = require("../basicActions/sift");
 const search_1 = require("../basicActions/search");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 const commonXpath_1 = require("../../static/commonXpath");
@@ -24,7 +24,7 @@ class CancelReturns {
         await new search_1.Search(this.client).search();
         const orderType = ['一般销售单'];
         const orderState = ['已完成'];
-        await new screen_1.Screen(this.client).screenNo(new Date().toLocaleDateString(), orderType, orderState);
+        await new sift_1.Sift(this.client).siftType(new Date().toLocaleDateString(), orderType, orderState);
         await this.client.pause(3000);
         let close = await this.client.$(commonXpath_1.CommonXpath.CLOSE);
         await close.click();

@@ -17,6 +17,12 @@ log4js_1.configure({
             pattern: "yyyy-MM-dd.log",
             alwaysIncludePattern: true
         },
+        refun: {
+            type: "dateFile",
+            filename: "log/refun/order",
+            pattern: "yyyy-MM-dd.log",
+            alwaysIncludePattern: true
+        },
         login: {
             type: "dateFile",
             filename: "log/login",
