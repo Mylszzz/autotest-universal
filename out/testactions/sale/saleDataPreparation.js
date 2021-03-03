@@ -104,7 +104,7 @@ class SingleSaleDataPreparation {
             seqNum: this.seqNum,
             paymentInfoMap: this.paymentInfoMap,
             saleOptionsInfoMap: this.saleOptionsInfoMap,
-            price: this.price
+            price: this.price,
         };
     }
 }

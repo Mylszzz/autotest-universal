@@ -1,5 +1,6 @@
 import {PhoneNum} from "../phoneNum";
 import {GlobalUtil} from "../../utils/globalUtil";
+import {LogUtils} from "../../utils/logUtils";
 
 /**
  * A8
@@ -29,6 +30,7 @@ export class VipLogin_A8 implements VipLogin {
     public async vipLogin() {
         let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
         await vipBtn.click();
+        LogUtils.saleLog.info('******登录vip账号:'+this.phoneNum+'*******');
         //输入会员号码
         await PhoneNum.phoneNum(this.client, this.phoneNum);
         await this.client.pause(1000);

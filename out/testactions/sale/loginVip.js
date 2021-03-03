@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VipLogin_Elo = exports.VipLogin_A8 = void 0;
 const phoneNum_1 = require("../phoneNum");
 const globalUtil_1 = require("../../utils/globalUtil");
+const logUtils_1 = require("../../utils/logUtils");
 /**
  * A8
  */
@@ -25,6 +26,7 @@ class VipLogin_A8 {
     async vipLogin() {
         let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
         await vipBtn.click();
+        logUtils_1.LogUtils.saleLog.info('******登录vip账号:' + this.phoneNum + '*******');
         //输入会员号码
         await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
         await this.client.pause(1000);

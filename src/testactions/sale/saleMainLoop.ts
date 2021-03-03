@@ -4,6 +4,7 @@ import {Tools} from "../../utils/tools";
 import {LogUtils} from "../../utils/logUtils";
 import {SaleDataPreparation, SingleSaleDataPreparation} from "./saleDataPreparation";
 import {SaleActionInstance} from "../deviceActions";
+import {PayMethods} from "./payMethods";
 
 /**
  * 销售测试用例执行的入口类
@@ -31,7 +32,7 @@ export class SaleMainLoop {
      * 对于整个销售测试的准备，包括初始化csvGenerator, fileName和对应机器的SaleDataPreparation的实例
      * @param client
      */
-    public static salePreparation(client: any) {
+    public static async salePreparation(client: any) {
         if (null == this.dataPreparationInstance) {
             this.dataPreparationInstance = SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();

@@ -19,7 +19,7 @@ class SaleMainLoop {
      * 对于整个销售测试的准备，包括初始化csvGenerator, fileName和对应机器的SaleDataPreparation的实例
      * @param client
      */
-    static salePreparation(client) {
+    static async salePreparation(client) {
         if (null == this.dataPreparationInstance) {
             this.dataPreparationInstance = saleDataPreparation_1.SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();
