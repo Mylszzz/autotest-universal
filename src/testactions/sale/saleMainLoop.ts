@@ -4,7 +4,6 @@ import {Tools} from "../../utils/tools";
 import {LogUtils} from "../../utils/logUtils";
 import {SaleDataPreparation, SingleSaleDataPreparation} from "./saleDataPreparation";
 import {SaleActionInstance} from "../deviceActions";
-import {PayMethods} from "./payMethods";
 
 /**
  * 销售测试用例执行的入口类
@@ -15,7 +14,7 @@ import {PayMethods} from "./payMethods";
 export class SaleMainLoop {
     private static dataPreparationInstance: SaleDataPreparation;
     private static csvGenerator: CsvGenerator;
-    private static fileName: string = '';  // 保存测试输出的csv文件名
+    private static fileName: string = 'unknown';  // 保存测试输出的csv文件名
 
     private static dataInstance: SingleSaleDataPreparation;  // 单次销售测试用例的数据准备实例
     private static saleInstance: SaleAction_A8 | SaleAction_Elo;  // 单次销售测试用例执行的实例
@@ -38,18 +37,19 @@ export class SaleMainLoop {
             this.dataPreparationInstance.readFile();
         }
 
-        if (this.csvGenerator == null) {
-            this.csvGenerator = new CsvGenerator(this.dataPreparationInstance.getCsvHeader(), this.fileName);
-        }
 
-        if (this.fileName = '') {
-            this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
-                new Date().getDate() + "-" + Tools.guid() + ".csv";
+        this.title = this.dataPreparationInstance.getTitle();
+        this.rows = this.dataPreparationInstance.getRows();
+
+        this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
+            new Date().getDate() + "-" + Tools.guid() + ".csv";
+
+
+        if (this.csvGenerator == null) {
+            this.csvGenerator = new CsvGenerator(this.dataPreparationInstance.getCsvHeader(), this.fileName, this.rows);
         }
 
         this.client = client;
-        this.title = this.dataPreparationInstance.getTitle();
-        this.rows = this.dataPreparationInstance.getRows();
     }
 
     /**

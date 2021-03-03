@@ -5,7 +5,8 @@ import {GlobalUtil} from "../../utils/globalUtil";
 import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
 import {CsvGenerator} from "./csvGenerator";
-import {PayMethods} from "./payMethods";
+import {PayMethods_A8, PayMethods_Elo} from "./payMethods";
+import {ISaleForCsv} from "./csvGenerator";
 
 const MAX_SCROLL_TIMES_A8 = 1;  // TODO: Make it global
 const PAYMETHODS_COUNT_PER_PAGE = 6;
@@ -14,17 +15,24 @@ const PAYMETHODS_COUNT_PER_PAGE = 6;
 /**
  * 销售脚本的抽象类，用于单条销售测试用例的脚本执行
  * 添加新设备是继承此类
+
  * 实现了ISaleData接口，用于规范单次销售需要的数据
  */
-abstract class SaleAction implements ISaleData {
+abstract class SaleAction implements ISaleData, ISaleForCsv{
     seqNum: number;
     paymentInfoMap: Map<string, string>;
     saleOptionsInfoMap: Map<string, string>;
     price: number;
-    supportedPayMethods:string[] = [];
+    protected supportedPayMethods:string[] = [];
 
-    client: any;
-    csvGenerator: CsvGenerator;
+    protected client: any;
+    protected csvGenerator: CsvGenerator;
+
+    saleTime: string = 'unknown';
+    saleOrderNo: string = 'unknown';
+    priceForCsv: string = 'unknown';
+
+
 
 
     protected constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
@@ -33,6 +41,7 @@ abstract class SaleAction implements ISaleData {
         this.paymentInfoMap = saleData.paymentInfoMap;
         this.saleOptionsInfoMap = saleData.saleOptionsInfoMap;
         this.price = saleData.price;
+        this.priceForCsv = saleData.price.toString();
         this.csvGenerator = csvGenerator;
     }
 
@@ -109,7 +118,7 @@ class SaleAction_A8 extends SaleAction {
             await pay.click();
             await this.client.pause(2000);
 
-            this.supportedPayMethods = await PayMethods.getSupportedPayMethods(this.client);
+            this.supportedPayMethods = await PayMethods_A8.getSupportedPayMethods(this.client);
 
             await this.payMethodLoop();
 
@@ -119,9 +128,22 @@ class SaleAction_A8 extends SaleAction {
             await confirm2.click();
             // 打印订单
             await this.client.pause(8000);
+            //获取订单号
+            let orderNoText = await this.client.$('//android.view.View[@content-desc="订单号"]/following-sibling::android.view.View');
+            this.saleOrderNo = await orderNoText.getAttribute('content-desc');
+
             //完成
             let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
             await complete.click();
+
+            this.saleTime = new Date().toLocaleDateString();
+
+            /*
+            销售完成，打印csv
+             */
+            LogUtils.saleLog.info('******销售完成，打印输出到csv文件******');
+            LogUtils.saleLog.info('**********************************');
+            this.generateCsv();
         } catch (e) {
             LogUtils.saleLog.error(e);  // TODO
 
@@ -195,7 +217,6 @@ class SaleAction_A8 extends SaleAction {
      */
     private async scrollDown(times: number) {
         for (let i=0; i<times; i++) {
-            LogUtils.saleLog.info('向下滑动一次！');
             await this.client.touchAction([
                 {action: 'press', x: 354, y: 900},
                 {action: 'moveTo', x: 354, y: 687},
@@ -216,7 +237,6 @@ class SaleAction_A8 extends SaleAction {
      */
     private async scrollUp(times: number) {
         for (let i=0; i<times; i++) {
-            LogUtils.saleLog.info('向下滑动一次！');
             await this.client.touchAction([
                 {action: 'press', x: 354, y: 687},
                 {action: 'moveTo', x: 354, y: 900},
@@ -232,7 +252,13 @@ class SaleAction_A8 extends SaleAction {
     }
 
     public generateCsv() {
-        // this.csvGenerator.printCsv(, this.seqNum);
+        let saleDate: ISaleForCsv = {
+            saleTime: this.saleTime,
+            saleOrderNo: this.saleOrderNo,
+            priceForCsv: this.priceForCsv
+        };
+
+        this.csvGenerator.printCsv(saleDate, this.seqNum);
     }
 }
 
@@ -247,6 +273,29 @@ class SaleAction_Elo extends SaleAction {
     }
 
     public async saleActionStep2() {
+        let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
+        await sale.click();
+        this.client.pause(1000);
+        //缓冲
+        await this.client.$('//android.widget.Button[@content-desc="search"]');
+        this.client.pause(1000);
+
+        // 调用触摸方法输入价格
+        let touchFun = TouchMethod.getTouchMethod();
+        // Elo输入价格时使用Elo通用坐标Map
+        await touchFun(this.client, this.price.toString(), InputCoordinates.getCoordMap());
+
+        await this.clickOnConfirm();
+
+        //去结算
+        let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
+        await settlement.click();
+
+        this.supportedPayMethods = await PayMethods_Elo.getSupportedPayMethods(this.client);
+
+        await this.payMethodLoop();
+
+        // 打印订单
 
     }
 
@@ -255,58 +304,14 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     private async payMethodLoop() {
-        let scrollTimes: number = 0;  // 已经滑动的次数
-        // [支付方式名字, 金额]
-        for (let [key, value] of this.paymentInfoMap) {
-            let payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
-            LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
 
-            await this.clickOnPayMethod(payMethodBtn, scrollTimes, value);
-            await this.client.pause(1000);
-
-            scrollTimes = 0;
-        }
     }
 
     private async clickOnPayMethod(payMethodBtn: any, scrollTimes: number, amount: string) {
-        try {
-            await payMethodBtn.click();
-            await this.client.pause(1000);
-            /*
-            如果可以点击确定键，则需要输入金额并点击
-             */
-            if (await this.payMethodDisplayed()) {
-                let touchMethod = TouchMethod.getTouchMethod();
-                await touchMethod(this.client, amount, InputCoordinates.getCoordMap());
 
-                await this.clickOnConfirm();
-            } else if (scrollTimes < MAX_SCROLL_TIMES_A8) {
-                LogUtils.saleLog.info('支付方式不在本页');
-                await this.scrollDown();
-
-                scrollTimes++;
-                await this.clickOnPayMethod(payMethodBtn, scrollTimes, amount);
-            } else {
-                throw new AutoTestException('A9999');   // TODO
-            }
-        } catch (e) {
-            LogUtils.saleLog.error(e.toString());
-            LogUtils.saleLog.warn('未找到支付方式');
-        }
     }
 
-    /**
-     * 通过判断点击后是否出现'确定'按钮
-     * 判断该支付方式是否在页面上显示
-     * @returns {boolean}
-     */
-    private async payMethodDisplayed() {
-        this.client.setImplicitTimeout(500);
-        let confirmBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-        let isDisplayed = await confirmBtn.isDisplayed();
-        this.client.setImplicitTimeout(10000);
-        return isDisplayed;
-    }
+
 
     /**
      * 向下滑动
@@ -318,7 +323,13 @@ class SaleAction_Elo extends SaleAction {
     }
 
     public generateCsv() {
-        // this.csvGenerator.printCsv(, this.seqNum);
+        let saleDate: ISaleForCsv = {
+            saleTime: this.saleTime,
+            saleOrderNo: this.saleOrderNo,
+            priceForCsv: this.priceForCsv
+        };
+
+        this.csvGenerator.printCsv(saleDate, this.seqNum);
     }
 }
 

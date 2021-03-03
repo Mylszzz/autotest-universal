@@ -11,12 +11,18 @@ const csvOptions_1 = require("../../utils/csvOptions");
 class CsvGenerator {
     /**
      *
-     * @param {string} header
+     * @param {string[]} header
      * @param {string} fileName
+     * @param {string[]} rows
      */
-    constructor(header, fileName) {
+    constructor(header, fileName, rows) {
+        this.saleTime = 'unknown';
+        this.saleOrderNo = 'unknown';
+        this.priceForCsv = 'unknown';
+        this.saleContent = [];
         this.header = header;
         this.fileName = fileName;
+        this.rows = rows;
     }
     /**
      * 打印销售记录到csv文件
@@ -24,7 +30,14 @@ class CsvGenerator {
      * @param {number} seqNum: 销售测试用例序号
      */
     printCsv(data, seqNum) {
-        exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), data, this.fileName);
+        this.saleTime = data.saleTime;
+        this.saleOrderNo = data.saleOrderNo;
+        this.priceForCsv = data.priceForCsv;
+        this.saleContent = this.rows[seqNum].split(',');
+        let tempDataPart1 = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
+        let tempData = [tempDataPart1, this.saleContent];
+        console.warn(tempData);
+        exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), tempData, this.fileName);
     }
 }
 exports.CsvGenerator = CsvGenerator;

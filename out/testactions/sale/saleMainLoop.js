@@ -24,16 +24,14 @@ class SaleMainLoop {
             this.dataPreparationInstance = saleDataPreparation_1.SaleDataPreparation.getInstance();
             this.dataPreparationInstance.readFile();
         }
-        if (this.csvGenerator == null) {
-            this.csvGenerator = new csvGenerator_1.CsvGenerator(this.dataPreparationInstance.getCsvHeader(), this.fileName);
-        }
-        if (this.fileName = '') {
-            this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
-                new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
-        }
-        this.client = client;
         this.title = this.dataPreparationInstance.getTitle();
         this.rows = this.dataPreparationInstance.getRows();
+        this.fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" +
+            new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
+        if (this.csvGenerator == null) {
+            this.csvGenerator = new csvGenerator_1.CsvGenerator(this.dataPreparationInstance.getCsvHeader(), this.fileName, this.rows);
+        }
+        this.client = client;
     }
     /**
      * 销售测试的主循环
@@ -50,4 +48,4 @@ class SaleMainLoop {
     }
 }
 exports.SaleMainLoop = SaleMainLoop;
-SaleMainLoop.fileName = ''; // 保存测试输出的csv文件名
+SaleMainLoop.fileName = 'unknown'; // 保存测试输出的csv文件名
