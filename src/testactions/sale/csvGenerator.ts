@@ -1,5 +1,6 @@
 import {ExportCsv} from "../../utils/exportCsv";
 import {CsvOptions} from "../../utils/csvOptions";
+import {LogUtils} from "../../utils/logUtils";
 
 /**
  * csv输出文件生成器
@@ -38,11 +39,13 @@ export class CsvGenerator implements ISaleForCsv{
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
         this.saleContent = this.rows[seqNum].split(',');
-        let tempDataPart1: string[] = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
-        let tempData: string[][] = [tempDataPart1, this.saleContent];
+        let tempData: string[] = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
+        tempData = tempData.concat(this.saleContent);
 
-        console.warn(tempData);
-        ExportCsv.printSaleData(CsvOptions.configurationOption(seqNum, this.header), tempData, this.fileName);
+        LogUtils.saleLog.warn(tempData);
+        let dataToPrint: string[][] = [tempData];
+
+        ExportCsv.printSaleData(CsvOptions.configurationOption(seqNum, this.header), dataToPrint, this.fileName);
     }
 }
 

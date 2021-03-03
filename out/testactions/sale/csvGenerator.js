@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CsvGenerator = void 0;
 const exportCsv_1 = require("../../utils/exportCsv");
 const csvOptions_1 = require("../../utils/csvOptions");
+const logUtils_1 = require("../../utils/logUtils");
 /**
  * csv输出文件生成器
  * 用于整个销售测试用例开始之前实例化
@@ -34,10 +35,11 @@ class CsvGenerator {
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
         this.saleContent = this.rows[seqNum].split(',');
-        let tempDataPart1 = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
-        let tempData = [tempDataPart1, this.saleContent];
-        console.warn(tempData);
-        exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), tempData, this.fileName);
+        let tempData = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
+        tempData = tempData.concat(this.saleContent);
+        logUtils_1.LogUtils.saleLog.warn(tempData);
+        let dataToPrint = [tempData];
+        exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), dataToPrint, this.fileName);
     }
 }
 exports.CsvGenerator = CsvGenerator;
