@@ -5,6 +5,7 @@ const phoneNum_1 = require("../phoneNum");
 const logUtils_1 = require("../../utils/logUtils");
 const commonXpath_1 = require("../../static/commonXpath");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
+const settings_1 = require("../../static/settings");
 /**
  * 查询操作的基类
  */
@@ -41,13 +42,13 @@ class Search {
         //  查询订单号或会员号
         let codeNoText = await this.client.$(commonXpath_1.CommonXpath.ORDERTEXT);
         await codeNoText.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         await phoneNum_1.PhoneNum.phoneNum(this.client, num);
         await this.client.pause(10000);
         try {
             let ok = await this.client.$(commonXpath_1.CommonXpath.DETERMINE);
             await ok.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             //查询订单号
             if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
@@ -76,7 +77,7 @@ class Search {
         try {
             let theTopOrder = await this.client.$(commonXpath_1.CommonXpath.ORDER);
             await theTopOrder.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             logUtils_1.LogUtils.search.info("=====查询符合预期==");
             logUtils_1.LogUtils.search.info("=====查询结束====");
         }

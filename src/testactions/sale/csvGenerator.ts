@@ -1,6 +1,5 @@
 import {ExportCsv} from "../../utils/exportCsv";
 import {CsvOptions} from "../../utils/csvOptions";
-import {LogUtils} from "../../utils/logUtils";
 
 /**
  * csv输出文件生成器
@@ -35,22 +34,21 @@ export class CsvGenerator implements ISaleCsv{
      * 打印销售记录到csv文件
      * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
-     * @param {string[]} otherContent: 可选参数，其他要打印的内容，备注等
+     * @param {string[]} additionalContent: 可选参数，其他要打印的内容，备注等
      */
-    public printCsv(data: ISaleCsv, seqNum: number, otherContent?: string[]) {
+    public printCsv(data: ISaleCsv, seqNum: number, additionalContent?: string[]) {
         this.saleTime = data.saleTime;
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
         let tempData: string[] = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
         if (this.rows.length != 0) {
             this.saleContent = this.rows[seqNum].split(',');
-            tempData = tempData.concat(this.saleContent); 
+            tempData = tempData.concat(this.saleContent);
         }
-        if (otherContent != undefined) {
-            tempData = tempData.concat(otherContent);
+        if (additionalContent != undefined) {
+            tempData = tempData.concat(additionalContent);
         }
 
-        LogUtils.saleLog.warn(tempData);  // TODO 这个没有用
         let dataToPrint: string[][] = [tempData];
 
         ExportCsv.printSaleData(CsvOptions.configurationOption(seqNum, this.header), dataToPrint, this.fileName);

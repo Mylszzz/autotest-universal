@@ -8,6 +8,8 @@ const globalUtil_1 = require("../../utils/globalUtil");
 const touchMethod_1 = require("../../utils/touchMethod");
 const inputCoordinates_1 = require("../../static/inputCoordinates");
 const payMethods_1 = require("./payMethods");
+const settings_1 = require("../../static/settings");
+const settings_2 = require("../../static/settings");
 const PAYMETHODS_COUNT_PER_PAGE = 6;
 /**
  * 销售脚本的抽象类，用于单条销售测试用例的脚本执行
@@ -39,7 +41,9 @@ class SaleAction {
      */
     async saleAction() {
         try {
-            await deviceActions_1.VipLoginAction.vipLogin(this.client);
+            if (settings_1.generalSettings.enableVipLoginModule) {
+                await deviceActions_1.VipLoginAction.vipLogin(this.client);
+            }
         }
         catch (e) {
             console.error(e);
@@ -56,7 +60,7 @@ class SaleAction {
     async clickOnConfirm() {
         let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
         await confirm.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
     }
     getRefundable() {
         return this.isRefundable;
@@ -84,7 +88,7 @@ class SaleAction_A8 extends SaleAction {
             let toSale = await this.client.$('//android.view.View[@content-desc="货号:' +
                 configMap.get('storeNumber') + '"]');
             await toSale.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             /*
             调用触摸方法输入价格A8输入价格时使用A8通用坐标Map
              */
@@ -97,9 +101,9 @@ class SaleAction_A8 extends SaleAction {
             await this.client.pause(2000);
             this.supportedPayMethods = await payMethods_1.PayMethods_A8.getSupportedPayMethods(this.client);
             await this.payMethodLoop();
-            await this.client.pause(6000); // 打印订单
+            await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
             await this.clickOnConfirm();
-            await this.client.pause(6000); // 打印订单
+            await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
             //获取订单号
             await this.obtainOrderNo();
             //完成
@@ -143,7 +147,7 @@ class SaleAction_A8 extends SaleAction {
                 }
                 logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
                 await this.clickOnPayMethod(payMethodBtn, value);
-                await this.client.pause(1000);
+                await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
                 await this.scrollUp(scroll_times); // 滑回去
             }
             catch (e) {
@@ -160,7 +164,7 @@ class SaleAction_A8 extends SaleAction {
     async clickOnPayMethod(payMethodBtn, amount) {
         try {
             await payMethodBtn.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             /*
             如果可以点击确定键，则需要输入金额并点击
              */
@@ -190,7 +194,7 @@ class SaleAction_A8 extends SaleAction {
                 { action: 'moveTo', x: 354, y: 687 },
                 { action: 'release' }
             ]);
-            await this.client.pause(500);
+            await this.client.pause(settings_2.runTimeSettings.shortPauseTime);
         }
     }
     /**
@@ -209,7 +213,7 @@ class SaleAction_A8 extends SaleAction {
                 { action: 'moveTo', x: 354, y: 900 },
                 { action: 'release' }
             ]);
-            await this.client.pause(500);
+            await this.client.pause(settings_2.runTimeSettings.shortPauseTime);
         }
     }
     /**
@@ -254,10 +258,10 @@ class SaleAction_Elo extends SaleAction {
     async saleMainScript() {
         let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
         await sale.click();
-        this.client.pause(1000);
+        this.client.pause(settings_2.runTimeSettings.generalPauseTime);
         //缓冲
         await this.client.$('//android.widget.Button[@content-desc="search"]');
-        this.client.pause(1000);
+        this.client.pause(settings_2.runTimeSettings.generalPauseTime);
         // 调用触摸方法输入价格
         let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
         // Elo输入价格时使用Elo通用坐标Map

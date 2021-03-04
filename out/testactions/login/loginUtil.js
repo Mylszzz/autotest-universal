@@ -4,6 +4,7 @@ exports.Device_Elo = exports.Device_A8 = exports.Login = void 0;
 const logUtils_1 = require("../../utils/logUtils");
 const globalUtil_1 = require("../../utils/globalUtil");
 const exceptions_1 = require("../../utils/exceptions");
+const settings_1 = require("../../static/settings");
 /**
  * 登录的抽象类
  * 继承此方法还需要考虑在globalUtils.ts中更新机器的配置信息
@@ -45,13 +46,13 @@ class Device_A8 extends Login {
     async loginProcess() {
         try {
             await this.usernameText.clearValue(); //
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await this.usernameText.setValue(this.username);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await this.passwordText.setValue(this.password);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             let loginBtn = await this.client.$('//android.widget.Button[@content-desc="登录"]');
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await loginBtn.click();
         }
         catch (e) {
@@ -115,11 +116,11 @@ class Device_Elo extends Login {
     async loginProcess() {
         try {
             await this.usernameText.clearValue();
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await this.usernameText.setValue(this.username);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await this.passwordText.setValue(this.password);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             // 点击登录按钮
             await this.client.touchAction([{
                     action: 'tap',

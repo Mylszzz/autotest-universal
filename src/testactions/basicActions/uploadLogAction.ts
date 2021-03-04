@@ -1,6 +1,7 @@
 import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {runTimeSettings} from "../../static/settings";
 
 /**
  * 上传日志
@@ -29,10 +30,10 @@ class UploadLogAction {
         LogUtils.log.info('*****上传当天日志开始*****');
         let menuBtn = await this.client.$(this.menuBtnXPath);  // 菜单按钮的实例
         await menuBtn.click();  // 点击
-        await this.client.pause(1000);  // 等待点击后系统响应
+        await this.client.pause(runTimeSettings.generalPauseTime);  // 等待点击后系统响应
         let uploadLogBtn = await this.client.$(this.uploadLogBtnXPath);  // 上传日志按钮的实例
         await uploadLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath);  // 上传当日日志的实例
         await uploadTodayLogBtn.click();
         LogUtils.log.info("*****上传当天日志符合预期*****");  // TODO: 缺少判断
@@ -43,13 +44,13 @@ class UploadLogAction {
     public async uploadOtherDayLog() {
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let uploadLogBtn = await this.client.$(this.uploadLogBtnXPath);
         await uploadLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let uploadOtherDayLogBtn = await this.client.$(this.uploadOtherDayLogBtnXPath);
         await uploadOtherDayLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         // TODO: 接下来还没做
     }
 }

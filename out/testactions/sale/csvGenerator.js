@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CsvGenerator = void 0;
 const exportCsv_1 = require("../../utils/exportCsv");
 const csvOptions_1 = require("../../utils/csvOptions");
-const logUtils_1 = require("../../utils/logUtils");
 /**
  * csv输出文件生成器
  * 用于整个销售测试用例开始之前实例化
@@ -32,9 +31,9 @@ class CsvGenerator {
      * 打印销售记录到csv文件
      * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
-     * @param {string[]} otherContent: 可选参数，其他要打印的内容，备注等
+     * @param {string[]} additionalContent: 可选参数，其他要打印的内容，备注等
      */
-    printCsv(data, seqNum, otherContent) {
+    printCsv(data, seqNum, additionalContent) {
         this.saleTime = data.saleTime;
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
@@ -43,10 +42,9 @@ class CsvGenerator {
             this.saleContent = this.rows[seqNum].split(',');
             tempData = tempData.concat(this.saleContent);
         }
-        if (otherContent != undefined) {
-            tempData = tempData.concat(otherContent);
+        if (additionalContent != undefined) {
+            tempData = tempData.concat(additionalContent);
         }
-        logUtils_1.LogUtils.saleLog.warn(tempData); // TODO 这个没有用
         let dataToPrint = [tempData];
         exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), dataToPrint, this.fileName);
     }

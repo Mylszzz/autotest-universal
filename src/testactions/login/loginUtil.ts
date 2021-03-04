@@ -2,6 +2,7 @@ import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
 import {LoginException} from "../../utils/exceptions";
+import {runTimeSettings} from "../../static/settings";
 
 
 /**
@@ -62,13 +63,13 @@ export class Device_A8 extends Login {
     async loginProcess() {
         try {
             await this.usernameText.clearValue();  //
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             await this.usernameText.setValue(this.username);
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             await this.passwordText.setValue(this.password);
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             let loginBtn = await this.client.$('//android.widget.Button[@content-desc="登录"]');
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             await loginBtn.click();
         } catch (e) {
 
@@ -137,11 +138,11 @@ export class Device_Elo extends Login {
     async loginProcess() {
         try {
             await this.usernameText.clearValue();
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             await this.usernameText.setValue(this.username);
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             await this.passwordText.setValue(this.password);
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             // 点击登录按钮
             await this.client.touchAction([{
                     action: 'tap',

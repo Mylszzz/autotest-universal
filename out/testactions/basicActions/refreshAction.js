@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefreshAction_Elo = exports.RefreshAction_A8 = void 0;
 const logUtils_1 = require("../../utils/logUtils");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
+const settings_1 = require("../../static/settings");
 /**
  * 刷新店铺的基类
  * 继承时: 参考RefreshAction_A8{}，子类需要使用单例模式，通过super()传入按键xpath
@@ -25,10 +26,10 @@ class RefreshAction {
     // 刷新店铺的流程
     async refresh() {
         logUtils_1.LogUtils.log.info("=====开始执行刷新店铺====");
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         let refreshBtn = await this.client.$(this.refreshBtnXPath);
         await refreshBtn.click();
         await this.client.pause(5000); // 刷新店铺要等比较久

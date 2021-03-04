@@ -1,53 +1,67 @@
 import {SingleDriver} from "./driver";
-import {LoginAction} from "./testactions/deviceActions";
+import {LoginAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
-import {Tools} from "./utils/tools";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {SaleMainLoop} from "./testactions/sale/saleMainLoop";
 import {RefundAction} from "./testactions/refund/refundAction";
-
-let map = new Map();
-let fileName:string = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate() + "-" + Tools.guid() + ".csv";
-// let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
+import {generalSettings} from "./static/settings";
 
 
-const deviceName:string = DeviceName.getDeviceName();  // a8或者elo
+class Main {
+    private static client: any;
 
-/**
- * 执行脚本流程之前的一些准备工作
- * 包括读取配置到Map中
-*/
-function before() {
-    GlobalUtil.init();
-    // 读取测试数据
-    // map = ReadCSV.readFile();
-    // let saleContent = map.get('saleContent');
-    // LogUtils.log.info("-------map--------------");
-    // LogUtils.log.info(map);
-    // LogUtils.log.info(saleContent);
+    public static async runScript(deviceName: string) {
+        DeviceName.setDeviceName(deviceName);
+
+        /*
+        读取机器配置到configMap中
+         */
+        GlobalUtil.init();
+
+        /*
+        创建对应机器的webdriverio.BrowserObject对象
+         */
+        LogUtils.log.info("开始创建client");
+        this.client = await SingleDriver.createClient();
+        LogUtils.log.info("成功创建[" + deviceName + "]client");
+
+        /*
+        登录模块
+         */
+        if (generalSettings.enableLoginModule) {
+            await LoginAction.login(this.client);
+        }
+
+        /*
+        销售模块
+         */
+        if (generalSettings.enableSaleModule) {
+            LogUtils.log.info("开始进行销售测试");
+            await SaleMainLoop.salePreparation(this.client);
+            await SaleMainLoop.saleMainLoop();
+            LogUtils.log.info("销售测试完成")
+        }
+
+        /*
+        上传日志
+         */
+        if (generalSettings.enableUploadLogModule) {
+            await UploadLogAction.uploadTodayLogAction(this.client);
+        }
+
+        /*
+        刷新店铺
+         */
+        if (generalSettings.enableRefreshModule) {
+            await RefreshAction.refreshAction(this.client);
+        }
+
+    }
 }
 
 async function salesSettlement() {
-    LogUtils.log.info("开始创建client");
-    let client = await SingleDriver.createClient();
-    LogUtils.log.info("成功创建[" + deviceName + "]client");
 
-    /*
-    登录模块
-     */
-    await LoginAction.login(client);
-    // await VipLoginAction.vipLogin(client);
-    /*
-    销售模块
-     */
-    LogUtils.log.info("开始进行销售测试");
-    await SaleMainLoop.salePreparation(client);
-    await SaleMainLoop.saleMainLoop();
-    LogUtils.log.info("销售测试完成");
-
-    // await UploadLogAction.uploadTodayLogAction(client);
-    // await RefreshAction.refreshAction(client);
     // await LogoutAction.accountLogout(client);
     //  await CancelReturns.cancelReturns(client);
 
@@ -65,31 +79,6 @@ async function salesSettlement() {
 
 
     /*
-
-     */
-    // let saleContent = map.get('saleContent');
-    // let headers: string[] = [];
-    // headers.push("saleTime");
-    // headers.push("orderNo");
-    // headers.push("price");
-    // headers.push(saleContent[0].split(','));
-    // for (let i = 1; i <= map.size - 1; i++) {
-    //     let mode = map.get(i);
-    //     if (mode !== undefined) {
-    //         let payTree = mode.payTree;
-    //         console.log("payTree[" + i + "]:" + payTree.get('data'));
-    //         console.log(payTree.get("data")[0] + " " + payTree.get("data")[1]);
-    //         let otherTree = mode.otherTree;
-    //         console.log("otherTree[" + i + "]:" + otherTree.get('data'));
-    //         console.log(otherTree.get("data")[0] + " " + otherTree.get("data")[1]);
-    //         //   await VipMixedPayment.test(client, payTree, otherTree,i,headers,saleContent[i].split(','),fileName);
-    //
-    //     } else {
-    //
-    //     }
-    // }
-
-    /*
     退款
      */
     // let refundAction = new RefundAction(client);
@@ -97,5 +86,4 @@ async function salesSettlement() {
 }
 
 
-before();
-salesSettlement();
+Main.runScript('a8');  // a8 或者 elo

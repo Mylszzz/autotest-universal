@@ -2,6 +2,7 @@ import {PhoneNum} from "../phoneNum";
 import {GlobalUtil} from "../../utils/globalUtil";
 import {LoginException} from "../../utils/exceptions";
 import {LogUtils} from "../../utils/logUtils";
+import {runTimeSettings} from "../../static/settings";
 
 /**
  * A8
@@ -35,7 +36,7 @@ export class VipLogin_A8 implements VipLogin {
         LogUtils.saleLog.info('******登录vip账号:'+this.phoneNum+'*******');
         //输入会员号码
         await PhoneNum.phoneNum(this.client, this.phoneNum);
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         //点击确定
         let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
         await okBtn.click();
@@ -87,7 +88,7 @@ export class VipLogin_Elo implements VipLogin {
         try {
             //输入会员号码
             await PhoneNum.phoneNum(this.client, this.phoneNum);
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             //点击确定
             let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
             await okBtn.click();

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadLogAction_Elo = exports.UploadLogAction_A8 = void 0;
 const logUtils_1 = require("../../utils/logUtils");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
+const settings_1 = require("../../static/settings");
 /**
  * 上传日志
  * 分为上传当日和上传其他日期日志
@@ -23,10 +24,10 @@ class UploadLogAction {
         logUtils_1.LogUtils.log.info('*****上传当天日志开始*****');
         let menuBtn = await this.client.$(this.menuBtnXPath); // 菜单按钮的实例
         await menuBtn.click(); // 点击
-        await this.client.pause(1000); // 等待点击后系统响应
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime); // 等待点击后系统响应
         let uploadLogBtn = await this.client.$(this.uploadLogBtnXPath); // 上传日志按钮的实例
         await uploadLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         let uploadTodayLogBtn = await this.client.$(this.uploadTodayLogBtnXPath); // 上传当日日志的实例
         await uploadTodayLogBtn.click();
         logUtils_1.LogUtils.log.info("*****上传当天日志符合预期*****"); // TODO: 缺少判断
@@ -36,13 +37,13 @@ class UploadLogAction {
     async uploadOtherDayLog() {
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         let uploadLogBtn = await this.client.$(this.uploadLogBtnXPath);
         await uploadLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         let uploadOtherDayLogBtn = await this.client.$(this.uploadOtherDayLogBtnXPath);
         await uploadOtherDayLogBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
         // TODO: 接下来还没做
     }
 }

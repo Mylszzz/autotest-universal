@@ -7,6 +7,8 @@ import {InputCoordinates} from "../../static/inputCoordinates";
 import {CsvGenerator} from "./csvGenerator";
 import {PayMethods_A8, PayMethods_Elo} from "./payMethods";
 import {ISaleCsv} from "./csvGenerator";
+import {generalSettings} from "../../static/settings";
+import {runTimeSettings} from "../../static/settings";
 
 const PAYMETHODS_COUNT_PER_PAGE = 6;
 
@@ -53,7 +55,9 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
      */
     public async saleAction() {
         try {
-            await VipLoginAction.vipLogin(this.client);
+            if (generalSettings.enableVipLoginModule) {
+                await VipLoginAction.vipLogin(this.client);
+            }
         } catch (e) {
             console.error(e);
             throw new AutoTestException('A9999', '登录vip失败').toString();
@@ -69,7 +73,7 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     protected async clickOnConfirm() {
         let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
         await confirm.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
     }
 
     /**
@@ -114,7 +118,7 @@ class SaleAction_A8 extends SaleAction {
             let toSale = await this.client.$('//android.view.View[@content-desc="货号:' +
                 configMap.get('storeNumber') + '"]');
             await toSale.click();
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
 
             /*
             调用触摸方法输入价格A8输入价格时使用A8通用坐标Map
@@ -133,10 +137,10 @@ class SaleAction_A8 extends SaleAction {
 
             await this.payMethodLoop();
 
-            await this.client.pause(6000);  // 打印订单
+            await this.client.pause(runTimeSettings.longPauseTime);  // 打印订单
             await this.clickOnConfirm();
 
-            await this.client.pause(6000);  // 打印订单
+            await this.client.pause(runTimeSettings.longPauseTime);  // 打印订单
             //获取订单号
             await this.obtainOrderNo();
 
@@ -184,7 +188,7 @@ class SaleAction_A8 extends SaleAction {
                 LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
 
                 await this.clickOnPayMethod(payMethodBtn, value);
-                await this.client.pause(1000);
+                await this.client.pause(runTimeSettings.generalPauseTime);
 
                 await this.scrollUp(scroll_times);  // 滑回去
 
@@ -203,7 +207,7 @@ class SaleAction_A8 extends SaleAction {
     private async clickOnPayMethod(payMethodBtn: any, amount: string) {
         try {
             await payMethodBtn.click();
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             /*
             如果可以点击确定键，则需要输入金额并点击
              */
@@ -237,7 +241,7 @@ class SaleAction_A8 extends SaleAction {
                 {action: 'moveTo', x: 354, y: 687},
                 {action: 'release'}
             ]);
-            await this.client.pause(500);
+            await this.client.pause(runTimeSettings.shortPauseTime);
         }
     }
 
@@ -257,7 +261,7 @@ class SaleAction_A8 extends SaleAction {
                 {action: 'moveTo', x: 354, y: 900},
                 {action: 'release'}
             ]);
-            await this.client.pause(500);
+            await this.client.pause(runTimeSettings.shortPauseTime);
         }
     }
 
@@ -308,10 +312,10 @@ class SaleAction_Elo extends SaleAction {
     public async saleMainScript() {
         let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
         await sale.click();
-        this.client.pause(1000);
+        this.client.pause(runTimeSettings.generalPauseTime);
         //缓冲
         await this.client.$('//android.widget.Button[@content-desc="search"]');
-        this.client.pause(1000);
+        this.client.pause(runTimeSettings.generalPauseTime);
 
         // 调用触摸方法输入价格
         let touchFun = TouchMethod.getTouchMethod();

@@ -5,6 +5,7 @@ const phoneNum_1 = require("../phoneNum");
 const globalUtil_1 = require("../../utils/globalUtil");
 const exceptions_1 = require("../../utils/exceptions");
 const logUtils_1 = require("../../utils/logUtils");
+const settings_1 = require("../../static/settings");
 /**
  * A8
  */
@@ -31,7 +32,7 @@ class VipLogin_A8 {
             logUtils_1.LogUtils.saleLog.info('******登录vip账号:' + this.phoneNum + '*******');
             //输入会员号码
             await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             //点击确定
             let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
             await okBtn.click();
@@ -77,7 +78,7 @@ class VipLogin_Elo {
         try {
             //输入会员号码
             await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
-            await this.client.pause(1000);
+            await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             //点击确定
             let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
             await okBtn.click();

@@ -1,6 +1,7 @@
 import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {runTimeSettings} from "../../static/settings";
 
 /**
  * 刷新店铺的基类
@@ -26,10 +27,10 @@ class RefreshAction {
     // 刷新店铺的流程
     public async refresh() {
         LogUtils.log.info("=====开始执行刷新店铺====");
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let menuBtn = await this.client.$(this.menuBtnXPath);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let refreshBtn = await this.client.$(this.refreshBtnXPath);
         await refreshBtn.click();
         await this.client.pause(5000);  // 刷新店铺要等比较久
