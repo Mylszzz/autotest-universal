@@ -18,7 +18,7 @@ export class CsvGenerator implements ISaleForCsv{
     saleContent: string[] = [];
 
     /**
-     *
+     * 构造方法
      * @param {string[]} header
      * @param {string} fileName
      * @param {string[]} rows

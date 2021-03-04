@@ -11,7 +11,7 @@ const logUtils_1 = require("../../utils/logUtils");
  */
 class CsvGenerator {
     /**
-     *
+     * 构造方法
      * @param {string[]} header
      * @param {string} fileName
      * @param {string[]} rows
