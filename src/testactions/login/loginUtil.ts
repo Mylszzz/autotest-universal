@@ -126,7 +126,7 @@ export class Device_Elo extends Login {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            LogUtils.loginLog.info("****开始进行商户登录****");
+            LogUtils.loginLog.info("*********开始进行商户登录*********");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[2]');
         } catch (e) {
@@ -151,7 +151,7 @@ export class Device_Elo extends Login {
             );
             // 缓冲
             await this.client.$('//android.view.View[@content-desc="会员"]');
-            LogUtils.loginLog.info("*********商户登录成功*********" + new Date());
+            LogUtils.loginLog.info("*********商户登录成功*********");
         } catch (e) {
             LogUtils.loginLog.error(e);
         }

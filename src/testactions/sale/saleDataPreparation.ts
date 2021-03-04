@@ -12,7 +12,7 @@ const csvFixedHeader: string[] = ['saleTime', 'orderNo', 'price'];  // 输出csv
  * 全部条销售测试用例的数据准备
  * 单例模式
  */
-export class SaleDataPreparation {
+export class SaleDataPreparation implements ISaleDataPreparation{
     private rows: string[] = [];  // 从销售测试用例csv文件中读取到的每一行数据的数组
     private title: string[] = [];  // csv文件的首行是销售测试用例的字段
     private static instance: SaleDataPreparation;
@@ -34,7 +34,6 @@ export class SaleDataPreparation {
 
     /**
      * 用于读取销售流程的测试用例
-     * @returns {Map}
      */
     public readFile() {
         let data = fs.readFileSync(<string>GlobalUtil.getConfigMap().get('csv'));
@@ -120,8 +119,14 @@ export class SingleSaleDataPreparation implements ISaleData {
             seqNum: this.seqNum,
             paymentInfoMap: this.paymentInfoMap,
             saleOptionsInfoMap: this.saleOptionsInfoMap,
-            price: this.price
+            price: this.price,
         };
     }
+}
 
+// 整个销售全部测试用例准备的接口
+interface ISaleDataPreparation {
+    getTitle(): string[];  // 获取支付方式字段
+    getRows(): string[];  // 获取全部测试用例，每个测试用例为一个string
+    getCsvHeader(): string[];  // 获取输出csv用到的header
 }

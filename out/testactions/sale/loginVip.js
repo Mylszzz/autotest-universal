@@ -28,6 +28,7 @@ class VipLogin_A8 {
         try {
             let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
             await vipBtn.click();
+            logUtils_1.LogUtils.saleLog.info('******登录vip账号:' + this.phoneNum + '*******');
             //输入会员号码
             await phoneNum_1.PhoneNum.phoneNum(this.client, this.phoneNum);
             await this.client.pause(1000);

@@ -6,7 +6,7 @@ const globalUtil_1 = require("./utils/globalUtil");
 const tools_1 = require("./utils/tools");
 const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
-const refundAction_1 = require("./testactions/refund/refundAction");
+const saleMainLoop_1 = require("./testactions/sale/saleMainLoop");
 let map = new Map();
 let fileName = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + "-" + tools_1.Tools.guid() + ".csv";
 // let fileName2:string = new Date().toLocaleDateString() + "-" + Tools.guid() + ".csv";
@@ -36,10 +36,10 @@ async function salesSettlement() {
     /*
     销售模块
      */
-    // LogUtils.log.info("开始进行销售测试");
-    // await SaleMainLoop.salePreparation(client);
-    // await SaleMainLoop.saleMainLoop();
-    // LogUtils.log.info("销售测试完成");
+    logUtils_1.LogUtils.log.info("开始进行销售测试");
+    await saleMainLoop_1.SaleMainLoop.salePreparation(client);
+    await saleMainLoop_1.SaleMainLoop.saleMainLoop();
+    logUtils_1.LogUtils.log.info("销售测试完成");
     // await UploadLogAction.uploadTodayLogAction(client);
     // await RefreshAction.refreshAction(client);
     // await LogoutAction.accountLogout(client);
@@ -82,8 +82,8 @@ async function salesSettlement() {
     /*
     退款
      */
-    let refundAction = new refundAction_1.RefundAction(client);
-    await refundAction.refundProcess();
+    // let refundAction = new RefundAction(client);
+    //  await refundAction.refundProcess();
 }
 before();
 salesSettlement();

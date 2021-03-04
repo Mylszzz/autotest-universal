@@ -32,6 +32,7 @@ export class VipLogin_A8 implements VipLogin {
         try{
         let vipBtn = await this.client.$('//android.view.View[@content-desc="请点击登录会员号码"]');
         await vipBtn.click();
+        LogUtils.saleLog.info('******登录vip账号:'+this.phoneNum+'*******');
         //输入会员号码
         await PhoneNum.phoneNum(this.client, this.phoneNum);
         await this.client.pause(1000);
