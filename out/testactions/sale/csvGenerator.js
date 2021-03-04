@@ -17,27 +17,36 @@ class CsvGenerator {
      * @param {string[]} rows
      */
     constructor(header, fileName, rows) {
+        this.rows = []; // 读取到销售数据测试用例的每行组成的数组
         this.saleTime = 'unknown';
         this.saleOrderNo = 'unknown';
         this.priceForCsv = 'unknown';
-        this.saleContent = [];
+        this.saleContent = []; // 销售内容: 单笔销售中每个支付方式的金额
         this.header = header;
         this.fileName = fileName;
-        this.rows = rows;
+        if (rows != undefined) {
+            this.rows = rows;
+        }
     }
     /**
      * 打印销售记录到csv文件
      * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
+     * @param {string[]} otherContent: 可选参数，其他要打印的内容，备注等
      */
-    printCsv(data, seqNum) {
+    printCsv(data, seqNum, otherContent) {
         this.saleTime = data.saleTime;
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
-        this.saleContent = this.rows[seqNum].split(',');
         let tempData = [this.saleTime, "'" + this.saleOrderNo, this.priceForCsv];
-        tempData = tempData.concat(this.saleContent);
-        logUtils_1.LogUtils.saleLog.warn(tempData);
+        if (this.rows.length != 0) {
+            this.saleContent = this.rows[seqNum].split(',');
+            tempData = tempData.concat(this.saleContent);
+        }
+        if (otherContent != undefined) {
+            tempData = tempData.concat(otherContent);
+        }
+        logUtils_1.LogUtils.saleLog.warn(tempData); // TODO 这个没有用
         let dataToPrint = [tempData];
         exportCsv_1.ExportCsv.printSaleData(csvOptions_1.CsvOptions.configurationOption(seqNum, this.header), dataToPrint, this.fileName);
     }
