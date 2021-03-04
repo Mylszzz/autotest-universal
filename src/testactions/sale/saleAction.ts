@@ -6,7 +6,7 @@ import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
 import {CsvGenerator} from "./csvGenerator";
 import {PayMethods_A8, PayMethods_Elo} from "./payMethods";
-import {ISaleForCsv} from "./csvGenerator";
+import {ISaleCsv} from "./csvGenerator";
 
 const PAYMETHODS_COUNT_PER_PAGE = 6;
 
@@ -17,7 +17,7 @@ const PAYMETHODS_COUNT_PER_PAGE = 6;
  * 实现了ISaleData接口，用于规范单次销售需要的数据
  * 实现了ISaleForCsv接口，用于输出csv文件需要的数据
  */
-abstract class SaleAction implements ISaleData, ISaleForCsv, IRefundable {
+abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     seqNum: number;
     paymentInfoMap: Map<string, string>;
     saleOptionsInfoMap: Map<string, string>;
@@ -159,7 +159,7 @@ class SaleAction_A8 extends SaleAction {
     }
 
     /**
-     * 所有支付方式的循环
+     * 所有使用了的支付方式的循环
      * 需要判断支付方式是否在当前页面上
      * @returns {Promise<void>}
      */
@@ -262,7 +262,7 @@ class SaleAction_A8 extends SaleAction {
     }
 
     /**
-     * 获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
+     * 从POS机界面中获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
      * 二者是相同变量，来自不同数据接口
      * @returns {Promise<void>}
      */
@@ -285,7 +285,7 @@ class SaleAction_A8 extends SaleAction {
     }
 
     public generateCsv() {
-        let saleDate: ISaleForCsv = {
+        let saleDate: ISaleCsv = {
             saleTime: this.saleTime,
             saleOrderNo: this.saleOrderNo,
             priceForCsv: this.priceForCsv
@@ -355,7 +355,7 @@ class SaleAction_Elo extends SaleAction {
     }
 
     public generateCsv() {
-        let saleDate: ISaleForCsv = {
+        let saleDate: ISaleCsv = {
             saleTime: this.saleTime,
             saleOrderNo: this.saleOrderNo,
             priceForCsv: this.priceForCsv

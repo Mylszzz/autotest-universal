@@ -118,7 +118,7 @@ class SaleAction_A8 extends SaleAction {
         }
     }
     /**
-     * 所有支付方式的循环
+     * 所有使用了的支付方式的循环
      * 需要判断支付方式是否在当前页面上
      * @returns {Promise<void>}
      */
@@ -213,7 +213,7 @@ class SaleAction_A8 extends SaleAction {
         }
     }
     /**
-     * 获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
+     * 从POS机界面中获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
      * 二者是相同变量，来自不同数据接口
      * @returns {Promise<void>}
      */

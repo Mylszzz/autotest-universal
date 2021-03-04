@@ -7,7 +7,7 @@ import {LogUtils} from "../../utils/logUtils";
  * 用于整个销售测试用例开始之前实例化
  * 每单销售测试用例是时调用printCsv()用于输出csv
  */
-export class CsvGenerator implements ISaleForCsv{
+export class CsvGenerator implements ISaleCsv{
     private header: string[];
     private fileName: string;
     private rows: string[];  // 读取到销售数据测试用例的每行组成的数组
@@ -34,7 +34,7 @@ export class CsvGenerator implements ISaleForCsv{
      * @param {string[][]} data: 要打印的数据
      * @param {number} seqNum: 销售测试用例序号
      */
-    public printCsv(data: ISaleForCsv, seqNum: number) {
+    public printCsv(data: ISaleCsv, seqNum: number) {
         this.saleTime = data.saleTime;
         this.saleOrderNo = data.saleOrderNo;
         this.priceForCsv = data.priceForCsv;
@@ -49,7 +49,7 @@ export class CsvGenerator implements ISaleForCsv{
     }
 }
 
-export interface ISaleForCsv {
+export interface ISaleCsv {
     saleTime: string;
     saleOrderNo: string;
     priceForCsv: string;

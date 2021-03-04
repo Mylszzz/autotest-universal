@@ -31,7 +31,6 @@ class SaleDataPreparation {
     }
     /**
      * 用于读取销售流程的测试用例
-     * @returns {Map}
      */
     readFile() {
         let data = fs_1.default.readFileSync(globalUtil_1.GlobalUtil.getConfigMap().get('csv'));
