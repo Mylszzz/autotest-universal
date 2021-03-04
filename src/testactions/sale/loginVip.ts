@@ -93,10 +93,7 @@ export class VipLogin_Elo implements VipLogin {
             await this.client.pause(3000);
         }
         catch (e) {
-            throw new LoginException('L0001', '没有该会员号！');
-            if (e instanceof LoginException) {
-            LogUtils.loginLog.error(e.toString());
-        }
+            throw new LoginException('L0001', '没有该会员号！').toString();
     }
     }
 }

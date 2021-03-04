@@ -11,7 +11,7 @@ DriverConfig.config_a8 = {
     hostname: '127.0.0.1',
     port: 4723,
     path: '/wd/hub',
-    logLevel: 'error',
+    logLevel: 'info',
     capabilities: {
         automationName: 'uiautomator2',
         platformName: 'android',
