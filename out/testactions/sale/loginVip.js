@@ -84,10 +84,7 @@ class VipLogin_Elo {
             await this.client.pause(3000);
         }
         catch (e) {
-            throw new exceptions_1.LoginException('L0001', '没有该会员号！');
-            if (e instanceof exceptions_1.LoginException) {
-                logUtils_1.LogUtils.loginLog.error(e.toString());
-            }
+            throw new exceptions_1.LoginException('L0001', '没有该会员号！').toString();
         }
     }
 }

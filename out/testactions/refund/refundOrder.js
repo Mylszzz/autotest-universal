@@ -20,6 +20,7 @@ class RefundOrder {
      */
     static async refundFirst(client, orderText, confirm) {
         //    点击申请退货
+        await client.pause(2000);
         let apply = await client.$(orderText);
         await apply.click();
         await client.pause(1000);
@@ -95,34 +96,46 @@ class RefundOrder {
      */
     static async refundOrderToday(client, orderNo) {
         logUtils_1.LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作(今日)******");
+        await client.pause(1000);
+        await RefundOrder.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
+        // 输入退货的固定密码
+        logUtils_1.LogUtils.log.info("请输入授权码");
+        let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods');
+        await this.refundPass(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, number);
         try {
-            await RefundOrder.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
-            // 输入退货的固定密码
-            logUtils_1.LogUtils.log.info("请输入授权码");
-            let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods');
-            await this.refundPass(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, number);
-            //如果支付上不可退点了确定，提示框就没了。
-            //提示确定
-            let confirmTip1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-            await confirmTip1.click();
-            await client.pause(1000);
-            await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-            //  打印订单耗时
-            let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-            await client.pause(1000);
-            await tip.click();
-            await client.pause(6000);
-            logUtils_1.LogUtils.refundLog.info('更改退货成功');
-            //    点击返回
-            let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
-            await client.pause(1000);
-            await back.click();
-            await client.pause(1000);
-            await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
-            return true;
+            let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
+            if (element.length != 0 && typeof element == "object") {
+                let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                await determine1.click();
+                await client.pause(500);
+                let back1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.BACK);
+                await back1.click();
+                logUtils_1.LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
+                return false;
+            }
+            else {
+                logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
+                let confirmTip1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                await confirmTip1.click();
+                await client.pause(1000);
+                await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                //  打印订单耗时
+                let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                await client.pause(1000);
+                await tip.click();
+                await client.pause(6000);
+                logUtils_1.LogUtils.refundLog.info('更改退货成功');
+                //    点击返回
+                let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
+                await client.pause(1000);
+                await back.click();
+                await client.pause(1000);
+                await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
+                return true;
+            }
         }
         catch (e) {
-            this.refundException(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, buttonXPaths_1.ButtonXPaths_A8.BACK, viewXpaths_1.ViewXPaths_A8.MESSAGE);
+            //   this.refundException(client, ButtonXPaths_A8.DETERMINE, ButtonXPaths_A8.BACK, ViewXPaths_A8.MESSAGE);
             return false;
         }
     }
@@ -132,57 +145,40 @@ class RefundOrder {
      * @param client
      * @param orderNo 订单号
      */
-    // @ts-ignore
     static async refundBeforeOrder(client, orderNo) {
         logUtils_1.LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作（隔日）******");
         // 查询成功，执行退款操作
+        await client.pause(1000);
+        await this.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
         try {
-            await this.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
-            await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-            //  打印订单耗时
-            let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-            await client.pause(1000);
-            tip.click();
-            await client.pause(6000);
-            //  return true;
-            logUtils_1.LogUtils.refundLog.info('订单退货成功');
-            //    点击返回
-            let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
-            await client.pause(1000);
-            await back.click();
-            await client.pause(1000);
-            await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
-            logUtils_1.LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
-            return true;
-        }
-        catch (e) {
-            this.refundException(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, buttonXPaths_1.ButtonXPaths_A8.BACK, viewXpaths_1.ViewXPaths_A8.MESSAGE);
-            return false;
-        }
-    }
-    /**
-     * 供应商不支持退货异常的操作
-     * @param client
-     */
-    static async refundException(client, determine, back, message) {
-        logUtils_1.LogUtils.log.info("********该笔订单预查询失败或退款失败********");
-        try {
-            logUtils_1.LogUtils.log.info("监测是否为不支持供应商错误");
-            if (await client.isElementDisplayed((await client.$(message)).elementId)) {
-                // let tip = await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]');
-                let confirm = await client.$(determine);
-                await confirm.click();
+            let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
+            if (element.length != 0 && typeof element == "object") {
+                let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                await determine1.click();
                 await client.pause(500);
-                let back1 = await client.$(back);
+                let back1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.BACK);
                 await back1.click();
-                RefundOrder.isFind = false;
                 logUtils_1.LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
+                return false;
             }
             else {
-                let back1 = await client.$(back);
-                await back1.click();
+                logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
+                await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                //  打印订单耗时
+                let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                await client.pause(1000);
+                tip.click();
+                await client.pause(6000);
+                //  return true;
+                logUtils_1.LogUtils.refundLog.info('订单退货成功');
+                //    点击返回
+                let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
+                await client.pause(1000);
+                await back.click();
+                await client.pause(1000);
                 await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
-                RefundOrder.isFind = false;
+                logUtils_1.LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
+                return true;
             }
         }
         catch (e) {

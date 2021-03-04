@@ -4,8 +4,8 @@ import {DeviceName} from "../../static/deviceName";
 import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
 import * as wdio from "webdriverio";
-import {ButtonXPaths_A8,ButtonXPaths_Elo} from "../../static/buttonXPaths";
-import {ViewXpaths_ELO,ViewXPaths_A8} from "../../static/viewXpaths";
+import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {ViewXpaths_ELO, ViewXPaths_A8} from "../../static/viewXpaths";
 
 const deviceName: string = DeviceName.getDeviceName();
 
@@ -22,8 +22,9 @@ export class RefundOrder {
      * @param client
      * @param confirm 确认按钮
      */
-    public static async refundFirst(client: any, orderText:string,confirm: string) {
+    public static async refundFirst(client: any, orderText: string, confirm: string) {
         //    点击申请退货
+        await client.pause(2000)
         let apply = await client.$(orderText);
         await apply.click();
         await client.pause(1000);
@@ -62,8 +63,7 @@ export class RefundOrder {
             let touchFun = TouchMethod.getTouchMethod();
             await touchFun(client, number, InputCoordinates.getCoordMap());  // A8退款使用A8通用坐标Map
 
-        }
-        else if (deviceName == 'elo') {
+        } else if (deviceName == 'elo') {
             let touchFun = TouchMethod.getTouchMethod();
             await touchFun(client, number, InputCoordinates.getCoordMapForRedundPwd());  // Elo退款坐标
         }
@@ -106,33 +106,44 @@ export class RefundOrder {
      */
     public static async refundOrderToday(client: any, orderNo: string) {
         LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作(今日)******");
+        await client.pause(1000);
+        await RefundOrder.refundFirst(client, ButtonXPaths_A8.ORDERTEXT, ButtonXPaths_A8.CONFIRM);
+        // 输入退货的固定密码
+        LogUtils.log.info("请输入授权码");
+        let number: string = <string>await GlobalUtil.getConfigMap().get('backGoods');
+        await this.refundPass(client, ButtonXPaths_A8.DETERMINE, number);
         try {
-            await RefundOrder.refundFirst(client, ButtonXPaths_A8.ORDERTEXT,ButtonXPaths_A8.CONFIRM);
-            // 输入退货的固定密码
-            LogUtils.log.info("请输入授权码");
-            let number: string =<string> await GlobalUtil.getConfigMap().get('backGoods');
-            await this.refundPass(client, ButtonXPaths_A8.DETERMINE, number);
-            //如果支付上不可退点了确定，提示框就没了。
-            //提示确定
-            let confirmTip1 = await client.$(ButtonXPaths_A8.DETERMINE);
-            await confirmTip1.click();
-            await client.pause(1000);
-            await this.refundThen(client, ButtonXPaths_A8.CONFIRM, ButtonXPaths_A8.DETERMINE);
-            //  打印订单耗时
-            let tip = await client.$(ButtonXPaths_A8.DETERMINE);
-            await client.pause(1000);
-            await tip.click();
-            await client.pause(6000);
-            LogUtils.refundLog.info('更改退货成功');
-            //    点击返回
-            let back = await client.$(ButtonXPaths_A8.RETURN);
-            await client.pause(1000);
-            await back.click();
-            await client.pause(1000);
-            await this.refundOk(client, ButtonXPaths_A8.MENU, ButtonXPaths_A8.HOME);
-            return true;
+            let element = await client.findElements("xpath", ViewXPaths_A8.MESSAGE);
+            if (element.length != 0 && typeof element == "object") {
+                let determine1 = await client.$(ButtonXPaths_A8.DETERMINE);
+                await determine1.click();
+                await client.pause(500);
+                let back1 = await client.$(ButtonXPaths_A8.BACK);
+                await back1.click();
+                LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
+                return false;
+            } else {
+                LogUtils.log.info('********订单支付行支持退货********');
+                let confirmTip1 = await client.$(ButtonXPaths_A8.DETERMINE);
+                await confirmTip1.click();
+                await client.pause(1000);
+                await this.refundThen(client, ButtonXPaths_A8.CONFIRM, ButtonXPaths_A8.DETERMINE);
+                //  打印订单耗时
+                let tip = await client.$(ButtonXPaths_A8.DETERMINE);
+                await client.pause(1000);
+                await tip.click();
+                await client.pause(6000);
+                LogUtils.refundLog.info('更改退货成功');
+                //    点击返回
+                let back = await client.$(ButtonXPaths_A8.RETURN);
+                await client.pause(1000);
+                await back.click();
+                await client.pause(1000);
+                await this.refundOk(client, ButtonXPaths_A8.MENU, ButtonXPaths_A8.HOME);
+                return true;
+            }
         } catch (e) {
-            this.refundException(client,ButtonXPaths_A8.DETERMINE,ButtonXPaths_A8.BACK,ViewXPaths_A8.MESSAGE);
+            //   this.refundException(client, ButtonXPaths_A8.DETERMINE, ButtonXPaths_A8.BACK, ViewXPaths_A8.MESSAGE);
             return false;
         }
     }
@@ -143,65 +154,46 @@ export class RefundOrder {
      * @param client
      * @param orderNo 订单号
      */
-    // @ts-ignore
-    public static async refundBeforeOrder(client: WebdriverIOAsync.BrowserObject, orderNo: string) {
+
+    public static async refundBeforeOrder(client: any, orderNo: string) {
         LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作（隔日）******");
         // 查询成功，执行退款操作
+        await client.pause(1000);
+        await this.refundFirst(client, ButtonXPaths_A8.ORDERTEXT, ButtonXPaths_A8.CONFIRM);
         try {
-            await this.refundFirst(client,ButtonXPaths_A8.ORDERTEXT, ButtonXPaths_A8.CONFIRM);
-            await this.refundThen(client, ButtonXPaths_A8.CONFIRM, ButtonXPaths_A8.DETERMINE);
-            //  打印订单耗时
-            let tip = await client.$(ButtonXPaths_A8.DETERMINE);
-            await client.pause(1000);
-            tip.click();
-            await client.pause(6000);
-            //  return true;
-            LogUtils.refundLog.info('订单退货成功');
-            //    点击返回
-            let back = await client.$(ButtonXPaths_A8.RETURN);
-            await client.pause(1000);
-            await back.click();
-            await client.pause(1000);
-            await this.refundOk(client, ButtonXPaths_A8.MENU, ButtonXPaths_A8.HOME);
-            LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
-            return true;
-        } catch (e) {
-            this.refundException(client,ButtonXPaths_A8.DETERMINE,ButtonXPaths_A8.BACK,ViewXPaths_A8.MESSAGE);
-            return false;
-        }
-
-    }
-
-    /**
-     * 供应商不支持退货异常的操作
-     * @param client
-     */
-    public static async refundException(client: any,determine: string, back: string,message:string) {
-        LogUtils.log.info("********该笔订单预查询失败或退款失败********");
-        try {
-            LogUtils.log.info("监测是否为不支持供应商错误");
-            if (
-                await client.isElementDisplayed((await client.$(message)).elementId)) {
-                // let tip = await client.$('//android.view.View[@content-desc="退货信息预查询失败，订单支付行包含指定支付供应商, 不支持退货"]');
-                let confirm = await client.$(determine);
-                await confirm.click();
+            let element = await client.findElements("xpath", ViewXPaths_A8.MESSAGE);
+            if (element.length != 0 && typeof element == "object") {
+                let determine1 = await client.$(ButtonXPaths_A8.DETERMINE);
+                await determine1.click();
                 await client.pause(500);
-                let back1 = await client.$(back);
+                let back1 = await client.$(ButtonXPaths_A8.BACK);
                 await back1.click();
-                RefundOrder.isFind = false;
                 LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
-            }
-            else{
-                let back1 = await client.$(back);
-                await back1.click();
+                return false;
+            } else {
+                LogUtils.log.info('********订单支付行支持退货********');
+                await this.refundThen(client, ButtonXPaths_A8.CONFIRM, ButtonXPaths_A8.DETERMINE);
+                //  打印订单耗时
+                let tip = await client.$(ButtonXPaths_A8.DETERMINE);
+                await client.pause(1000);
+                tip.click();
+                await client.pause(6000);
+                //  return true;
+                LogUtils.refundLog.info('订单退货成功');
+                //    点击返回
+                let back = await client.$(ButtonXPaths_A8.RETURN);
+                await client.pause(1000);
+                await back.click();
+                await client.pause(1000);
                 await this.refundOk(client, ButtonXPaths_A8.MENU, ButtonXPaths_A8.HOME);
-                RefundOrder.isFind = false;
+                LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
+                return true;
             }
-        }
-        catch (e) {
-        }
-    }
+        } catch (e) {
 
+        }
+
+    }
 }
 
 /**
@@ -225,11 +217,11 @@ export class RefundOrder_elo extends RefundOrder {
     public static async refundOrderToday(client: any, orderNo: string) {
         LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作(今日)******");
         try {
-            await this.refundFirst(client, ButtonXPaths_Elo.ORDERTEXT,ViewXpaths_ELO.DETERMINE);
+            await this.refundFirst(client, ButtonXPaths_Elo.ORDERTEXT, ViewXpaths_ELO.DETERMINE);
             // 输入退货的固定密码
             let fixedpwd = await client.$('//android.view.View[@content-desc="固定密码"] ');
             await fixedpwd.click();
-            let number: string =<string> await GlobalUtil.getConfigMap().get('backGoods');
+            let number: string = <string>await GlobalUtil.getConfigMap().get('backGoods');
             await this.refundPass(client, ButtonXPaths_Elo.DETERMINE, number);
             //提示确定
             let confirmTip1 = await client.$(ViewXpaths_ELO.DETERMINE);
@@ -238,7 +230,7 @@ export class RefundOrder_elo extends RefundOrder {
             await this.refundThen(client, ButtonXPaths_Elo.CONFIRM, ViewXpaths_ELO.DETERMINE);
             //  打印订单耗时
             await client.pause(10000);
-            await this.refundOk(client, ButtonXPaths_Elo.MENU,ButtonXPaths_Elo.HOME);
+            await this.refundOk(client, ButtonXPaths_Elo.MENU, ButtonXPaths_Elo.HOME);
             return true;
         } catch (e) {
 
@@ -255,13 +247,13 @@ export class RefundOrder_elo extends RefundOrder {
     public static async refundBeforeOrder(client: any, orderNo: string) {
         LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作（隔日）******");
         try {
-            await this.refundFirst(client, ButtonXPaths_Elo.ORDERTEXT,ButtonXPaths_Elo.CONFIRM);
+            await this.refundFirst(client, ButtonXPaths_Elo.ORDERTEXT, ButtonXPaths_Elo.CONFIRM);
             await this.refundThen(client, ButtonXPaths_Elo.CONFIRM, ViewXpaths_ELO.DETERMINE);
             let number: string = <string>await GlobalUtil.getConfigMap().get('backGoods2');
             await this.refundPass(client, ButtonXPaths_Elo.DETERMINE, number);
             await client.pause(10000);
             LogUtils.log.info("******订单" + orderNo + "隔日整单退款成功******");
-            await this.refundOk(client, ButtonXPaths_Elo.MENU,ButtonXPaths_Elo.HOME);
+            await this.refundOk(client, ButtonXPaths_Elo.MENU, ButtonXPaths_Elo.HOME);
             return true;
         } catch (e) {
 
