@@ -5,6 +5,7 @@ const sift_1 = require("../basicActions/sift");
 const search_1 = require("../basicActions/search");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 const commonXpath_1 = require("../../static/commonXpath");
+const logUtils_1 = require("../../utils/logUtils");
 /**
  * 取消退货
  */
@@ -21,6 +22,7 @@ class CancelReturns {
      * orderState:any ：选择订单状态
      */
     async cancelReturns() {
+        logUtils_1.LogUtils.refundLog.info('执行取消退货');
         await new search_1.Search(this.client).search();
         const orderType = ['一般销售单'];
         const orderState = ['已完成'];
@@ -36,6 +38,7 @@ class CancelReturns {
         await cancel.click();
         let back = await this.client.$(this.backBtnXPath);
         await back.click();
+        logUtils_1.LogUtils.refundLog.info('取消退货完成');
     }
 }
 exports.CancelReturns = CancelReturns;

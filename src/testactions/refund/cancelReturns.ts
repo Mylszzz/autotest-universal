@@ -3,6 +3,7 @@ import {Search} from "../basicActions/search";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {CommonXpath} from "../../static/commonXpath";
+import {LogUtils} from "../../utils/logUtils";
 
 /**
  * 取消退货
@@ -24,6 +25,7 @@ export class CancelReturns {
      * orderState:any ：选择订单状态
      */
     public async cancelReturns() {
+        LogUtils.refundLog.info('执行取消退货');
         await new Search(this.client).search();
         const orderType: any = ['一般销售单'];
         const orderState: any = ['已完成'];
@@ -39,6 +41,7 @@ export class CancelReturns {
         await cancel.click();
         let back = await this.client.$(this.backBtnXPath);
         await back.click();
+        LogUtils.refundLog.info('取消退货完成');
     }
 
 }

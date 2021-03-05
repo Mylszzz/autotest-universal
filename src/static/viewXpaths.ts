@@ -4,4 +4,5 @@ export enum ViewXPaths_A8 {
 
 export enum ViewXpaths_ELO{
     DETERMINE='//android.view.View[@content-desc="确定"]',
+    PASSWORD ='//android.view.View[@content-desc="请输入授权码"]',
 }

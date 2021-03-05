@@ -11,6 +11,7 @@ class RefundData {
         this.refundPrice = '';
         //退货是否成功
         this.isSuccess = false;
+        this.refundRemark = '';
     }
 }
 exports.RefundData = RefundData;

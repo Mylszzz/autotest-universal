@@ -24,6 +24,7 @@ export enum ButtonXPaths_Elo{
     BACK = '//android.widget.Button[@content-desc="return left 返回"]',
     HOME ='//android.widget.Button[@content-desc="销售作业"]',
     DETERMINE='(//android.widget.Button[@content-desc="确定"])[2]',
+    DETERMINE1='//android.widget.Button[@content-desc="确定"]',
     CONFIRM = '//android.widget.Button[@content-desc="确认"]',  //
     REFRESH = '//android.widget.Button[@content-desc="刷新店铺"]',  // 刷新店铺键
     CONTACT = '//android.widget.Button[@content-desc="contact"]',

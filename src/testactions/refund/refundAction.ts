@@ -8,7 +8,8 @@ import {Search_a8, Search_elo} from "../basicActions/search";
 import {RefundOrder_a8, RefundOrder_elo} from "./refundOrder";
 import {ExportCsv} from "../../utils/exportCsv";
 import {Tools} from "../../utils/tools";
-
+import {CsvGenerator} from "../sale/csvGenerator";
+import {RefundOrder} from "./refundOrder";
 
 /**
  * 用于退货的主脚本
@@ -22,10 +23,11 @@ export class RefundAction {
      * 构造方法
      * @param client
      */
-    public constructor(client: any) {
+    public constructor(client: any,) {
         this.client = client;
         this.deviceName = DeviceName.getDeviceName();
     }
+
 
     /**
      * 调用退货的执行脚本
@@ -35,8 +37,8 @@ export class RefundAction {
     public async refundProcess() {
         let refundPreparation = new RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
-
         let refundDataList: RefundData[] = [];
+        let headers: string[] = ['refundTime', 'orderNo', 'price', '是否退货成功', '备注'];
 
         for (let i = 0; i < this.refundDataMaps.length; i++) {
             let refundOnce = new RefundOnce(this.refundDataMaps[i]);  // 一次退货
@@ -52,10 +54,8 @@ export class RefundAction {
                         await search_a8.search();
                         await search_a8.searchNum(orderNo);
                         if (beforeToday) {
-                            refundData.isSuccess = await RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
+                            refundData.isSuccess = <boolean>await RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         } else {
-                            //进行今日订单退货，并判断是否成功
-                            LogUtils.refundLog.info("nn");
                             refundData.isSuccess = await RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                     } else {
@@ -66,8 +66,7 @@ export class RefundAction {
                         if (beforeToday) {
                             //进行隔日订单退货，并判断是否成功
                             refundData.isSuccess = await RefundOrder_elo.refundBeforeOrder(this.client, orderNo);
-                        }
-                        else {
+                        } else {
                             refundData.isSuccess = await RefundOrder_elo.refundOrderToday(this.client, orderNo);
                         }
 
@@ -82,8 +81,20 @@ export class RefundAction {
                 refundData.refundPrice = refundOnce.getPrice();
                 refundData.refundOrderNo = "'" + orderNo;
                 refundData.refundTime = new Date().toLocaleDateString();
+                refundData.refundRemark = RefundOrder.getRefundRemark();//TODO
                 refundDataList.push(refundData);
-                ExportCsv.printRefundData(CsvOptions.refundOptions, refundDataList, Tools.guid());
+
+                let data = {
+                    saleTime: new Date().toLocaleDateString(),
+                    saleOrderNo: orderNo,
+                    priceForCsv: refundOnce.getPrice()
+                };
+                let option: any;
+                if (i == 0) {
+                    option = CsvOptions.configurationOption(i + 1, headers);
+                }
+                //  this.csvGenerator.printCsv(data, i + 1,[refundData.isSuccess.toString(),]);  // TODO
+                ExportCsv.printRefundData(option, refundDataList, Tools.guid());
 
             }
         }

@@ -11,6 +11,7 @@ const search_1 = require("../basicActions/search");
 const refundOrder_1 = require("./refundOrder");
 const exportCsv_1 = require("../../utils/exportCsv");
 const tools_1 = require("../../utils/tools");
+const refundOrder_2 = require("./refundOrder");
 /**
  * 用于退货的主脚本
  */
@@ -33,6 +34,7 @@ class RefundAction {
         let refundPreparation = new refundUtils_1.RefundPreparation();
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
         let refundDataList = [];
+        let headers = ['refundTime', 'orderNo', 'price', '是否退货成功', '备注'];
         for (let i = 0; i < this.refundDataMaps.length; i++) {
             let refundOnce = new refundUtils_1.RefundOnce(this.refundDataMaps[i]); // 一次退货
             let orderNo = refundOnce.getOrderNo();
@@ -50,8 +52,6 @@ class RefundAction {
                             refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         }
                         else {
-                            //进行今日订单退货，并判断是否成功
-                            logUtils_1.LogUtils.refundLog.info("nn");
                             refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundOrderToday(this.client, orderNo);
                         }
                     }
@@ -77,8 +77,19 @@ class RefundAction {
                 refundData.refundPrice = refundOnce.getPrice();
                 refundData.refundOrderNo = "'" + orderNo;
                 refundData.refundTime = new Date().toLocaleDateString();
+                refundData.refundRemark = refundOrder_2.RefundOrder.getRefundRemark(); //TODO
                 refundDataList.push(refundData);
-                exportCsv_1.ExportCsv.printRefundData(csvOptions_1.CsvOptions.refundOptions, refundDataList, tools_1.Tools.guid());
+                let data = {
+                    saleTime: new Date().toLocaleDateString(),
+                    saleOrderNo: orderNo,
+                    priceForCsv: refundOnce.getPrice()
+                };
+                let option;
+                if (i == 0) {
+                    option = csvOptions_1.CsvOptions.configurationOption(i + 1, headers);
+                }
+                //  this.csvGenerator.printCsv(data, i + 1,[refundData.isSuccess.toString(),]);  // TODO
+                exportCsv_1.ExportCsv.printRefundData(option, refundDataList, tools_1.Tools.guid());
             }
         }
     }
