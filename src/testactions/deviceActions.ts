@@ -7,6 +7,7 @@ import {ISaleData, SaleAction_A8, SaleAction_Elo} from "./sale/saleAction";
 import {DeviceName} from "../static/deviceName";
 import {CancelReturns_A8, CancelReturns_ELO} from "./refund/cancelReturns";
 import {CsvGenerator} from "./sale/csvGenerator";
+import {ChangePassword, ChangePassword_A8, ChangePassword_Elo} from "./basicActions/changePassword";
 
 
 /****************************************************************
@@ -195,5 +196,21 @@ export class SaleActionInstance {
         } else {  // 需要默认返回
             return new SaleAction_A8(saleData, client, csvGenerator);
         }
+    }
+}
+
+export class ChangePwd {
+    private static instance: ChangePassword_A8|ChangePassword_Elo;
+    private constructor() {
+
+    }
+
+    public static async changePwd(client:any) {
+        if (DeviceName.getDeviceName() == 'a8' && this.instance == null) {
+            this.instance = ChangePassword_A8.getInstance(client);
+        } else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = ChangePassword_Elo.getInstance(client);
+        }
+        await this.instance.changePasswordProcess();
     }
 }

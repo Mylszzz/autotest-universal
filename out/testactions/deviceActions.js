@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SaleActionInstance = exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
+exports.ChangePwd = exports.SaleActionInstance = exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
 const logoutAction_1 = require("./basicActions/logoutAction");
 const refreshAction_1 = require("./basicActions/refreshAction");
@@ -9,6 +9,7 @@ const loginVip_1 = require("./sale/loginVip");
 const saleAction_1 = require("./sale/saleAction");
 const deviceName_1 = require("../static/deviceName");
 const cancelReturns_1 = require("./refund/cancelReturns");
+const changePassword_1 = require("./basicActions/changePassword");
 /****************************************************************
  *   此文件提供了各种不同模块可以直接调用的静态方法                      *
  *   在此文件中完成了对设备名的判断, 因而可以在需要的地方直接调用          *
@@ -185,3 +186,17 @@ class SaleActionInstance {
     }
 }
 exports.SaleActionInstance = SaleActionInstance;
+class ChangePwd {
+    constructor() {
+    }
+    static async changePwd(client) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && this.instance == null) {
+            this.instance = changePassword_1.ChangePassword_A8.getInstance(client);
+        }
+        else if (deviceName == 'elo' && this.instance == null) {
+            this.instance = changePassword_1.ChangePassword_Elo.getInstance(client);
+        }
+        await this.instance.changePasswordProcess();
+    }
+}
+exports.ChangePwd = ChangePwd;

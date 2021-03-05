@@ -46,6 +46,12 @@ class SaleMainLoop {
             await this.saleInstance.saleAction();
         }
     }
+    /**
+     * 返回销售输出csv文件名
+     */
+    static getFileName() {
+        return this.fileName;
+    }
 }
 exports.SaleMainLoop = SaleMainLoop;
 SaleMainLoop.fileName = 'unknown'; // 保存测试输出的csv文件名

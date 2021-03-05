@@ -67,7 +67,15 @@ export class SaleMainLoop {
                 this.client, this.csvGenerator);
 
             await this.saleInstance.saleAction();
+
         }
+    }
+
+    /**
+     * 返回销售输出csv文件名
+     */
+    public static getFileName(): string {
+        return this.fileName;
     }
 
 

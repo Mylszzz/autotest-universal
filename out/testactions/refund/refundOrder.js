@@ -92,6 +92,16 @@ class RefundOrder {
         await client.pause(1000);
     }
     /**
+     * 出错后的点击操作
+     */
+    static async refundError(client) {
+        let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+        await determine1.click();
+        await client.pause(500);
+        let back1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.BACK);
+        await back1.click();
+    }
+    /**
      * 当日订单退款
      * @author lina
      * @param client
@@ -102,44 +112,56 @@ class RefundOrder {
         await client.pause(1000);
         await RefundOrder.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
         // 输入退货的固定密码
-        logUtils_1.LogUtils.log.info("请输入授权码");
-        let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods');
-        await this.refundPass(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, number);
-        try {
-            let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
-            if (element.length != 0 && typeof element == "object") {
-                let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                await determine1.click();
-                await client.pause(500);
-                let back1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.BACK);
-                await back1.click();
-                logUtils_1.LogUtils.refundLog.info('********订单支付行包含指定支付供应商, 不支持退货********');
-                refundRemark = '订单支付行包含指定支付供应商, 不支持退货';
+        let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.SERVICEERROR);
+        if (element.length != 0 && typeof element == "object") {
+            await this.refundError(client);
+            logUtils_1.LogUtils.log.info('********订单无可退金额********');
+            refundRemark = '订单无可退金额, 不支持退货';
+            return false;
+        }
+        else {
+            logUtils_1.LogUtils.log.info("请输入授权码");
+            try {
+                let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods');
+                await this.refundPass(client, buttonXPaths_1.ButtonXPaths_A8.DETERMINE, number);
+            }
+            catch (e) {
+            }
+            try {
+                let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
+                if (element.length != 0 && typeof element == "object") {
+                    await this.refundError(client);
+                    logUtils_1.LogUtils.refundLog.info('********订单支付行包含指定支付供应商, 不支持退货********');
+                    refundRemark = '订单支付行包含指定支付供应商, 不支持退货';
+                    return false;
+                }
+                else {
+                    logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
+                    let confirmTip1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                    await confirmTip1.click();
+                    await client.pause(1000);
+                    await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                    //  打印订单耗时
+                    let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                    await client.pause(1000);
+                    await tip.click();
+                    await client.pause(6000);
+                    logUtils_1.LogUtils.refundLog.info('更改退货成功');
+                    refundRemark = '';
+                    //    点击返回
+                    let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
+                    await client.pause(1000);
+                    await back.click();
+                    await client.pause(1000);
+                    await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
+                    return true;
+                }
+            }
+            catch (e) {
+                logUtils_1.LogUtils.log.info('********控件元素找不到********');
+                refundRemark = '找不到控件元素';
                 return false;
             }
-            else {
-                logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
-                let confirmTip1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                await confirmTip1.click();
-                await client.pause(1000);
-                await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                //  打印订单耗时
-                let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                await client.pause(1000);
-                await tip.click();
-                await client.pause(6000);
-                logUtils_1.LogUtils.refundLog.info('更改退货成功');
-                //    点击返回
-                let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
-                await client.pause(1000);
-                await back.click();
-                await client.pause(1000);
-                await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
-                return true;
-            }
-        }
-        catch (e) {
-            return false;
         }
     }
     /**
@@ -153,40 +175,48 @@ class RefundOrder {
         // 查询成功，执行退款操作
         await client.pause(1000);
         await this.refundFirst(client, buttonXPaths_1.ButtonXPaths_A8.ORDERTEXT, buttonXPaths_1.ButtonXPaths_A8.CONFIRM);
-        try {
-            let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
-            if (element.length != 0 && typeof element == "object") {
-                let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                await determine1.click();
-                await client.pause(500);
-                let back1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.BACK);
-                await back1.click();
-                logUtils_1.LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
-                refundRemark = '订单支付行包含指定支付供应商, 不支持退货';
+        let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.SERVICEERROR);
+        if (element.length != 0 && typeof element == "object") {
+            await this.refundError(client);
+            logUtils_1.LogUtils.log.info('********订单无可退金额********');
+            refundRemark = '订单无可退金额, 不支持退货';
+            return false;
+        }
+        else {
+            try {
+                let element = await client.findElements("xpath", viewXpaths_1.ViewXPaths_A8.MESSAGE);
+                if (element.length != 0 && typeof element == "object") {
+                    await this.refundError(client);
+                    logUtils_1.LogUtils.log.info('********订单支付行包含指定支付供应商, 不支持退货********');
+                    refundRemark = '订单支付行包含指定支付供应商, 不支持退货';
+                    return false;
+                }
+                else {
+                    logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
+                    await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                    //  打印订单耗时
+                    let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
+                    await client.pause(1000);
+                    tip.click();
+                    await client.pause(6000);
+                    //  return true;
+                    logUtils_1.LogUtils.refundLog.info('订单退货成功');
+                    refundRemark = ' ';
+                    //    点击返回
+                    let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
+                    await client.pause(1000);
+                    await back.click();
+                    await client.pause(1000);
+                    await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
+                    logUtils_1.LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
+                    return true;
+                }
+            }
+            catch (e) {
+                logUtils_1.LogUtils.refundLog.info(e.toString());
+                refundRemark = '找不到控件元素';
                 return false;
             }
-            else {
-                logUtils_1.LogUtils.log.info('********订单支付行支持退货********');
-                await this.refundThen(client, buttonXPaths_1.ButtonXPaths_A8.CONFIRM, buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                //  打印订单耗时
-                let tip = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);
-                await client.pause(1000);
-                tip.click();
-                await client.pause(6000);
-                //  return true;
-                logUtils_1.LogUtils.refundLog.info('订单退货成功');
-                //    点击返回
-                let back = await client.$(buttonXPaths_1.ButtonXPaths_A8.RETURN);
-                await client.pause(1000);
-                await back.click();
-                await client.pause(1000);
-                await this.refundOk(client, buttonXPaths_1.ButtonXPaths_A8.MENU, buttonXPaths_1.ButtonXPaths_A8.HOME);
-                logUtils_1.LogUtils.refundLog.info("====订单" + orderNo + "隔日整单退款成功");
-                return true;
-            }
-        }
-        catch (e) {
-            logUtils_1.LogUtils.refundLog.info(e.toString());
         }
     }
 }
@@ -228,11 +258,13 @@ class RefundOrder_elo extends RefundOrder {
                 await this.refundPass(client, viewXpaths_1.ViewXpaths_ELO.DETERMINE, number);
             }
             //  打印订单耗时
-            await client.pause(30000);
+            await client.pause(90000);
+            refundRemark = '';
             await this.refundOk(client, buttonXPaths_1.ButtonXPaths_Elo.MENU, buttonXPaths_1.ButtonXPaths_Elo.HOME);
             return true;
         }
         catch (e) {
+            refundRemark = e.toString();
             return false;
         }
     }
@@ -246,15 +278,24 @@ class RefundOrder_elo extends RefundOrder {
         logUtils_1.LogUtils.log.info("******对订单" + orderNo + "进行当日整单退款操作（隔日）******");
         try {
             await this.refundFirst(client, buttonXPaths_1.ButtonXPaths_Elo.ORDERTEXT, buttonXPaths_1.ButtonXPaths_Elo.DETERMINE);
+            let element = await client.findElements("xpath", '//android.view.View[@content-desc="固定密码"]');
+            if (element.length != 0 && typeof element == "object") {
+                let fixedpwd = await client.$('//android.view.View[@content-desc="固定密码"] ');
+                await fixedpwd.click();
+                let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods');
+                await this.refundPass(client, viewXpaths_1.ViewXpaths_ELO.DETERMINE, number);
+            }
             await this.refundThen(client, buttonXPaths_1.ButtonXPaths_Elo.CONFIRM, buttonXPaths_1.ButtonXPaths_Elo.DETERMINE);
             let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods2');
             await this.refundPass(client, viewXpaths_1.ViewXpaths_ELO.DETERMINE, number);
-            await client.pause(30000);
+            await client.pause(90000);
             logUtils_1.LogUtils.log.info("******订单" + orderNo + "隔日整单退款成功******");
+            refundRemark = '';
             await this.refundOk(client, buttonXPaths_1.ButtonXPaths_Elo.MENU, buttonXPaths_1.ButtonXPaths_Elo.HOME);
             return true;
         }
         catch (e) {
+            refundRemark = e.toString();
             return false;
         }
     }

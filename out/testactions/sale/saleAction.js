@@ -120,6 +120,7 @@ class SaleAction_A8 extends SaleAction {
             logUtils_1.LogUtils.saleLog.info('******销售完成，打印输出到csv文件******');
             logUtils_1.LogUtils.saleLog.info('**********************************');
             this.generateCsv();
+            await this.client.pause(2000);
         }
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e); // TODO

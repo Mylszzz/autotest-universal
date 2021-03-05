@@ -8,6 +8,8 @@ var ButtonXPaths_A8;
     ButtonXPaths_A8["FUNNEL"] = "//android.widget.Button[@content-desc=\"funnel\"]";
     ButtonXPaths_A8["RETURN"] = "//android.widget.Button[@content-desc=\"\u8FD4\u56DE\"]";
     ButtonXPaths_A8["BACK"] = "//android.widget.Button[@content-desc=\"arrow back \"]";
+    ButtonXPaths_A8["DATESELECT"] = "//android.widget.Button[@content-desc=\"arrow back\"]";
+    ButtonXPaths_A8["CALENDER"] = "//android.widget.Button[@content-desc=\"calendar\"]";
     ButtonXPaths_A8["HOME"] = "//android.widget.Button[@content-desc=\"home \u9500\u552E\u4F5C\u4E1A\"]";
     ButtonXPaths_A8["REFRESH"] = "//android.widget.Button[@content-desc=\"refresh circle \u5237\u65B0\u5E97\u94FA\"]";
     ButtonXPaths_A8["ACCOUNTLOGOUT"] = "//android.widget.Button[@content-desc=\"exit \u9000\u51FA\u767B\u5F55\"]";

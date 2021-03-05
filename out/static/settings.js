@@ -9,7 +9,7 @@ exports.runTimeSettings = exports.generalSettings = void 0;
 exports.generalSettings = {
     enableLoginModule: true,
     enableVipLoginModule: true,
-    enableSaleModule: true,
+    enableSaleModule: false,
     enableRefundModule: true,
     enableUploadLogModule: false,
     enableRefreshModule: false,

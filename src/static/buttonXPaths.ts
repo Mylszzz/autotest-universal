@@ -4,6 +4,8 @@ export enum ButtonXPaths_A8 {
     FUNNEL ='//android.widget.Button[@content-desc="funnel"]',  //筛选按钮
     RETURN = '//android.widget.Button[@content-desc="返回"]',
     BACK = '//android.widget.Button[@content-desc="arrow back "]',
+    DATESELECT ='//android.widget.Button[@content-desc="arrow back"]',
+    CALENDER ='//android.widget.Button[@content-desc="calendar"]',
     HOME ='//android.widget.Button[@content-desc="home 销售作业"]',
     REFRESH = '//android.widget.Button[@content-desc="refresh circle 刷新店铺"]',  // 刷新店铺键
     ACCOUNTLOGOUT = '//android.widget.Button[@content-desc="exit 退出登录"]',
