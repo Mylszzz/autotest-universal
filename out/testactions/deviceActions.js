@@ -18,7 +18,6 @@ const changePassword_1 = require("./basicActions/changePassword");
  *   1. 登录 2. 退出 3. 刷新店铺 4. 取消退货 5. 上传日志 6. 登录VIP    *
  *   7. 获取SaleAction实例                                       *
  ***************************************************************/
-const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 /**
  * 用于直接调用登录的静态方法
  * 懒汉式单例模式
@@ -28,10 +27,10 @@ class LoginAction {
     }
     // main中需要调用的方法
     static async login(client) {
-        if (deviceName == 'a8' && null == this.device_instance) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.device_instance) {
             this.device_instance = loginUtil_1.Device_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.device_instance == null) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && this.device_instance == null) {
             this.device_instance = loginUtil_1.Device_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 10秒Timeout
@@ -57,10 +56,10 @@ class LogoutAction {
     }
     // 退出登录
     static async accountLogout(client) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = logoutAction_1.LogoutAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && null == this.instance) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = logoutAction_1.LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
@@ -68,10 +67,10 @@ class LogoutAction {
     }
     // 退出程序
     static async sysLogout(client) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = logoutAction_1.LogoutAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && null == this.instance) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = logoutAction_1.LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
@@ -87,10 +86,10 @@ class RefreshAction {
     constructor() {
     }
     static async refreshAction(client) {
-        if (deviceName == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
             this.instance = refreshAction_1.RefreshAction_A8.getInstance(client); // 创建用于刷新的A8实例
         }
-        else if (deviceName == 'elo' && null == this.instance) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = refreshAction_1.RefreshAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
@@ -106,10 +105,10 @@ class CancelReturns {
     constructor() {
     }
     static async refreshAction(client) {
-        if (deviceName == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) { // 如果设备名字为A8并且实例还未创建
             this.instance = cancelReturns_1.CancelReturns_A8.getInstance(client); // 创建用于刷新的A8实例
         }
-        else if (deviceName == 'elo' && null == this.instance) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = cancelReturns_1.CancelReturns_ELO.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
@@ -127,10 +126,10 @@ class UploadLogAction {
     }
     // 上传当日日志的方法
     static async uploadTodayLogAction(client) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = uploadLogAction_1.UploadLogAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && null == this.instance) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = uploadLogAction_1.UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
@@ -138,10 +137,10 @@ class UploadLogAction {
     }
     // 上传非当日日志的方法
     static async uploadOtherDayLogAction(client) {
-        if (deviceName == 'a8' && this.instance == null) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = uploadLogAction_1.UploadLogAction_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = uploadLogAction_1.UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000); // 设定Timeout为10秒
@@ -157,10 +156,10 @@ class VipLoginAction {
     constructor() {
     }
     static async vipLogin(client) {
-        if (deviceName == 'a8' && this.instance == null) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = loginVip_1.VipLogin_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = loginVip_1.VipLogin_Elo.getInstance(client);
         }
         await this.instance.vipLogin();
@@ -174,10 +173,10 @@ class SaleActionInstance {
     constructor() {
     }
     static getSaleActionInstance(saleData, client, csvGenerator) {
-        if (deviceName == 'a8') {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8') {
             return new saleAction_1.SaleAction_A8(saleData, client, csvGenerator);
         }
-        else if (deviceName == 'elo') {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo') {
             return new saleAction_1.SaleAction_Elo(saleData, client, csvGenerator);
         }
         else { // 需要默认返回

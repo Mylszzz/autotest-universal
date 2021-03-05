@@ -1,5 +1,5 @@
 import {SingleDriver} from "./driver";
-import {LoginAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
+import {LoginAction, LogoutAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
@@ -57,33 +57,15 @@ class Main {
             await RefreshAction.refreshAction(this.client);
         }
 
+        /*
+        退出登录
+         */
+        if (generalSettings.enableLogoutModule) {
+            await LogoutAction.accountLogout(this.client);
+        }
     }
 }
 
-async function salesSettlement() {
-
-    // await LogoutAction.accountLogout(client);
-    //  await CancelReturns.cancelReturns(client);
-
-    /*
-     For Test Only
-     测试打印屏幕上显示的销售信息
-      */
-    // await client.pause(30000);
-    // console.log('------------测试：打印销售信息------------');
-    // try {
-    //     await ValidateOrderInfo.saveOrderInfoToCsv(client);
-    // } catch (e) {
-    //     console.log(e);
-    // }
 
 
-    /*
-    退款
-     */
-    let refundAction = new RefundAction(client);
-     await refundAction.refundProcess();
-}
-
-
-Main.runScript('a8');  // a8 或者 elo
+Main.runScript('elo');  // a8 或者 elo

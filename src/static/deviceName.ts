@@ -1,6 +1,6 @@
 
 export class DeviceName {
-    private static deviceName: string = 'a8';
+    private static deviceName: string = '';
 
     public static getDeviceName(): string {
         return this.deviceName;

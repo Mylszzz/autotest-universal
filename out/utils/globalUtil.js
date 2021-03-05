@@ -25,7 +25,6 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const deviceName_1 = require("../static/deviceName");
 const logUtils_1 = require("./logUtils");
-const deviceName = deviceName_1.DeviceName.getDeviceName();
 /**
  * 获取机器配置信息并且保存在一个Map中
  * 单例模式
@@ -36,6 +35,7 @@ class GlobalUtil {
         GlobalUtil.configMap = new Map();
         GlobalUtil.readTest();
         logUtils_1.LogUtils.log.info(GlobalUtil.configMap);
+        logUtils_1.LogUtils.log.info("*******获取自动化测试的配置参数完成*******");
     }
     /**
      * @returns {Map<string, string>} : 机器配置信息Map, 例如:
@@ -50,17 +50,16 @@ class GlobalUtil {
      * 读取json文件，获得配置参数的map集合
      */
     static readTest() {
-        logUtils_1.LogUtils.log.info("***开始获取自动化测试的配置参数***");
+        logUtils_1.LogUtils.log.info("*******开始获取自动化测试的配置参数*******");
         //读取json自动化测试所需参数
         let buffer;
-        let fileName = '../../globalconfig_' + deviceName + '.json'; // 例如: ../../globalconfig_a8.json
+        let fileName = '../../globalconfig_' + deviceName_1.DeviceName.getDeviceName() + '.json'; // 例如: ../../globalconfig_a8.json
         buffer = fs.readFileSync(path.join(__dirname, fileName));
         let data = buffer.toString();
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值
         for (let obj of Object.keys(JSON.parse(data))) {
             GlobalUtil.configMap.set(obj, JSON.parse(data)[obj]);
         }
-        logUtils_1.LogUtils.log.info("***获取自动化测试的配置参数完成***");
     }
     // 初始化，获取配置信息
     static init() {

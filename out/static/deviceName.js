@@ -10,4 +10,4 @@ class DeviceName {
     }
 }
 exports.DeviceName = DeviceName;
-DeviceName.deviceName = 'a8';
+DeviceName.deviceName = '';

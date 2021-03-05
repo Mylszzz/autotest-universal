@@ -4,8 +4,6 @@ import incon from 'iconv-lite'
 import {LogUtils} from "./logUtils";
 import {DeviceName} from "../static/deviceName";
 
-const deviceName: string = DeviceName.getDeviceName();
-
 
 export class ReadUtils {
 
@@ -24,7 +22,7 @@ export class ReadUtils {
     public static readTest(map: any) {
         this.sleep(2000);
         let buffer: any;
-        let fileName: string = '../../globalconfig_' + deviceName + '.json';  // 例如: ../../globalconfig_a8.json
+        let fileName: string = '../../globalconfig_' + DeviceName.getDeviceName() + '.json';  // 例如: ../../globalconfig_a8.json
         buffer = fs.readFileSync(path.join(__dirname, fileName));
         let data = buffer.toString();
         for (let obj of Object.keys(JSON.parse(data))) {

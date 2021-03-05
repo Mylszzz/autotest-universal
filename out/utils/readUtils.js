@@ -28,7 +28,6 @@ const path = __importStar(require("path"));
 const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const logUtils_1 = require("./logUtils");
 const deviceName_1 = require("../static/deviceName");
-const deviceName = deviceName_1.DeviceName.getDeviceName();
 class ReadUtils {
     static readForRefund(filename) {
         let fileStr = fs.readFileSync(path.join(__dirname, '../../csvData/sale/' + filename), { encoding: 'binary' });
@@ -44,7 +43,7 @@ class ReadUtils {
     static readTest(map) {
         this.sleep(2000);
         let buffer;
-        let fileName = '../../globalconfig_' + deviceName + '.json'; // 例如: ../../globalconfig_a8.json
+        let fileName = '../../globalconfig_' + deviceName_1.DeviceName.getDeviceName() + '.json'; // 例如: ../../globalconfig_a8.json
         buffer = fs.readFileSync(path.join(__dirname, fileName));
         let data = buffer.toString();
         for (let obj of Object.keys(JSON.parse(data))) {
