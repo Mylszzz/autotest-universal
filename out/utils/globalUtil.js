@@ -25,7 +25,6 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const deviceName_1 = require("../static/deviceName");
 const logUtils_1 = require("./logUtils");
-const deviceName = deviceName_1.DeviceName.getDeviceName();
 /**
  * 获取机器配置信息并且保存在一个Map中
  * 单例模式
@@ -54,7 +53,7 @@ class GlobalUtil {
         logUtils_1.LogUtils.log.info("*******开始获取自动化测试的配置参数*******");
         //读取json自动化测试所需参数
         let buffer;
-        let fileName = '../../globalconfig_' + deviceName + '.json'; // 例如: ../../globalconfig_a8.json
+        let fileName = '../../globalconfig_' + deviceName_1.DeviceName.getDeviceName() + '.json'; // 例如: ../../globalconfig_a8.json
         buffer = fs.readFileSync(path.join(__dirname, fileName));
         let data = buffer.toString();
         //将json转换为字符串，再将字符串转换为map集合 获取对应参数值

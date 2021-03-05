@@ -23,7 +23,6 @@ exports.SingleDriver = void 0;
 const wdio = __importStar(require("webdriverio"));
 const deviceName_1 = require("./static/deviceName");
 const driverConfig_1 = require("./static/driverConfig");
-const deviceName = deviceName_1.DeviceName.getDeviceName(); // a8或者elo
 class SingleDriver {
     /**
      * 1.声明一个空的变量 client
@@ -32,10 +31,10 @@ class SingleDriver {
      */
     static async createClient() {
         if (!this.client) {
-            if (deviceName == 'a8') {
+            if (deviceName_1.DeviceName.getDeviceName() == 'a8') {
                 this.client = await wdio.remote(driverConfig_1.DriverConfig.config_a8);
             }
-            else if (deviceName == 'elo') {
+            else if (deviceName_1.DeviceName.getDeviceName() == 'elo') {
                 this.client = await wdio.remote(driverConfig_1.DriverConfig.config_elo);
             }
         }

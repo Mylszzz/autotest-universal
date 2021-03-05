@@ -4,8 +4,6 @@ import {DeviceName} from "./static/deviceName";
 import {DriverConfig} from "./static/driverConfig";
 
 
-const deviceName: string = DeviceName.getDeviceName();  // a8或者elo
-
 
 export class SingleDriver {
     private static client: wdio.BrowserObject;
@@ -18,9 +16,9 @@ export class SingleDriver {
 
     public static async createClient(): Promise<wdio.BrowserObject> {
         if (!this.client) {
-            if (deviceName == 'a8') {
+            if (DeviceName.getDeviceName() == 'a8') {
                 this.client = await wdio.remote(DriverConfig.config_a8);
-            } else if (deviceName == 'elo') {
+            } else if (DeviceName.getDeviceName() == 'elo') {
                 this.client = await wdio.remote(DriverConfig.config_elo);
             }
 

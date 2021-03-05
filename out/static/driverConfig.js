@@ -33,7 +33,7 @@ DriverConfig.config_elo = {
     hostname: '127.0.0.1',
     port: 4723,
     path: '/wd/hub',
-    logLevel: 'info',
+    logLevel: 'error',
     capabilities: {
         automationName: 'uiautomator2',
         platformName: 'android',

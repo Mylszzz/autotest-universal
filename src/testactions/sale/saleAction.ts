@@ -444,6 +444,7 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     private async payMethodLoop(key: string, value: string, isLast: boolean) {
+        LogUtils.saleLog.warn(this.supportedPayMethods);
         let index = this.supportedPayMethods.indexOf(key);  // 需要使用的支付方式在支付列表的第几个
         let payMethodBtn: any;
         let scroll_times: number = 0;

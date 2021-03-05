@@ -7,7 +7,6 @@ const logUtils_1 = require("../../utils/logUtils");
 const globalUtil_1 = require("../../utils/globalUtil");
 const touchMethod_1 = require("../../utils/touchMethod");
 const inputCoordinates_1 = require("../../static/inputCoordinates");
-const payMethods_1 = require("./payMethods");
 const settings_1 = require("../../static/settings");
 const settings_2 = require("../../static/settings");
 const validateOrderInfo_1 = require("../orderInfo/validateOrderInfo");
@@ -149,7 +148,8 @@ class SaleAction_A8 extends SaleAction {
             await this.client.pause(2000);
             //获取订单号
             await this.obtainOrderNo();
-            this.supportedPayMethods = await payMethods_1.PayMethods_A8.getSupportedPayMethods(this.client);
+            // 获取支持的支付方式到supportedPayMethods
+            await this.processPayMethods();
             let paymentSeq = 1;
             // [支付方式名字, 金额]
             for (let [key, value] of this.paymentInfoMap) {
@@ -240,6 +240,22 @@ class SaleAction_A8 extends SaleAction {
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e.toString());
             logUtils_1.LogUtils.saleLog.warn('支付失败');
+        }
+    }
+    /**
+     * 获得支持的支付方式的名字
+     */
+    async processPayMethods() {
+        let num = 0;
+        let tabName = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=1]');
+        let firstName = await tabName.getAttribute('content-desc');
+        let name = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=last()]');
+        let lastName = await name.getAttribute('content-desc');
+        while (firstName !== lastName) {
+            num++;
+            let tabName = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=' + num + ']');
+            firstName = await tabName.getAttribute("content-desc");
+            this.supportedPayMethods.push(firstName);
         }
     }
     /**
@@ -335,11 +351,11 @@ class SaleAction_Elo extends SaleAction {
             // 去结算
             let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
             await settlement.click();
-            // TODO
             // 获取订单号
             await this.obtainOrderNo();
             // 获取支持的支付方式
-            this.supportedPayMethods = await payMethods_1.PayMethods_Elo.getSupportedPayMethods(this.client);
+            // 获取支持的支付方式到supportedPayMethods
+            await this.processPayMethods();
             let paymentSeq = 1;
             // [支付方式名字, 金额]
             for (let [key, value] of this.paymentInfoMap) {
@@ -366,27 +382,31 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     async payMethodLoop(key, value, isLast) {
+        logUtils_1.LogUtils.saleLog.warn(this.supportedPayMethods);
         let index = this.supportedPayMethods.indexOf(key); // 需要使用的支付方式在支付列表的第几个
         let payMethodBtn;
         let scroll_times = 0;
+        let editTextTempList = await this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.EditText');
         try {
             if (index == -1) {
                 throw new exceptions_1.AutoTestException('A9999', '该支付方式不存在');
             }
-            else if (index + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
-                payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
+            else if (index / 2 + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
+                payMethodBtn = editTextTempList[index / 2];
             }
             else {
-                scroll_times = Math.floor((index + 1) / PAYMETHODS_COUNT_PER_PAGE);
+                scroll_times = Math.floor((index / 2 + 1) / PAYMETHODS_COUNT_PER_PAGE);
                 await this.scrollDown(scroll_times);
-                payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' +
-                    this.supportedPayMethods[(index % PAYMETHODS_COUNT_PER_PAGE)] + '"]');
+                payMethodBtn = editTextTempList[index / 2 % PAYMETHODS_COUNT_PER_PAGE];
             }
             logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
+            let editText0 = editTextTempList[0];
+            await editText0.click();
+            await this.client.pause(2000);
             await this.clickOnPayMethod(payMethodBtn, value);
             await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             await this.scrollUp(scroll_times); // 滑回去
-            // TODO: 只做了在第一种支付方式完成后取消
+            // TODO
             if (this.cancelable) {
                 // await this.cancelSale();
             }
@@ -398,7 +418,6 @@ class SaleAction_Elo extends SaleAction {
                 // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
                 // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
                 await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
-                await this.clickOnConfirm();
                 await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
                 //完成
                 let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
@@ -431,18 +450,31 @@ class SaleAction_Elo extends SaleAction {
             logUtils_1.LogUtils.saleLog.warn('支付失败');
         }
     }
+    async processPayMethods() {
+        let tempViewList = this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.View');
+        for (let i = 0; i < tempViewList.length; i += 2) {
+            this.supportedPayMethods.push(tempViewList[i].getAttribute('content-desc'));
+        }
+        logUtils_1.LogUtils.saleLog.warn(this.supportedPayMethods);
+    }
     /**
      * 向下滑动
      * TODO: 坐标要保存在静态库中
      * @returns {Promise<void>}
      */
     async scrollDown(times) {
+        let downArrow = await this.client.$('//android.widget.Button[@content-desc="arrow dropdown"]');
+        await downArrow.click();
+        await this.client.pause(1000);
     }
     /**
      * 向上滑动
      * @returns {Promise<void>}
      */
     async scrollUp(times) {
+        let downUp = await this.client.$('//android.widget.Button[@content-desc="arrow dropup"]');
+        await downUp.click();
+        await this.client.pause(1000);
     }
 }
 exports.SaleAction_Elo = SaleAction_Elo;

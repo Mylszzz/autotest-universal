@@ -18,8 +18,6 @@ import {CsvGenerator} from "./sale/csvGenerator";
  *   7. 获取SaleAction实例                                       *
  ***************************************************************/
 
-const deviceName: string = DeviceName.getDeviceName();  // a8或者elo
-
 /**
  * 用于直接调用登录的静态方法
  * 懒汉式单例模式
@@ -32,9 +30,9 @@ export class LoginAction {
 
     // main中需要调用的方法
     static async login(client: any) {
-        if (deviceName == 'a8' && null == this.device_instance) {
+        if (DeviceName.getDeviceName() == 'a8' && null == this.device_instance) {
             this.device_instance = Device_A8.getInstance(client);
-        } else if (deviceName == 'elo' && this.device_instance == null) {
+        } else if (DeviceName.getDeviceName() == 'elo' && this.device_instance == null) {
             this.device_instance = Device_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);  // 10秒Timeout
@@ -63,9 +61,9 @@ export class LogoutAction {
 
     // 退出登录
     static async accountLogout(client: any) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = LogoutAction_A8.getInstance(client);
-        } else if (deviceName == 'elo' && null == this.instance) {
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
@@ -74,9 +72,9 @@ export class LogoutAction {
 
     // 退出程序
     static async sysLogout(client: any) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = LogoutAction_A8.getInstance(client);
-        } else if (deviceName == 'elo' && null == this.instance) {
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = LogoutAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);
@@ -95,9 +93,9 @@ export class RefreshAction {
     }
 
     static async refreshAction(client: any) {
-        if (deviceName == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
             this.instance = RefreshAction_A8.getInstance(client);  // 创建用于刷新的A8实例
-        } else if (deviceName == 'elo' && null == this.instance) {
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = RefreshAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
@@ -116,9 +114,9 @@ export class CancelReturns {
     }
 
     static async refreshAction(client: any) {
-        if (deviceName == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {  // 如果设备名字为A8并且实例还未创建
             this.instance = CancelReturns_A8.getInstance(client);  // 创建用于刷新的A8实例
-        } else if (deviceName == 'elo' && null == this.instance) {
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = CancelReturns_ELO.getInstance(client);
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
@@ -139,9 +137,9 @@ export class UploadLogAction {
 
     // 上传当日日志的方法
     static async uploadTodayLogAction(client: any) {
-        if (deviceName == 'a8' && null == this.instance) {
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {
             this.instance = UploadLogAction_A8.getInstance(client);
-        } else if (deviceName == 'elo' && null == this.instance) {
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
             this.instance = UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
@@ -150,9 +148,9 @@ export class UploadLogAction {
 
     // 上传非当日日志的方法
     static async uploadOtherDayLogAction(client: any) {
-        if (deviceName == 'a8' && this.instance == null) {
+        if (DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = UploadLogAction_A8.getInstance(client);
-        } else if (deviceName == 'elo' && this.instance == null) {
+        } else if (DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = UploadLogAction_Elo.getInstance(client);
         }
         await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
@@ -171,9 +169,9 @@ export class VipLoginAction {
     }
 
     public static async vipLogin(client: any) {
-        if (deviceName == 'a8' && this.instance == null) {
+        if (DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = VipLogin_A8.getInstance(client);
-        } else if (deviceName == 'elo' && this.instance == null) {
+        } else if (DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = VipLogin_Elo.getInstance(client);
         }
         await this.instance.vipLogin();
@@ -188,9 +186,9 @@ export class SaleActionInstance {
     }
 
     public static getSaleActionInstance(saleData: ISaleData, client: any, csvGenerator: CsvGenerator): SaleAction_A8 | SaleAction_Elo {
-        if (deviceName == 'a8') {
+        if (DeviceName.getDeviceName() == 'a8') {
             return new SaleAction_A8(saleData, client, csvGenerator);
-        } else if (deviceName == 'elo') {
+        } else if (DeviceName.getDeviceName() == 'elo') {
             return new SaleAction_Elo(saleData, client, csvGenerator);
         } else {  // 需要默认返回
             return new SaleAction_A8(saleData, client, csvGenerator);
