@@ -3,6 +3,7 @@ import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
 import {CommonXpath} from "../../static/commonXpath";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {runTimeSettings} from "../../static/settings";
 
 
 /**
@@ -45,13 +46,13 @@ export class Search {
         //  查询订单号或会员号
         let codeNoText = await this.client.$(CommonXpath.ORDERTEXT);
         await codeNoText.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         await PhoneNum.phoneNum(this.client, num);
         await this.client.pause(1000);
         try {
             let ok = await this.client.$(CommonXpath.DETERMINE);
             await ok.click();
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
             //查询订单号
             if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
@@ -83,7 +84,7 @@ export class Search {
         try {
             let theTopOrder = await this.client.$(CommonXpath.ORDER);
             await theTopOrder.click();
-            await this.client.pause(1000);
+            await this.client.pause(runTimeSettings.generalPauseTime);
 
             LogUtils.search.info("=====查询符合预期==");
             LogUtils.search.info("=====查询结束====");

@@ -6,6 +6,7 @@ import {ISaleData} from "./saleAction";
 import NP from 'number-precision';
 
 const csvFixedHeader: string[] = ['saleTime', 'orderNo', 'price'];  // 输出csv的固定字段部分
+const additionalHeader: string[] = ['备注'];  // 输出csv的额外部分
 
 
 /**
@@ -61,7 +62,7 @@ export class SaleDataPreparation implements ISaleDataPreparation{
      * @returns {string[]} 输出csv方法需要的参数：header
      */
     public getCsvHeader(): string[] {
-        return csvFixedHeader.concat(this.title);
+        return csvFixedHeader.concat(this.title).concat(additionalHeader);
     }
 }
 

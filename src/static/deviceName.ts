@@ -1,8 +1,12 @@
-const deviceName:string = 'a8';
-//const deviceName:string = 'elo';
 
 export class DeviceName {
-    public static getDeviceName():string {
-        return deviceName;
+    private static deviceName: string = 'a8';
+
+    public static getDeviceName(): string {
+        return this.deviceName;
+    }
+
+    public static setDeviceName(deviceName: string): void {
+        this.deviceName = deviceName;
     }
 }

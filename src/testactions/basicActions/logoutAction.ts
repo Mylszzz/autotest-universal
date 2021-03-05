@@ -2,6 +2,7 @@ import * as wdio from 'webdriverio';
 import {LogUtils} from "../../utils/logUtils";
 import {InputCoordinates_Elo} from "../../static/inputCoordinates";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
+import {runTimeSettings} from "../../static/settings";
 
 
 /**
@@ -44,25 +45,25 @@ export class LogoutAction_A8 implements ILogout {
     public async accountLogout() {
         let menuBtn = await this.client.$(ButtonXPaths_A8.MENU);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let accountLogoutBtn = await this.client.$(ButtonXPaths_A8.ACCOUNTLOGOUT);
         await accountLogoutBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let confirmBtn = await this.client.$(ButtonXPaths_A8.CONFIRM);
         await confirmBtn.click();
         LogUtils.log.info("******账号登出--》手动登出符合预期******");
-        await this.client.pause(5000);
+        await this.client.pause(runTimeSettings.longPauseTime);
     }
 
     // 退出系统
     public async sysLogout() {
         let menu = await this.client.$(ButtonXPaths_A8.MENU);
         await menu.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let sysLogout = await this.client.$(ButtonXPaths_A8.SYSTEMLOGOUT);
         await sysLogout.click();
         LogUtils.log.info("******账号登出--》手动登出符合预期******");
-        await this.client.pause(5000);
+        await this.client.pause(runTimeSettings.longPauseTime);
     }
 }
 
@@ -113,7 +114,7 @@ export class LogoutAction_Elo implements ILogout {
         try {
             await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.widget.EditText[1]');
             LogUtils.log.info("******账号登出--》手动登出符合预期******");
-            await this.client.pause(5000);
+            await this.client.pause(runTimeSettings.longPauseTime);
         } catch (e) {
             LogUtils.log.info("******账号登出--》手动登出不符合预期******");
         }
@@ -123,10 +124,10 @@ export class LogoutAction_Elo implements ILogout {
     public async sysLogout() {
         let menuBtn = await this.client.$(ButtonXPaths_Elo.MENU);
         await menuBtn.click();
-        await this.client.pause(1000);
+        await this.client.pause(runTimeSettings.generalPauseTime);
         let sysLogoutBtn = await this.client.$(ButtonXPaths_Elo.SYSTEMLOGOUT);
         await sysLogoutBtn.click();
-        await this.client.pause(5000);
+        await this.client.pause(runTimeSettings.longPauseTime);
     }
 
 }

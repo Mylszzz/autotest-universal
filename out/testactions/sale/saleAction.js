@@ -8,6 +8,8 @@ const globalUtil_1 = require("../../utils/globalUtil");
 const touchMethod_1 = require("../../utils/touchMethod");
 const inputCoordinates_1 = require("../../static/inputCoordinates");
 const payMethods_1 = require("./payMethods");
+const settings_1 = require("../../static/settings");
+const settings_2 = require("../../static/settings");
 const PAYMETHODS_COUNT_PER_PAGE = 6;
 /**
  * 销售脚本的抽象类，用于单条销售测试用例的脚本执行
@@ -18,6 +20,7 @@ const PAYMETHODS_COUNT_PER_PAGE = 6;
 class SaleAction {
     constructor(saleData, client, csvGenerator) {
         this.supportedPayMethods = []; // 该机器支持的支付方式的合集
+        this.cancelable = false; // 是否取消交易
         this.saleTime = 'unknown';
         this.saleOrderNo = 'unknown';
         this.priceForCsv = 'unknown';
@@ -39,7 +42,9 @@ class SaleAction {
      */
     async saleAction() {
         try {
-            await deviceActions_1.VipLoginAction.vipLogin(this.client);
+            if (settings_1.generalSettings.enableVipLoginModule) {
+                await deviceActions_1.VipLoginAction.vipLogin(this.client);
+            }
         }
         catch (e) {
             console.error(e);
@@ -56,7 +61,7 @@ class SaleAction {
     async clickOnConfirm() {
         let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
         await confirm.click();
-        await this.client.pause(1000);
+        await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
     }
     getRefundable() {
         return this.isRefundable;
@@ -72,6 +77,7 @@ class SaleAction_A8 extends SaleAction {
     constructor(saleData, client, csvGenerator) {
         super(saleData, client, csvGenerator);
         this.processIsRefundable(); // 判断是否需要退货
+        this.processIsCancelable(); // 判断是否需要取消
     }
     /**
      * 登录VIP后开始执行销售流程脚本
@@ -79,12 +85,12 @@ class SaleAction_A8 extends SaleAction {
      */
     async saleMainScript() {
         try {
-            logUtils_1.LogUtils.saleLog.info("********开始执行支付脚本********");
+            logUtils_1.LogUtils.saleLog.info("***********开始执行支付脚本***********");
             let configMap = globalUtil_1.GlobalUtil.getConfigMap();
             let toSale = await this.client.$('//android.view.View[@content-desc="货号:' +
                 configMap.get('storeNumber') + '"]');
             await toSale.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             /*
             调用触摸方法输入价格A8输入价格时使用A8通用坐标Map
              */
@@ -95,16 +101,18 @@ class SaleAction_A8 extends SaleAction {
             let pay = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
             await pay.click();
             await this.client.pause(2000);
-            this.supportedPayMethods = await payMethods_1.PayMethods_A8.getSupportedPayMethods(this.client);
-            await this.payMethodLoop();
-            await this.client.pause(6000); // 打印订单
-            await this.clickOnConfirm();
-            await this.client.pause(6000); // 打印订单
             //获取订单号
             await this.obtainOrderNo();
-            //完成
-            let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
-            await complete.click();
+            this.supportedPayMethods = await payMethods_1.PayMethods_A8.getSupportedPayMethods(this.client);
+            let paymentSeq = 1;
+            // [支付方式名字, 金额]
+            for (let [key, value] of this.paymentInfoMap) {
+                await this.payMethodLoop(key, value, paymentSeq == this.paymentInfoMap.size);
+                if (this.cancelable) {
+                    break;
+                }
+                paymentSeq++;
+            }
             this.saleTime = new Date().toLocaleDateString();
             /*
             销售完成，打印csv
@@ -122,33 +130,42 @@ class SaleAction_A8 extends SaleAction {
      * 需要判断支付方式是否在当前页面上
      * @returns {Promise<void>}
      */
-    async payMethodLoop() {
-        // [支付方式名字, 金额]
-        for (let [key, value] of this.paymentInfoMap) {
-            let index = this.supportedPayMethods.indexOf(key); // 需要使用的支付方式在支付列表的第几个
-            let payMethodBtn;
-            let scroll_times = 0;
-            try {
-                if (index == -1) {
-                    throw new exceptions_1.AutoTestException('A9999', '该支付方式不存在');
-                }
-                else if (index + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
-                    payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
-                }
-                else {
-                    scroll_times = Math.floor((index + 1) / PAYMETHODS_COUNT_PER_PAGE);
-                    await this.scrollDown(scroll_times);
-                    payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' +
-                        this.supportedPayMethods[(index % PAYMETHODS_COUNT_PER_PAGE)] + '"]');
-                }
-                logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
-                await this.clickOnPayMethod(payMethodBtn, value);
-                await this.client.pause(1000);
-                await this.scrollUp(scroll_times); // 滑回去
+    async payMethodLoop(key, value, isLast) {
+        let index = this.supportedPayMethods.indexOf(key); // 需要使用的支付方式在支付列表的第几个
+        let payMethodBtn;
+        let scroll_times = 0;
+        try {
+            if (index == -1) {
+                throw new exceptions_1.AutoTestException('A9999', '该支付方式不存在');
             }
-            catch (e) {
-                logUtils_1.LogUtils.saleLog.error(e.toString());
+            else if (index + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
+                payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
             }
+            else {
+                scroll_times = Math.floor((index + 1) / PAYMETHODS_COUNT_PER_PAGE);
+                await this.scrollDown(scroll_times);
+                payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' +
+                    this.supportedPayMethods[(index % PAYMETHODS_COUNT_PER_PAGE)] + '"]');
+            }
+            logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
+            await this.clickOnPayMethod(payMethodBtn, value);
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
+            await this.scrollUp(scroll_times); // 滑回去
+            // TODO: 只做了在第一种支付方式完成后取消
+            if (this.cancelable) {
+                await this.cancelSale();
+            }
+            else if (isLast) {
+                await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
+                await this.clickOnConfirm();
+                await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
+                //完成
+                let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
+                await complete.click();
+            }
+        }
+        catch (e) {
+            logUtils_1.LogUtils.saleLog.error(e.toString());
         }
     }
     /**
@@ -160,7 +177,7 @@ class SaleAction_A8 extends SaleAction {
     async clickOnPayMethod(payMethodBtn, amount) {
         try {
             await payMethodBtn.click();
-            await this.client.pause(1000);
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             /*
             如果可以点击确定键，则需要输入金额并点击
              */
@@ -190,7 +207,7 @@ class SaleAction_A8 extends SaleAction {
                 { action: 'moveTo', x: 354, y: 687 },
                 { action: 'release' }
             ]);
-            await this.client.pause(500);
+            await this.client.pause(settings_2.runTimeSettings.shortPauseTime);
         }
     }
     /**
@@ -209,7 +226,28 @@ class SaleAction_A8 extends SaleAction {
                 { action: 'moveTo', x: 354, y: 900 },
                 { action: 'release' }
             ]);
-            await this.client.pause(500);
+            await this.client.pause(settings_2.runTimeSettings.shortPauseTime);
+        }
+    }
+    /**
+     *
+     * @returns {Promise<void>}
+     */
+    async cancelSale() {
+        try {
+            let cancel = await this.client.$('//android.widget.Button[@content-desc="取消交易"]');
+            await cancel.click();
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
+            let confirm = await this.client.$('//android.widget.Button[@content-desc="确定"]');
+            await confirm.click();
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
+            let confirm2 = await this.client.$('//android.widget.Button[@content-desc="确认"]');
+            await confirm2.click();
+            await this.client.pause(settings_2.runTimeSettings.longPauseTime);
+            logUtils_1.LogUtils.saleLog.info('**************已取消交易**************');
+        }
+        catch (e) {
+            logUtils_1.LogUtils.saleLog.error(new exceptions_1.AutoTestException('A9999', '取消交易失败').toString());
         }
     }
     /**
@@ -229,6 +267,18 @@ class SaleAction_A8 extends SaleAction {
         try {
             // @ts-ignore
             this.isRefundable = (this.saleOptionsInfoMap.get('退货').toUpperCase() == 'Y' && (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'N'));
+        }
+        catch (e) {
+            throw new exceptions_1.AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
+        }
+    }
+    /**
+     * 判断是否需要取消交易，并更新到成员变量: isCancelable
+     */
+    processIsCancelable() {
+        try {
+            // @ts-ignore
+            this.cancelable = (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'Y');
         }
         catch (e) {
             throw new exceptions_1.AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
@@ -254,10 +304,10 @@ class SaleAction_Elo extends SaleAction {
     async saleMainScript() {
         let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
         await sale.click();
-        this.client.pause(1000);
+        this.client.pause(settings_2.runTimeSettings.generalPauseTime);
         //缓冲
         await this.client.$('//android.widget.Button[@content-desc="search"]');
-        this.client.pause(1000);
+        this.client.pause(settings_2.runTimeSettings.generalPauseTime);
         // 调用触摸方法输入价格
         let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
         // Elo输入价格时使用Elo通用坐标Map

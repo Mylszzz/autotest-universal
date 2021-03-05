@@ -10,6 +10,7 @@ const iconv_lite_1 = __importDefault(require("iconv-lite"));
 const globalUtil_1 = require("../../utils/globalUtil");
 const number_precision_1 = __importDefault(require("number-precision"));
 const csvFixedHeader = ['saleTime', 'orderNo', 'price']; // 输出csv的固定字段部分
+const additionalHeader = ['备注']; // 输出csv的额外部分
 /**
  * 全部条销售测试用例的数据准备
  * 单例模式
@@ -53,7 +54,7 @@ class SaleDataPreparation {
      * @returns {string[]} 输出csv方法需要的参数：header
      */
     getCsvHeader() {
-        return csvFixedHeader.concat(this.title);
+        return csvFixedHeader.concat(this.title).concat(additionalHeader);
     }
 }
 exports.SaleDataPreparation = SaleDataPreparation;
