@@ -47,26 +47,12 @@ class Main {
         if (settings_1.generalSettings.enableRefreshModule) {
             await deviceActions_1.RefreshAction.refreshAction(this.client);
         }
+        /*
+        退出登录
+         */
+        if (settings_1.generalSettings.enableLogoutModule) {
+            await deviceActions_1.LogoutAction.accountLogout(this.client);
+        }
     }
-}
-async function salesSettlement() {
-    // await LogoutAction.accountLogout(client);
-    //  await CancelReturns.cancelReturns(client);
-    /*
-     For Test Only
-     测试打印屏幕上显示的销售信息
-      */
-    // await client.pause(30000);
-    // console.log('------------测试：打印销售信息------------');
-    // try {
-    //     await ValidateOrderInfo.saveOrderInfoToCsv(client);
-    // } catch (e) {
-    //     console.log(e);
-    // }
-    /*
-    退款
-     */
-    // let refundAction = new RefundAction(client);
-    //  await refundAction.refundProcess();
 }
 Main.runScript('a8'); // a8 或者 elo

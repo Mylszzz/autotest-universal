@@ -5,10 +5,10 @@ import {GlobalUtil} from "../../utils/globalUtil";
 import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
 import {CsvGenerator} from "./csvGenerator";
-import {PayMethods_A8, PayMethods_Elo} from "./payMethods";
 import {ISaleCsv} from "./csvGenerator";
 import {generalSettings} from "../../static/settings";
 import {runTimeSettings} from "../../static/settings";
+import {ValidateOrderInfo} from "../orderInfo/validateOrderInfo";
 
 const PAYMETHODS_COUNT_PER_PAGE = 6;
 
@@ -34,7 +34,7 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     saleOrderNo: string = 'unknown';
     priceForCsv: string = 'unknown';
 
-    isRefundable: boolean = false;  // 是否需要退货
+    refundable: boolean = false;  // 是否需要退货
     orderNoForRefund: string = 'unknown';  // 订单号
 
 
@@ -85,10 +85,52 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     /**
      * 记录销售信息到csv文档
      */
-    abstract generateCsv(): void;
+    protected generateCsv(): void {
+        let saleDate: ISaleCsv = {
+            saleTime: this.saleTime,
+            saleOrderNo: this.saleOrderNo,
+            priceForCsv: this.priceForCsv
+        };
+        this.csvGenerator.printCsv(saleDate, this.seqNum);
+    }
+
+    /**
+     * 判断是否需要退货，并更新到成员变量: isRefundable
+     */
+    protected processIsRefundable(): void {
+        try {
+            // @ts-ignore
+            this.refundable = (this.saleOptionsInfoMap.get('退货').toUpperCase() == 'Y' && (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'N'));
+        } catch (e) {
+            throw new AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
+        }
+    }
+
+    /**
+     * 判断是否需要取消交易，并更新到成员变量: isCancelable
+     */
+    protected processIsCancelable(): void {
+        try {
+            // @ts-ignore
+            this.cancelable = (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'Y');
+        } catch (e) {
+            throw new AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
+        }
+    }
+
+    /**
+     * 从POS机界面中获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
+     * 二者是相同变量，来自不同数据接口
+     * @returns {Promise<void>}
+     */
+    protected async obtainOrderNo() {
+        let orderNoText = await this.client.$('//android.view.View[@content-desc="订单号"]/following-sibling::android.view.View');
+        this.saleOrderNo = await orderNoText.getAttribute('content-desc');
+        this.orderNoForRefund = this.saleOrderNo;
+    }
 
     getRefundable(): boolean {
-        return this.isRefundable;
+        return this.refundable;
     }
 
     getOrderNo(): string {
@@ -138,7 +180,8 @@ class SaleAction_A8 extends SaleAction {
             //获取订单号
             await this.obtainOrderNo();
 
-            this.supportedPayMethods = await PayMethods_A8.getSupportedPayMethods(this.client);
+            // 获取支持的支付方式到supportedPayMethods
+            await this.processPayMethods();
 
             let paymentSeq = 1;
             // [支付方式名字, 金额]
@@ -156,8 +199,9 @@ class SaleAction_A8 extends SaleAction {
             销售完成，打印csv
              */
             LogUtils.saleLog.info('******销售完成，打印输出到csv文件******');
-            LogUtils.saleLog.info('**********************************');
             this.generateCsv();
+            LogUtils.saleLog.info('**********************************');
+
         } catch (e) {
             LogUtils.saleLog.error(e);  // TODO
 
@@ -169,7 +213,7 @@ class SaleAction_A8 extends SaleAction {
      * 需要判断支付方式是否在当前页面上
      * @returns {Promise<void>}
      */
-    private async payMethodLoop(key: string, value: string, isLast:boolean) {
+    private async payMethodLoop(key: string, value: string, isLast: boolean) {
         let index = this.supportedPayMethods.indexOf(key);  // 需要使用的支付方式在支付列表的第几个
         let payMethodBtn: any;
         let scroll_times: number = 0;
@@ -195,6 +239,13 @@ class SaleAction_A8 extends SaleAction {
             if (this.cancelable) {
                 await this.cancelSale();
             } else if (isLast) {
+                /*
+                最后一单应该打印销售信息csv
+                 */
+                LogUtils.saleLog.info('*******打印POS机显示的销售信息********');
+                await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
+                LogUtils.saleLog.info('********打印POS机销售信息完成*********');
+
                 await this.client.pause(runTimeSettings.longPauseTime);  // 打印订单
                 await this.clickOnConfirm();
 
@@ -235,6 +286,22 @@ class SaleAction_A8 extends SaleAction {
         }
     }
 
+    /**
+     * 获得支持的支付方式的名字
+     */
+    async processPayMethods() {
+        let num: number = 0;
+        let tabName = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=1]');
+        let firstName = await tabName.getAttribute('content-desc');
+        let name = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=last()]');
+        let lastName = await name.getAttribute('content-desc');
+        while (firstName !== lastName) {
+            num++;
+            let tabName = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View[2]/android.view.View[10]/android.widget.Button[position()=' + num + ']');
+            firstName = await tabName.getAttribute("content-desc");
+            this.supportedPayMethods.push(firstName);
+        }
+    }
 
     /**
      * 向下滑动
@@ -278,7 +345,7 @@ class SaleAction_A8 extends SaleAction {
     }
 
     /**
-     *
+     * 取消交易的脚本
      * @returns {Promise<void>}
      */
     private async cancelSale() {
@@ -297,51 +364,6 @@ class SaleAction_A8 extends SaleAction {
             LogUtils.saleLog.error(new AutoTestException('A9999', '取消交易失败').toString());
         }
     }
-
-    /**
-     * 从POS机界面中获取订单号，保存在成员变量saleOrderNo和orderNoForRefund中
-     * 二者是相同变量，来自不同数据接口
-     * @returns {Promise<void>}
-     */
-    private async obtainOrderNo() {
-        let orderNoText = await this.client.$('//android.view.View[@content-desc="订单号"]/following-sibling::android.view.View');
-        this.saleOrderNo = await orderNoText.getAttribute('content-desc');
-        this.orderNoForRefund = this.saleOrderNo;
-    }
-
-    /**
-     * 判断是否需要退货，并更新到成员变量: isRefundable
-     */
-    private processIsRefundable(): void {
-        try {
-            // @ts-ignore
-            this.isRefundable = (this.saleOptionsInfoMap.get('退货').toUpperCase() == 'Y' && (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'N'));
-        } catch (e) {
-            throw new AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
-        }
-    }
-
-    /**
-     * 判断是否需要取消交易，并更新到成员变量: isCancelable
-     */
-    private processIsCancelable(): void {
-        try {
-            // @ts-ignore
-            this.cancelable = (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'Y');
-        } catch (e) {
-            throw new AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
-        }
-    }
-
-    public generateCsv() {
-        let saleDate: ISaleCsv = {
-            saleTime: this.saleTime,
-            saleOrderNo: this.saleOrderNo,
-            priceForCsv: this.priceForCsv
-        };
-
-        this.csvGenerator.printCsv(saleDate, this.seqNum);
-    }
 }
 
 
@@ -352,67 +374,185 @@ class SaleAction_Elo extends SaleAction {
 
     public constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
         super(saleData, client, csvGenerator);
+
+        this.processIsRefundable();  // 判断是否需要退货
+        this.processIsCancelable();  // 判断是否需要取消
     }
 
-    public async saleMainScript() {
-        let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
-        await sale.click();
-        this.client.pause(runTimeSettings.generalPauseTime);
-        //缓冲
-        await this.client.$('//android.widget.Button[@content-desc="search"]');
-        this.client.pause(runTimeSettings.generalPauseTime);
+    /**
+     * 登录VIP后开始执行销售流程脚本
+     * @returns {Promise<void>}
+     */
+    async saleMainScript() {
+        try {
+            LogUtils.saleLog.info("***********开始执行支付脚本***********");
+            let sale = await this.client.$('//android.widget.Button[@content-desc="去销售"]');
+            await sale.click();
+            // await this.client.pause(runTimeSettings.generalPauseTime);
 
-        // 调用触摸方法输入价格
-        let touchFun = TouchMethod.getTouchMethod();
-        // Elo输入价格时使用Elo通用坐标Map
-        await touchFun(this.client, this.price.toString(), InputCoordinates.getCoordMap());
+            // 缓冲
+            await this.client.$('//android.widget.Button[@content-desc="search"]');
 
-        await this.clickOnConfirm();
+            /*
+            调用触摸方法输入价格,Elo输入价格时使用Elo通用坐标Map
+             */
+            let touchFun = TouchMethod.getTouchMethod();
+            await touchFun(this.client, this.price.toString(), InputCoordinates.getCoordMap());
 
-        //去结算
-        let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
-        await settlement.click();
+            // 确定
+            await this.clickOnConfirm();
 
-        this.supportedPayMethods = await PayMethods_Elo.getSupportedPayMethods(this.client);
+            // 去结算
+            let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
+            await settlement.click();
 
-        await this.payMethodLoop();
+            // 获取订单号
+            await this.obtainOrderNo();
 
-        // 打印订单
+            // 获取支持的支付方式
+            // 获取支持的支付方式到supportedPayMethods
+            await this.processPayMethods();
+
+            let paymentSeq = 1;
+            // [支付方式名字, 金额]
+            for (let [key, value] of this.paymentInfoMap) {
+                await this.payMethodLoop(key, value, paymentSeq == this.paymentInfoMap.size);
+                if (this.cancelable) {
+                    break;
+                }
+                paymentSeq++;
+            }
+
+            this.saleTime = new Date().toLocaleDateString();
+
+            /*
+            销售完成，打印csv
+             */
+            LogUtils.saleLog.info('******销售完成，打印输出到csv文件******');
+            this.generateCsv();
+            LogUtils.saleLog.info('**********************************');
+
+
+        } catch (e) {
+
+        }
+    }
+
+    /**
+     * 所有使用了的支付方式的循环
+     * 需要判断支付方式是否在当前页面上
+     * @returns {Promise<void>}
+     */
+    private async payMethodLoop(key: string, value: string, isLast: boolean) {
+        let index = this.supportedPayMethods.indexOf(key);  // 需要使用的支付方式在支付列表的第几个
+        let payMethodBtn: any;
+        let scroll_times: number = 0;
+        let editTextTempList = await this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.EditText');
+
+        try {
+            if (index == -1) {
+                throw new AutoTestException('A9999', '该支付方式不存在');
+            } else if (index/2 + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
+                payMethodBtn = editTextTempList[index/2];
+            } else {
+                scroll_times = Math.floor((index/2 + 1) / PAYMETHODS_COUNT_PER_PAGE);
+                await this.scrollDown(scroll_times);
+                payMethodBtn = editTextTempList[index/2 % PAYMETHODS_COUNT_PER_PAGE];
+            }
+            LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
+
+            let editText0 = editTextTempList[0];
+            await editText0.click();
+            await this.client.pause(2000);
+
+            await this.clickOnPayMethod(payMethodBtn, value);
+            await this.client.pause(runTimeSettings.generalPauseTime);
+
+            await this.scrollUp(scroll_times);  // 滑回去
+
+            // TODO
+            if (this.cancelable) {
+                // await this.cancelSale();
+            } else if (isLast) {
+                /*
+                最后一单应该打印销售信息csv TODO
+                 */
+                // LogUtils.saleLog.info('*******打印POS机显示的销售信息********');
+                // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
+                // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
+
+                await this.client.pause(runTimeSettings.longPauseTime);  // 打印订单
+
+                await this.client.pause(runTimeSettings.longPauseTime);  // 打印订单
+
+                //完成
+                let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
+                await complete.click();
+            }
+        } catch (e) {
+            LogUtils.saleLog.error(e.toString());
+        }
 
     }
 
     /**
-     * 所有支付方式的循环
+     * 点击支付方式, 若支付方式不在当前页则调用滑动方法找到该支付方式
+     * @param payMethodBtn: 该支付方式按键的实例
+     * @param {string} amount: 该支付方式的金额
      * @returns {Promise<void>}
      */
-    private async payMethodLoop() {
+    private async clickOnPayMethod(payMethodBtn: any, amount: string) {
+        try {
+            await payMethodBtn.click();
+            await this.client.pause(runTimeSettings.generalPauseTime);
+            /*
+            如果可以点击确定键，则需要输入金额并点击
+             */
 
+            let touchMethod = TouchMethod.getTouchMethod();
+            await touchMethod(this.client, amount, InputCoordinates.getCoordMap());
+
+            await this.clickOnConfirm();
+
+        } catch (e) {
+            LogUtils.saleLog.error(e.toString());
+            LogUtils.saleLog.warn('支付失败');
+        }
     }
 
-    private async clickOnPayMethod(payMethodBtn: any, scrollTimes: number, amount: string) {
+    private async processPayMethods() {
+        let tempViewList = this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.View');
+        for (let i = 0; i < tempViewList.length; i += 2) {
+            this.supportedPayMethods.push(tempViewList[i].getAttribute('content-desc'));
+        }
 
+        LogUtils.saleLog.warn(this.supportedPayMethods);
     }
-
 
     /**
      * 向下滑动
+     * TODO: 坐标要保存在静态库中
      * @returns {Promise<void>}
      */
-    private async scrollDown() {
-        LogUtils.saleLog.info('向下滑动一次！');
-
+    private async scrollDown(times: number) {
+        let downArrow = await this.client.$('//android.widget.Button[@content-desc="arrow dropdown"]');
+        await downArrow.click();
+        await this.client.pause(1000);
     }
 
-    public generateCsv() {
-        let saleDate: ISaleCsv = {
-            saleTime: this.saleTime,
-            saleOrderNo: this.saleOrderNo,
-            priceForCsv: this.priceForCsv
-        };
-
-        this.csvGenerator.printCsv(saleDate, this.seqNum);
+    /**
+     * 向上滑动
+     * @returns {Promise<void>}
+     */
+    private async scrollUp(times: number) {
+        let downUp = await this.client.$('//android.widget.Button[@content-desc="arrow dropup"]');
+        await downUp.click();
+        await this.client.pause(1000);
     }
+
+
 }
+
 
 /**
  * 单次销售活动所需的数据
@@ -424,12 +564,13 @@ interface ISaleData {
     price: number;  // 总价
 }
 
+
 /**
  * 销售中的退货接口
  * 用于支持订单退货
  */
 interface IRefundable {
-    isRefundable: boolean;  // 是否需要退货
+    refundable: boolean;  // 是否需要退货
     orderNoForRefund: string;  // 订单号
 
     getRefundable(): boolean;  //

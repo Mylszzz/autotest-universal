@@ -39,9 +39,9 @@ class SaleDataPreparation {
         let string = buffer.toString();
         //读取每一行的数据
         this.rows = string.split('\r\n');
-        logUtils_1.LogUtils.saleLog.info("**************读取销售csv**************");
+        logUtils_1.LogUtils.saleLog.info("************读取销售csv*************");
         logUtils_1.LogUtils.saleLog.info(this.rows);
-        logUtils_1.LogUtils.saleLog.info("**************************************");
+        logUtils_1.LogUtils.saleLog.info("***********************************");
         this.title = this.rows[0].split(',');
     }
     getTitle() {

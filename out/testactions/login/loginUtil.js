@@ -35,7 +35,7 @@ class Device_A8 extends Login {
     async getDeviceConfig() {
         await this.client.pause(15000);
         try {
-            logUtils_1.LogUtils.loginLog.info("****开始进行商户登录****");
+            logUtils_1.LogUtils.loginLog.info("*******开始进行商户登录********");
             this.usernameText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[5]/android.widget.EditText');
             this.passwordText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.view.View/android.view.View[7]/android.widget.EditText');
         }
@@ -64,7 +64,7 @@ class Device_A8 extends Login {
                 await this.client.setImplicitTimeout(100); // 0.1秒Timeout
                 if (await msg.isDisplayed()) {
                     await this.client.setImplicitTimeout(10000); // 10秒Timeout
-                    logUtils_1.LogUtils.loginLog.info("*********商户登录成功*********" + new Date());
+                    logUtils_1.LogUtils.loginLog.info("*********商户登录成功**********");
                 }
                 else {
                     await this.client.setImplicitTimeout(10000); // 10秒Timeout

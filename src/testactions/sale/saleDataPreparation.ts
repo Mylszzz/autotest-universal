@@ -43,9 +43,9 @@ export class SaleDataPreparation implements ISaleDataPreparation{
         //读取每一行的数据
         this.rows = string.split('\r\n');
 
-        LogUtils.saleLog.info("**************读取销售csv**************");
+        LogUtils.saleLog.info("************读取销售csv*************");
         LogUtils.saleLog.info(this.rows);
-        LogUtils.saleLog.info("**************************************");
+        LogUtils.saleLog.info("***********************************");
 
         this.title = this.rows[0].split(',');
     }
