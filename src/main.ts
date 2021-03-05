@@ -41,10 +41,10 @@ async function salesSettlement() {
     /*
     销售模块
      */
-    LogUtils.log.info("开始进行销售测试");
-    await SaleMainLoop.salePreparation(client);
-    await SaleMainLoop.saleMainLoop();
-    LogUtils.log.info("销售测试完成");
+    // LogUtils.log.info("开始进行销售测试");
+    // await SaleMainLoop.salePreparation(client);
+    // await SaleMainLoop.saleMainLoop();
+    // LogUtils.log.info("销售测试完成");
 
     // await UploadLogAction.uploadTodayLogAction(client);
     // await RefreshAction.refreshAction(client);
@@ -92,8 +92,8 @@ async function salesSettlement() {
     /*
     退款
      */
-    // let refundAction = new RefundAction(client);
-    //  await refundAction.refundProcess();
+    let refundAction = new RefundAction(client);
+     await refundAction.refundProcess();
 }
 
 

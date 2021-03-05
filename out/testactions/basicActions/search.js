@@ -43,7 +43,7 @@ class Search {
         await codeNoText.click();
         await this.client.pause(1000);
         await phoneNum_1.PhoneNum.phoneNum(this.client, num);
-        await this.client.pause(10000);
+        await this.client.pause(1000);
         try {
             let ok = await this.client.$(commonXpath_1.CommonXpath.DETERMINE);
             await ok.click();
@@ -52,7 +52,7 @@ class Search {
             if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
                 await codeNo.click();
-                await this.client.pause(2000);
+                await this.client.pause(1000);
             }
             //查询会员号
             else {

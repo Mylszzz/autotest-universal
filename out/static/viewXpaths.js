@@ -8,4 +8,5 @@ var ViewXPaths_A8;
 var ViewXpaths_ELO;
 (function (ViewXpaths_ELO) {
     ViewXpaths_ELO["DETERMINE"] = "//android.view.View[@content-desc=\"\u786E\u5B9A\"]";
+    ViewXpaths_ELO["PASSWORD"] = "//android.view.View[@content-desc=\"\u8BF7\u8F93\u5165\u6388\u6743\u7801\"]";
 })(ViewXpaths_ELO = exports.ViewXpaths_ELO || (exports.ViewXpaths_ELO = {}));

@@ -28,6 +28,7 @@ var ButtonXPaths_Elo;
     ButtonXPaths_Elo["BACK"] = "//android.widget.Button[@content-desc=\"return left \u8FD4\u56DE\"]";
     ButtonXPaths_Elo["HOME"] = "//android.widget.Button[@content-desc=\"\u9500\u552E\u4F5C\u4E1A\"]";
     ButtonXPaths_Elo["DETERMINE"] = "(//android.widget.Button[@content-desc=\"\u786E\u5B9A\"])[2]";
+    ButtonXPaths_Elo["DETERMINE1"] = "//android.widget.Button[@content-desc=\"\u786E\u5B9A\"]";
     ButtonXPaths_Elo["CONFIRM"] = "//android.widget.Button[@content-desc=\"\u786E\u8BA4\"]";
     ButtonXPaths_Elo["REFRESH"] = "//android.widget.Button[@content-desc=\"\u5237\u65B0\u5E97\u94FA\"]";
     ButtonXPaths_Elo["CONTACT"] = "//android.widget.Button[@content-desc=\"contact\"]";
