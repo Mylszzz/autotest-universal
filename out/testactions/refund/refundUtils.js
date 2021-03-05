@@ -21,7 +21,8 @@ class RefundPreparation {
      */
     init() {
         //读取售卖记录
-        let s = readUtils_1.ReadUtils.readForRefund();
+        let s = readUtils_1.ReadUtils.readForRefund('2021-3-5-ec030dea-7e30-49db-a625-b6d14516271f.csv');
+        //SaleMainLoop.getFileName());
         //console.log(s);
         this.rows = s.split('\r\n');
         //获取第一行的标题
@@ -101,7 +102,7 @@ class RefundOnce {
                 }
             }
             catch (e) {
-                throw new exceptions_1.AutoTestException('A0002', '退款输入数据异常');
+                throw new exceptions_1.AutoTestException('A0002', '退款输入数据异常').toString();
             }
         }
     }
@@ -138,7 +139,7 @@ class RefundOnce {
      * @returns {boolean}  true=非本日; false=本日
      */
     isBeforeToday(saleDate) {
-        saleDate = saleDate.replace("/", "").replace("/", "");
+        saleDate = saleDate.replace("-", "").replace("-", "");
         let todayDate = new Date().toLocaleDateString().replace("-", "")
             .replace("-", "");
         if (Number.parseInt(saleDate) != Number.parseInt(todayDate)) {

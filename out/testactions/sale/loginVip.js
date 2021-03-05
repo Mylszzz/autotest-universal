@@ -39,18 +39,8 @@ class VipLogin_A8 {
             await this.client.pause(3000);
         }
         catch (e) {
-            throw new exceptions_1.LoginException('L0001', '没有该会员号！');
-            if (e instanceof exceptions_1.LoginException) {
-                logUtils_1.LogUtils.loginLog.error(e.toString());
-                let okBtn2 = await this.client.$('(//android.widget.Button[@content-desc="确定"])[2]');
-                await okBtn2.click();
-                let okBtn = await this.client.$('//android.widget.Button[@content-desc="确定"]');
-                await okBtn.click();
-                await this.client.pause(3000);
-            }
-            else {
-                logUtils_1.LogUtils.loginLog.error(e.toString());
-            }
+            logUtils_1.LogUtils.loginLog.error(new exceptions_1.LoginException('A0001', '没有点击到会员的相关控件').toString());
+            this.vipLogin();
         }
     }
 }

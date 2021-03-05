@@ -44,6 +44,7 @@ export class Search {
      */
     public async searchNum(num: string) {
         //  查询订单号或会员号
+        await this.client.pause(1000);
         let codeNoText = await this.client.$(CommonXpath.ORDERTEXT);
         await codeNoText.click();
         await this.client.pause(runTimeSettings.generalPauseTime);

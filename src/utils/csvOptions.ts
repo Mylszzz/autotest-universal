@@ -11,7 +11,7 @@ export class CsvOptions {
         if (count === 1) {
             this.options = {
                 fieldSeparator: ',',
-                quoteStrings: '"',
+                quoteStrings: '',
                 decimalSeparator: '.',
                 showLabels: true,
                 useTextFile: false,
@@ -23,7 +23,7 @@ export class CsvOptions {
         else {
             this.options = {
                 fieldSeparator: ',',
-                quoteStrings: '"',
+                quoteStrings: '',
                 decimalSeparator: '.',
                 showLabels: true,
                 useTextFile: false,
@@ -35,17 +35,17 @@ export class CsvOptions {
         return this.options;
     }
 
-    /**
-     * 退款的Option
-     */
-    public static refundOptions = {
-        fieldSeparator: ',',
-        quoteStrings: '"',
-        decimalSeparator: '.',
-        showLabels: true,
-        useTextFile: false,
-        useBom: true,
-        useKeysAsHeaders: false
-    };
+    // /**
+    //  * 退款的Option
+    //  */
+    // public static refundOptions = {
+    //     fieldSeparator: ',',
+    //     quoteStrings: '"',
+    //     decimalSeparator: '.',
+    //     showLabels: true,
+    //     useTextFile: false,
+    //     useBom: true,
+    //     useKeysAsHeaders: false
+    // };
 
 }

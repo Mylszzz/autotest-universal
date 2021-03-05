@@ -12,7 +12,7 @@ class CsvOptions {
         if (count === 1) {
             this.options = {
                 fieldSeparator: ',',
-                quoteStrings: '"',
+                quoteStrings: '',
                 decimalSeparator: '.',
                 showLabels: true,
                 useTextFile: false,
@@ -24,7 +24,7 @@ class CsvOptions {
         else {
             this.options = {
                 fieldSeparator: ',',
-                quoteStrings: '"',
+                quoteStrings: '',
                 decimalSeparator: '.',
                 showLabels: true,
                 useTextFile: false,
@@ -37,15 +37,3 @@ class CsvOptions {
 }
 exports.CsvOptions = CsvOptions;
 CsvOptions.options = {};
-/**
- * 退款的Option
- */
-CsvOptions.refundOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalSeparator: '.',
-    showLabels: true,
-    useTextFile: false,
-    useBom: true,
-    useKeysAsHeaders: false
-};

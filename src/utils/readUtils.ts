@@ -7,11 +7,8 @@ import {DeviceName} from "../static/deviceName";
 
 export class ReadUtils {
 
-    public static readForRefund(): string {
-        let map = new Map();
-        this.readTest(map);
-        let path1: string = map.get("refundDataPath");//获取得到自动化测试文件
-        let fileStr = fs.readFileSync(path.join(__dirname, path1), {encoding: 'binary'});
+    public static readForRefund(filename:string): string {
+        let fileStr = fs.readFileSync(path.join(__dirname, '../../csvData/sale/'+filename), {encoding: 'binary'});
         //文件为gbk编码 读取的编码格式为utf8，需要进行gbk编码
         let buffer = new Buffer(fileStr, 'binary');
         let data: string = incon.decode(buffer, 'utf8');

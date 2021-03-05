@@ -53,8 +53,7 @@ class ExportCsv {
     static printRefundData(options, refundData, fileName) {
         const csvExporter = new ts_export_to_csv_1.ExportToCsv(options);
         const csvData = csvExporter.generateCsv(refundData, true);
-        let path1 = '../../csvData/refund/' + new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + '-' + Date.now() + '-' + fileName + '.csv';
-        fs_1.default.writeFileSync(path.join(__dirname, path1), csvData, {
+        fs_1.default.writeFileSync(path.join(__dirname, fileName), csvData, {
             flag: 'a',
             encoding: 'utf8'
         });

@@ -35,9 +35,10 @@ class RefundAction {
         this.refundDataMaps = refundPreparation.getRefundDataMaps();
         let refundDataList = [];
         let headers = ['refundTime', 'orderNo', 'price', '是否退货成功', '备注'];
+        let filename = '../../csvData/refund/' + new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + '-' + Date.now() + '-' + tools_1.Tools.guid() + '.csv';
         for (let i = 0; i < this.refundDataMaps.length; i++) {
             let refundOnce = new refundUtils_1.RefundOnce(this.refundDataMaps[i]); // 一次退货
-            let orderNo = refundOnce.getOrderNo();
+            let orderNo = refundOnce.getOrderNo().replace('\'', '');
             if (refundOnce.getIsRefundable()) {
                 logUtils_1.LogUtils.refundLog.info('===对订单:' + orderNo + '执行退货===');
                 // 退款
@@ -79,17 +80,7 @@ class RefundAction {
                 refundData.refundTime = new Date().toLocaleDateString();
                 refundData.refundRemark = refundOrder_2.RefundOrder.getRefundRemark(); //TODO
                 refundDataList.push(refundData);
-                let data = {
-                    saleTime: new Date().toLocaleDateString(),
-                    saleOrderNo: orderNo,
-                    priceForCsv: refundOnce.getPrice()
-                };
-                let option;
-                if (i == 0) {
-                    option = csvOptions_1.CsvOptions.configurationOption(i + 1, headers);
-                }
-                //  this.csvGenerator.printCsv(data, i + 1,[refundData.isSuccess.toString(),]);  // TODO
-                exportCsv_1.ExportCsv.printRefundData(option, refundDataList, tools_1.Tools.guid());
+                exportCsv_1.ExportCsv.printRefundData(csvOptions_1.CsvOptions.configurationOption(i + 1, headers), refundDataList, filename);
             }
         }
     }

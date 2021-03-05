@@ -4,6 +4,8 @@ exports.ViewXpaths_ELO = exports.ViewXPaths_A8 = void 0;
 var ViewXPaths_A8;
 (function (ViewXPaths_A8) {
     ViewXPaths_A8["MESSAGE"] = "//android.view.View[@content-desc=\"\u9000\u8D27\u4FE1\u606F\u9884\u67E5\u8BE2\u5931\u8D25\uFF0C\u8BA2\u5355\u652F\u4ED8\u884C\u5305\u542B\u6307\u5B9A\u652F\u4ED8\u4F9B\u5E94\u5546, \u4E0D\u652F\u6301\u9000\u8D27\"]";
+    ViewXPaths_A8["SERVICEERROR"] = "//android.view.View[@content-desc=\"\u8BA2\u5355\u65E0\u53EF\u9000\u91D1\u989D\"]";
+    ViewXPaths_A8["DETERMINE"] = "//android.view.View[@content-desc=\"\u786E\u5B9A\"]";
 })(ViewXPaths_A8 = exports.ViewXPaths_A8 || (exports.ViewXPaths_A8 = {}));
 var ViewXpaths_ELO;
 (function (ViewXpaths_ELO) {
