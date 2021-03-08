@@ -77,4 +77,4 @@ class Main {
 
 
 
-Main.runScript('elo');  // a8 或者 elo
+Main.runScript('a8');  // a8 或者 elo

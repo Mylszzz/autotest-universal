@@ -107,7 +107,6 @@ class SaleAction {
         let orderNoText = await this.client.$('//android.view.View[@content-desc="订单号"]/following-sibling::android.view.View');
         this.saleOrderNo = await orderNoText.getAttribute('content-desc');
         this.orderNoForRefund = this.saleOrderNo;
-        logUtils_1.LogUtils.saleLog.warn(this.orderNoForRefund);
     }
     getRefundable() {
         return this.refundable;
@@ -404,7 +403,6 @@ class SaleAction_Elo extends SaleAction {
             await this.clickOnPayMethod(payMethodBtn, value);
             await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             await this.scrollUp(scroll_times); // 滑回去
-            // TODO
             if (this.cancelable) {
                 await this.cancelSale();
             }
@@ -415,9 +413,18 @@ class SaleAction_Elo extends SaleAction {
                 // LogUtils.saleLog.info('*******打印POS机显示的销售信息********');
                 // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
                 // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
-                await this.client.pause(18000); // 打印订单
                 // 获取订单号
                 await this.obtainOrderNo();
+                // 打印订单
+                try {
+                    let printing = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.app.Dialog/android.view.View[1]/android.widget.Image[12]');
+                    let isDisplayed = true;
+                    while (isDisplayed) {
+                        isDisplayed = await this.client.isElementDisplayed(printing.elementId);
+                    }
+                }
+                catch (e) {
+                }
                 //完成
                 let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
                 await complete.click();

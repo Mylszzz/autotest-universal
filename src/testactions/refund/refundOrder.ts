@@ -6,7 +6,6 @@ import {InputCoordinates} from "../../static/inputCoordinates";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {ViewXpaths_ELO, ViewXPaths_A8} from "../../static/viewXpaths";
 
-const deviceName: string = DeviceName.getDeviceName();
 let refundRemark: string = '';
 
 /**
@@ -61,11 +60,11 @@ export class RefundOrder {
     public static async refundPass(client: any, determine: string, number: string) {
         await client.pause(1000);
         //输入密码
-        if (deviceName == 'a8') {
+        if (DeviceName.getDeviceName() == 'a8') {
             let touchFun = TouchMethod.getTouchMethod();
             await touchFun(client, number, InputCoordinates.getCoordMap());  // A8退款使用A8通用坐标Map
 
-        } else if (deviceName == 'elo') {
+        } else if (DeviceName.getDeviceName() == 'elo') {
             let touchFun = TouchMethod.getTouchMethod();
             await touchFun(client, number, InputCoordinates.getCoordMapForRedundPwd());  // Elo退款坐标
         }

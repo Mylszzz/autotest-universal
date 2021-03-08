@@ -9,7 +9,7 @@ export class PhoneNum {
         for (let i = 0; i < num.length; i++) {
             let n = await client.$('//android.view.View[@content-desc="' + num.charAt(i) + '"]');
             await n.click();
-            await client.pause(300);
+            await client.pause(500);
         }
     }
 }

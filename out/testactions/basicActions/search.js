@@ -6,6 +6,7 @@ const logUtils_1 = require("../../utils/logUtils");
 const commonXpath_1 = require("../../static/commonXpath");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 const settings_1 = require("../../static/settings");
+const deviceName_1 = require("../../static/deviceName");
 /**
  * 查询操作的基类
  */
@@ -41,10 +42,15 @@ class Search {
     async searchNum(num) {
         //  查询订单号或会员号
         await this.client.pause(1000);
-        let codeNoText = await this.client.$(commonXpath_1.CommonXpath.ORDERTEXT);
+        let codeNoText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.widget.EditText');
         await codeNoText.click();
         await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
-        await phoneNum_1.PhoneNum.phoneNum(this.client, num);
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8') {
+            await phoneNum_1.PhoneNum.phoneNum(this.client, num);
+        }
+        else {
+            codeNoText.setValue(num);
+        }
         await this.client.pause(1000);
         try {
             let ok = await this.client.$(commonXpath_1.CommonXpath.DETERMINE);
