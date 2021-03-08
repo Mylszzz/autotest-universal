@@ -192,7 +192,7 @@ class ChangePwd {
         if (deviceName_1.DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = changePassword_1.ChangePassword_A8.getInstance(client);
         }
-        else if (deviceName == 'elo' && this.instance == null) {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = changePassword_1.ChangePassword_Elo.getInstance(client);
         }
         await this.instance.changePasswordProcess();

@@ -8,6 +8,7 @@ const deviceName_1 = require("./static/deviceName");
 const saleMainLoop_1 = require("./testactions/sale/saleMainLoop");
 const refundAction_1 = require("./testactions/refund/refundAction");
 const settings_1 = require("./static/settings");
+const refundAction_1 = require("./testactions/refund/refundAction");
 class Main {
     static async runScript(deviceName) {
         deviceName_1.DeviceName.setDeviceName(deviceName);

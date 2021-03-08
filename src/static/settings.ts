@@ -6,7 +6,7 @@
 export const generalSettings = {
     enableLoginModule: true,  // 登录模块：这个需要开启
     enableVipLoginModule: true,  // 登录vip(销售时)
-    enableSaleModule: false,  // 销售模块
+    enableSaleModule: true,  // 销售模块
     enableRefundModule: true,  // 退货模块
     enableUploadLogModule: false,  // 上传日志
     enableRefreshModule: false,  // 刷新店铺

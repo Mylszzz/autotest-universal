@@ -39,7 +39,8 @@ export class RefundPreparation {
     private init() {
         //读取售卖记录
         let s: string = ReadUtils.readForRefund(SaleMainLoop.getFileName());
-
+        //SaleMainLoop.getFileName());
+        //console.log(s);
         this.rows = s.split('\r\n');
         //获取第一行的标题
         let title = this.rows[0];

@@ -407,9 +407,6 @@ class SaleAction_Elo extends SaleAction {
             let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
             await settlement.click();
 
-            // 获取订单号
-            await this.obtainOrderNo();
-
             // 获取支持的支付方式到supportedPayMethods
             await this.processPayMethods();
 
@@ -470,7 +467,6 @@ class SaleAction_Elo extends SaleAction {
 
             await this.scrollUp(scroll_times);  // 滑回去
 
-            // TODO
             if (this.cancelable) {
                 await this.cancelSale();
             } else if (isLast) {
@@ -481,7 +477,18 @@ class SaleAction_Elo extends SaleAction {
                 // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
                 // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
 
-                await this.client.pause(15000);  // 打印订单
+                // 获取订单号
+                await this.obtainOrderNo();
+
+                // 打印订单
+                try {
+                    let printing = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.app.Dialog/android.view.View[1]/android.widget.Image[12]');
+                    let isDisplayed = true;
+                    while (isDisplayed) {
+                        isDisplayed = await this.client.isElementDisplayed(printing.elementId);
+                    }
+                } catch (e) {
+                }
 
                 //完成
                 let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
