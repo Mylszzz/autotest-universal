@@ -44,6 +44,16 @@ class Main {
         }
 
         /*
+        退货模块
+         */
+
+        if(generalSettings.enableRefundModule){
+            LogUtils.log.info("开始进行退货测试");
+            let refundAction = new RefundAction(this.client);
+            await refundAction.refundProcess();
+        }
+
+        /*
         上传日志
          */
         if (generalSettings.enableUploadLogModule) {

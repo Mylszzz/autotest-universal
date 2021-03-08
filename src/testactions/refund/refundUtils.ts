@@ -38,9 +38,8 @@ export class RefundPreparation {
      */
     private init() {
         //读取售卖记录
-        let s: string = ReadUtils.readForRefund('2021-3-5-ec030dea-7e30-49db-a625-b6d14516271f.csv');
-        //SaleMainLoop.getFileName());
-        //console.log(s);
+        let s: string = ReadUtils.readForRefund(SaleMainLoop.getFileName());
+
         this.rows = s.split('\r\n');
         //获取第一行的标题
         let title = this.rows[0];
