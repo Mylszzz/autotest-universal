@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundOnce = exports.RefundPreparation = void 0;
 const readUtils_1 = require("../../utils/readUtils");
 const exceptions_1 = require("../../utils/exceptions");
+const saleMainLoop_1 = require("../sale/saleMainLoop");
 /**
  * 退货的准备工作
  */
@@ -21,7 +22,7 @@ class RefundPreparation {
      */
     init() {
         //读取售卖记录
-        let s = readUtils_1.ReadUtils.readForRefund('2021-3-5-ec030dea-7e30-49db-a625-b6d14516271f.csv');
+        let s = readUtils_1.ReadUtils.readForRefund(saleMainLoop_1.SaleMainLoop.getFileName());
         //SaleMainLoop.getFileName());
         //console.log(s);
         this.rows = s.split('\r\n');

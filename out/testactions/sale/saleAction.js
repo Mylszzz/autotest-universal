@@ -107,6 +107,7 @@ class SaleAction {
         let orderNoText = await this.client.$('//android.view.View[@content-desc="订单号"]/following-sibling::android.view.View');
         this.saleOrderNo = await orderNoText.getAttribute('content-desc');
         this.orderNoForRefund = this.saleOrderNo;
+        logUtils_1.LogUtils.saleLog.warn(this.orderNoForRefund);
     }
     getRefundable() {
         return this.refundable;
@@ -352,8 +353,6 @@ class SaleAction_Elo extends SaleAction {
             // 去结算
             let settlement = await this.client.$('//android.widget.Button[@content-desc="去结算"]');
             await settlement.click();
-            // 获取订单号
-            await this.obtainOrderNo();
             // 获取支持的支付方式到supportedPayMethods
             await this.processPayMethods();
             let paymentSeq = 1;
@@ -416,7 +415,9 @@ class SaleAction_Elo extends SaleAction {
                 // LogUtils.saleLog.info('*******打印POS机显示的销售信息********');
                 // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
                 // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
-                await this.client.pause(15000); // 打印订单
+                await this.client.pause(18000); // 打印订单
+                // 获取订单号
+                await this.obtainOrderNo();
                 //完成
                 let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
                 await complete.click();

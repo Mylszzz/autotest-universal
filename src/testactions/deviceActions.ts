@@ -206,7 +206,7 @@ export class ChangePwd {
     public static async changePwd(client:any) {
         if (DeviceName.getDeviceName() == 'a8' && this.instance == null) {
             this.instance = ChangePassword_A8.getInstance(client);
-        } else if (deviceName == 'elo' && this.instance == null) {
+        } else if (DeviceName.getDeviceName() == 'elo' && this.instance == null) {
             this.instance = ChangePassword_Elo.getInstance(client);
         }
         await this.instance.changePasswordProcess();

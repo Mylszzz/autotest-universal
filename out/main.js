@@ -7,6 +7,7 @@ const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
 const saleMainLoop_1 = require("./testactions/sale/saleMainLoop");
 const settings_1 = require("./static/settings");
+const refundAction_1 = require("./testactions/refund/refundAction");
 class Main {
     static async runScript(deviceName) {
         deviceName_1.DeviceName.setDeviceName(deviceName);
@@ -34,6 +35,14 @@ class Main {
             await saleMainLoop_1.SaleMainLoop.salePreparation(this.client);
             await saleMainLoop_1.SaleMainLoop.saleMainLoop();
             logUtils_1.LogUtils.log.info("销售测试完成");
+        }
+        /*
+        退货模块
+         */
+        if (settings_1.generalSettings.enableRefundModule) {
+            logUtils_1.LogUtils.log.info("开始进行退货测试");
+            let refundAction = new refundAction_1.RefundAction(this.client);
+            await refundAction.refundProcess();
         }
         /*
         上传日志

@@ -4,8 +4,8 @@ import {GlobalUtil} from "./utils/globalUtil";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
 import {SaleMainLoop} from "./testactions/sale/saleMainLoop";
-import {RefundAction} from "./testactions/refund/refundAction";
 import {generalSettings} from "./static/settings";
+import {RefundAction} from "./testactions/refund/refundAction";
 
 
 class Main {
@@ -41,6 +41,15 @@ class Main {
             await SaleMainLoop.salePreparation(this.client);
             await SaleMainLoop.saleMainLoop();
             LogUtils.log.info("销售测试完成")
+        }
+
+        /*
+        退货模块
+         */
+        if(generalSettings.enableRefundModule){
+            LogUtils.log.info("开始进行退货测试");
+            let refundAction = new RefundAction(this.client);
+            await refundAction.refundProcess();
         }
 
         /*
