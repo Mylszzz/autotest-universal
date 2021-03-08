@@ -3,7 +3,6 @@ import {GlobalUtil} from "../../utils/globalUtil";
 import {DeviceName} from "../../static/deviceName";
 import {TouchMethod} from "../../utils/touchMethod";
 import {InputCoordinates} from "../../static/inputCoordinates";
-import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {ViewXpaths_ELO, ViewXPaths_A8} from "../../static/viewXpaths";
 
