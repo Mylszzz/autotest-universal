@@ -189,7 +189,7 @@ class SaleAction_A8 extends SaleAction {
                 payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
             }
             else {
-                scroll_times = Math.floor((index + 1) / PAYMETHODS_COUNT_PER_PAGE);
+                scroll_times = Math.floor(index / PAYMETHODS_COUNT_PER_PAGE);
                 await this.scrollDown(scroll_times);
                 payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' +
                     this.supportedPayMethods[(index % PAYMETHODS_COUNT_PER_PAGE)] + '"]');
@@ -354,7 +354,6 @@ class SaleAction_Elo extends SaleAction {
             await settlement.click();
             // 获取订单号
             await this.obtainOrderNo();
-            // 获取支持的支付方式
             // 获取支持的支付方式到supportedPayMethods
             await this.processPayMethods();
             let paymentSeq = 1;
@@ -383,22 +382,21 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     async payMethodLoop(key, value, isLast) {
-        logUtils_1.LogUtils.saleLog.warn(this.supportedPayMethods);
         let index = this.supportedPayMethods.indexOf(key); // 需要使用的支付方式在支付列表的第几个
         let payMethodBtn;
         let scroll_times = 0;
-        let editTextTempList = await this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.EditText');
+        let editTextTempList = await this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.widget.EditText');
         try {
             if (index == -1) {
                 throw new exceptions_1.AutoTestException('A9999', '该支付方式不存在');
             }
-            else if (index / 2 + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
-                payMethodBtn = editTextTempList[index / 2];
+            else if (index + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
+                payMethodBtn = editTextTempList[index];
             }
             else {
-                scroll_times = Math.floor((index / 2 + 1) / PAYMETHODS_COUNT_PER_PAGE);
+                scroll_times = Math.floor(index / PAYMETHODS_COUNT_PER_PAGE);
                 await this.scrollDown(scroll_times);
-                payMethodBtn = editTextTempList[index / 2 % PAYMETHODS_COUNT_PER_PAGE];
+                payMethodBtn = editTextTempList[index]; //% PAYMETHODS_COUNT_PER_PAGE
             }
             logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
             let editText0 = editTextTempList[0];
@@ -409,7 +407,7 @@ class SaleAction_Elo extends SaleAction {
             await this.scrollUp(scroll_times); // 滑回去
             // TODO
             if (this.cancelable) {
-                // await this.cancelSale();
+                await this.cancelSale();
             }
             else if (isLast) {
                 /*
@@ -418,8 +416,7 @@ class SaleAction_Elo extends SaleAction {
                 // LogUtils.saleLog.info('*******打印POS机显示的销售信息********');
                 // await ValidateOrderInfo.saveOrderInfoToCsv(this.client);
                 // LogUtils.saleLog.info('********打印POS机销售信息完成*********');
-                await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
-                await this.client.pause(settings_2.runTimeSettings.longPauseTime); // 打印订单
+                await this.client.pause(15000); // 打印订单
                 //完成
                 let complete = await this.client.$('//android.widget.Button[@content-desc="完成"]');
                 await complete.click();
@@ -452,11 +449,10 @@ class SaleAction_Elo extends SaleAction {
         }
     }
     async processPayMethods() {
-        let tempViewList = this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.View');
-        for (let i = 0; i < tempViewList.length; i += 2) {
-            this.supportedPayMethods.push(tempViewList[i].getAttribute('content-desc'));
+        let tempViewList = await this.client.$$('//android.view.View[@resource-id="scrollMe2"]/android.view.View');
+        for (let i = 0; i < tempViewList.length; i++) {
+            this.supportedPayMethods.push(await tempViewList[i].getAttribute('content-desc'));
         }
-        logUtils_1.LogUtils.saleLog.warn(this.supportedPayMethods);
     }
     /**
      * 向下滑动
@@ -464,18 +460,44 @@ class SaleAction_Elo extends SaleAction {
      * @returns {Promise<void>}
      */
     async scrollDown(times) {
-        let downArrow = await this.client.$('//android.widget.Button[@content-desc="arrow dropdown"]');
-        await downArrow.click();
-        await this.client.pause(1000);
+        for (let i = 0; i < times; i++) {
+            let downArrow = await this.client.$('//android.widget.Button[@content-desc="arrow dropdown"]');
+            await downArrow.click();
+            await this.client.pause(1000);
+        }
     }
     /**
      * 向上滑动
      * @returns {Promise<void>}
      */
     async scrollUp(times) {
-        let downUp = await this.client.$('//android.widget.Button[@content-desc="arrow dropup"]');
-        await downUp.click();
-        await this.client.pause(1000);
+        for (let i = 0; i < times; i++) {
+            let downUp = await this.client.$('//android.widget.Button[@content-desc="arrow dropup"]');
+            await downUp.click();
+            await this.client.pause(1000);
+        }
+    }
+    /**
+     * 取消交易的脚本
+     * @returns {Promise<void>}
+     */
+    async cancelSale() {
+        try {
+            let cancel = await this.client.$('//android.widget.Button[@content-desc="取消交易"]');
+            await cancel.click();
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
+            let confirm = await this.client.$('(//android.widget.Button[@content-desc="确定"])[2]');
+            await confirm.click();
+            await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
+            let confirm2 = await this.client.$('//android.widget.Button[@content-desc="确认"]');
+            await confirm2.click();
+            await this.client.pause(settings_2.runTimeSettings.longPauseTime);
+            await confirm.click();
+            logUtils_1.LogUtils.saleLog.info('**************已取消交易**************');
+        }
+        catch (e) {
+            logUtils_1.LogUtils.saleLog.error(new exceptions_1.AutoTestException('A9999', '取消交易失败').toString());
+        }
     }
 }
 exports.SaleAction_Elo = SaleAction_Elo;
