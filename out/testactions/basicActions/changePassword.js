@@ -51,7 +51,7 @@ class ChangePassword_A8 extends ChangePassword {
     }
     async changePasswordProcess() {
         try {
-            this.getDeviceConfig();
+            await this.getDeviceConfig();
             await this.client.pause(settings_1.runTimeSettings.generalPauseTime);
             await this.oldPasswordText.setValue(this.oldPassword);
             await this.client.pause(settings_1.runTimeSettings.generalPauseTime);

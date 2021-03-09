@@ -47,8 +47,9 @@ class SaleAction {
             }
         }
         catch (e) {
-            console.error(e);
-            throw new exceptions_1.AutoTestException('A9999', '登录vip失败').toString();
+            let err = new exceptions_1.AutoTestException('L0002', '登录vip失败');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
         finally {
             await this.saleMainScript();
@@ -83,7 +84,8 @@ class SaleAction {
             this.refundable = (this.saleOptionsInfoMap.get('退货').toUpperCase() == 'Y' && (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'N'));
         }
         catch (e) {
-            throw new exceptions_1.AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
+            let err = new exceptions_1.SaleException('S0004', '测试用例输入退货/取消交易字段有误');
+            logUtils_1.LogUtils.saleLog.error(err.toString()); // 按照无需退款且无需退货处理，无需其他额外操作
         }
     }
     /**
@@ -95,7 +97,8 @@ class SaleAction {
             this.cancelable = (this.saleOptionsInfoMap.get('取消交易').toUpperCase() == 'Y');
         }
         catch (e) {
-            throw new exceptions_1.AutoTestException('A9999', '测试用例输入退货/取消交易字段有误').toString();
+            let err = new exceptions_1.SaleException('S0004', '测试用例输入退货/取消交易字段有误');
+            logUtils_1.LogUtils.saleLog.error(err.toString()); // 按照无需退款且无需退货处理
         }
     }
     /**
@@ -169,7 +172,10 @@ class SaleAction_A8 extends SaleAction {
             logUtils_1.LogUtils.saleLog.info('**********************************');
         }
         catch (e) {
-            logUtils_1.LogUtils.saleLog.error(e); // TODO
+            logUtils_1.LogUtils.saleLog.error(e);
+            let err = new exceptions_1.SaleException('S0005', '销售主脚本异常！');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     /**
@@ -183,7 +189,7 @@ class SaleAction_A8 extends SaleAction {
         let scroll_times = 0;
         try {
             if (index == -1) {
-                throw new exceptions_1.AutoTestException('A9999', '该支付方式不存在');
+                throw new exceptions_1.SaleException('S0003', '该支付方式不存在');
             }
             else if (index + 1 <= PAYMETHODS_COUNT_PER_PAGE) {
                 payMethodBtn = await this.client.$('//android.widget.Button[@content-desc="' + key + '"]');
@@ -196,6 +202,10 @@ class SaleAction_A8 extends SaleAction {
             }
             logUtils_1.LogUtils.saleLog.info(key + ": 需要支付" + value + "元!");
             await this.clickOnPayMethod(payMethodBtn, value);
+            /*
+            可以处理扫码支付
+             */
+            await this.client.$('//android.view.View[@content-desc="订单号"]');
             await this.client.pause(settings_2.runTimeSettings.generalPauseTime);
             await this.scrollUp(scroll_times); // 滑回去
             // TODO: 只做了在第一种支付方式完成后取消
@@ -219,6 +229,9 @@ class SaleAction_A8 extends SaleAction {
         }
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e.toString());
+            let err = new exceptions_1.SaleException('S0007', '销售方式循环异常！');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     /**
@@ -240,7 +253,9 @@ class SaleAction_A8 extends SaleAction {
         }
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e.toString());
-            logUtils_1.LogUtils.saleLog.warn('支付失败');
+            let err = new exceptions_1.SaleException('S0003', '使用当前支付方式失败');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     /**
@@ -316,7 +331,10 @@ class SaleAction_A8 extends SaleAction {
             logUtils_1.LogUtils.saleLog.info('**************已取消交易**************');
         }
         catch (e) {
-            logUtils_1.LogUtils.saleLog.error(new exceptions_1.AutoTestException('A9999', '取消交易失败').toString());
+            logUtils_1.LogUtils.saleLog.error(e.toString());
+            let err = new exceptions_1.SaleException('S0006', '取消交易失败');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
 }
@@ -372,6 +390,10 @@ class SaleAction_Elo extends SaleAction {
             logUtils_1.LogUtils.saleLog.info('**********************************');
         }
         catch (e) {
+            logUtils_1.LogUtils.saleLog.error(e.toString());
+            let err = new exceptions_1.SaleException('S0005', '销售主脚本异常！');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     /**
@@ -432,6 +454,9 @@ class SaleAction_Elo extends SaleAction {
         }
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e.toString());
+            let err = new exceptions_1.SaleException('S0007', '销售方式循环异常！');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     /**
@@ -453,7 +478,9 @@ class SaleAction_Elo extends SaleAction {
         }
         catch (e) {
             logUtils_1.LogUtils.saleLog.error(e.toString());
-            logUtils_1.LogUtils.saleLog.warn('支付失败');
+            let err = new exceptions_1.SaleException('S0003', '使用当前支付方式异常');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
     async processPayMethods() {
@@ -504,7 +531,10 @@ class SaleAction_Elo extends SaleAction {
             logUtils_1.LogUtils.saleLog.info('**************已取消交易**************');
         }
         catch (e) {
-            logUtils_1.LogUtils.saleLog.error(new exceptions_1.AutoTestException('A9999', '取消交易失败').toString());
+            logUtils_1.LogUtils.saleLog.error(e.toString());
+            let err = new exceptions_1.SaleException('S0006', '取消交易失败');
+            logUtils_1.LogUtils.saleLog.error(err.toString());
+            throw err;
         }
     }
 }

@@ -12,6 +12,8 @@ export const generalSettings = {
     enableRefreshModule: false,  // 刷新店铺
     enableLogoutModule: false,  // 退出登录
     enableCancelReturnsModule: false,  // 取消退货
+    enableChangePwdModule: false,  // 修改密码
+    enableSaleSummary: false,  // 销售总结
 };
 
 export const runTimeSettings = {

@@ -6,6 +6,7 @@ const tools_1 = require("../../utils/tools");
 const logUtils_1 = require("../../utils/logUtils");
 const saleDataPreparation_1 = require("./saleDataPreparation");
 const deviceActions_1 = require("../deviceActions");
+const screenShotUtil_1 = require("../../utils/screenShotUtil");
 /**
  * 销售测试用例执行的入口类
  * 执行销售测试脚本按照步骤:1.调用salePreparation(), 2. 调用saleMainLoop()
@@ -32,6 +33,7 @@ class SaleMainLoop {
             this.csvGenerator = new csvGenerator_1.CsvGenerator(this.dataPreparationInstance.getCsvHeader(), this.fileName, this.rows);
         }
         this.client = client;
+        await this.client.setImplicitTimeout(15000); // 15秒Timeout
     }
     /**
      * 销售测试的主循环
@@ -43,8 +45,17 @@ class SaleMainLoop {
             logUtils_1.LogUtils.saleLog.info('******开始测试第【' + i.toString() + '】单销售测试用例******');
             logUtils_1.LogUtils.saleLog.info(this.dataInstance.getSaleData());
             this.saleInstance = deviceActions_1.SaleActionInstance.getSaleActionInstance(this.dataInstance.getSaleData(), this.client, this.csvGenerator);
-            await this.saleInstance.saleAction();
+            try {
+                await this.saleInstance.saleAction();
+            }
+            catch (e) {
+                // let exceptionHandler = AutoTestException.getExceptionHandler(e);
+                // await exceptionHandler(this.client);
+                await screenShotUtil_1.ScreenShotUtil.takeScreenShot(this.client, '第【' + i.toString() + '】单销售测试用例出错');
+                await deviceActions_1.LoginAction.reboot();
+            }
         }
+        await this.client.setImplicitTimeout(10000); // 10秒Timeout
     }
     /**
      * 返回销售输出csv文件名

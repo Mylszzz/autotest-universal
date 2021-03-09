@@ -44,6 +44,10 @@ class LoginAction {
             await this.device_instance.reboot();
         }
     }
+    // TODO
+    static async reboot() {
+        await this.device_instance.reboot();
+    }
 }
 exports.LoginAction = LoginAction;
 /**
@@ -185,6 +189,9 @@ class SaleActionInstance {
     }
 }
 exports.SaleActionInstance = SaleActionInstance;
+/**
+ * 用于直接调用修改密码的静态方法
+ */
 class ChangePwd {
     constructor() {
     }

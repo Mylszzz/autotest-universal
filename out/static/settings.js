@@ -15,6 +15,8 @@ exports.generalSettings = {
     enableRefreshModule: false,
     enableLogoutModule: false,
     enableCancelReturnsModule: false,
+    enableChangePwdModule: false,
+    enableSaleSummary: false,
 };
 exports.runTimeSettings = {
     generalPauseTime: 1000,

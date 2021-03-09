@@ -7,7 +7,7 @@ import {ISaleData, SaleAction_A8, SaleAction_Elo} from "./sale/saleAction";
 import {DeviceName} from "../static/deviceName";
 import {CancelReturns_A8, CancelReturns_ELO} from "./refund/cancelReturns";
 import {CsvGenerator} from "./sale/csvGenerator";
-import {ChangePassword, ChangePassword_A8, ChangePassword_Elo} from "./basicActions/changePassword";
+import {ChangePassword_A8, ChangePassword_Elo} from "./basicActions/changePassword";
 
 
 /****************************************************************
@@ -45,7 +45,11 @@ export class LoginAction {
         } catch (e) {
             await this.device_instance.reboot();
         }
+    }
 
+    // TODO
+    static async reboot() {
+        await this.device_instance.reboot();
     }
 }
 
@@ -197,6 +201,9 @@ export class SaleActionInstance {
     }
 }
 
+/**
+ * 用于直接调用修改密码的静态方法
+ */
 export class ChangePwd {
     private static instance: ChangePassword_A8|ChangePassword_Elo;
     private constructor() {

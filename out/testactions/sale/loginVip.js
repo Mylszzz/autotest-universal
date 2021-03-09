@@ -39,8 +39,9 @@ class VipLogin_A8 {
             await this.client.pause(3000);
         }
         catch (e) {
-            logUtils_1.LogUtils.loginLog.error(new exceptions_1.LoginException('A0001', '没有点击到会员的相关控件').toString());
-            this.vipLogin();
+            let err = new exceptions_1.LoginException('A0001', '没有点击到会员的相关控件');
+            logUtils_1.LogUtils.loginLog.error(err.toString());
+            throw err;
         }
     }
 }

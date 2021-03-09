@@ -1,5 +1,5 @@
 import {SingleDriver} from "./driver";
-import {LoginAction, LogoutAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
+import {ChangePwd, LoginAction, LogoutAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
@@ -67,6 +67,20 @@ class Main {
         }
 
         /*
+        修改密码
+         */
+        if (generalSettings.enableChangePwdModule) {
+            await ChangePwd.changePwd(this.client);
+        }
+
+        /*
+        销售总结
+         */
+        if (generalSettings.enableSaleSummary) {
+            // TODO
+        }
+
+        /*
         退出登录
          */
         if (generalSettings.enableLogoutModule) {
@@ -77,4 +91,4 @@ class Main {
 
 
 
-Main.runScript('elo');  // a8 或者 elo
+Main.runScript('a8');  // a8 或者 elo

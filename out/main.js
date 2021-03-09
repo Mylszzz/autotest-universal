@@ -57,6 +57,18 @@ class Main {
             await deviceActions_1.RefreshAction.refreshAction(this.client);
         }
         /*
+        修改密码
+         */
+        if (settings_1.generalSettings.enableChangePwdModule) {
+            await deviceActions_1.ChangePwd.changePwd(this.client);
+        }
+        /*
+        销售总结
+         */
+        if (settings_1.generalSettings.enableSaleSummary) {
+            // TODO
+        }
+        /*
         退出登录
          */
         if (settings_1.generalSettings.enableLogoutModule) {
@@ -64,4 +76,4 @@ class Main {
         }
     }
 }
-Main.runScript('elo'); // a8 或者 elo
+Main.runScript('a8'); // a8 或者 elo

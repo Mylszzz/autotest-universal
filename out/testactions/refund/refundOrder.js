@@ -8,7 +8,6 @@ const touchMethod_1 = require("../../utils/touchMethod");
 const inputCoordinates_1 = require("../../static/inputCoordinates");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 const viewXpaths_1 = require("../../static/viewXpaths");
-const deviceName = deviceName_1.DeviceName.getDeviceName();
 let refundRemark = '';
 /**
  * 进行订单退货流程
@@ -56,11 +55,11 @@ class RefundOrder {
     static async refundPass(client, determine, number) {
         await client.pause(1000);
         //输入密码
-        if (deviceName == 'a8') {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8') {
             let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
             await touchFun(client, number, inputCoordinates_1.InputCoordinates.getCoordMap()); // A8退款使用A8通用坐标Map
         }
-        else if (deviceName == 'elo') {
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo') {
             let touchFun = touchMethod_1.TouchMethod.getTouchMethod();
             await touchFun(client, number, inputCoordinates_1.InputCoordinates.getCoordMapForRedundPwd()); // Elo退款坐标
         }

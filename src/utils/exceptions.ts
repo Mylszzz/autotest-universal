@@ -1,6 +1,8 @@
 /**
  * 自定义基本异常类
  */
+import {LoginAction} from "../testactions/deviceActions";
+
 export class AutoTestException extends Error {
     protected map: Map<string, string>;  // [code, msg]
     protected code: string = '';  // 错误代码
@@ -65,6 +67,16 @@ export class AutoTestException extends Error {
     public toString() {
         return `code:${this.code}, msg:${this.msg}, detail:${this.detail}`;  // 拼接字符串
     }
+
+    /*
+    返回异常的错误处理
+     */
+    public static getExceptionHandler(exception: AutoTestException): any {
+        switch (exception) {
+            default:
+                return (LoginAction.reboot);
+        }
+    }
 }
 
 /**
@@ -75,7 +87,8 @@ export class LoginException extends AutoTestException {
         super(code, detail);
 
         super.appendMap(new Map([
-            ['L0001', '登录错误'],
+            ['L0001', '系统登录错误'],
+            ['L0002', 'VIP登录错误']
         ]));
 
         this.check(code, detail);
@@ -125,6 +138,11 @@ export class SaleException extends AutoTestException {
 
         super.appendMap(new Map([
             ['S0003', '支付错误'],
+            ['S0004', '输入错误'],
+            ['S0005', '销售脚本出错'],
+            ['S0006', '取消交易出错'],
+            ['S0007', '销售方式循环异常'],
+
         ]));
 
         this.check(code, detail);

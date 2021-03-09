@@ -4,6 +4,7 @@ exports.SaleException = exports.SiftException = exports.SearchException = export
 /**
  * 自定义基本异常类
  */
+const deviceActions_1 = require("../testactions/deviceActions");
 class AutoTestException extends Error {
     /**
      * 构造函数，如果子类继承了该基类，请在子类构造器中依次执行super()、this.appendMap(map)、this.check(code,detail
@@ -60,6 +61,15 @@ class AutoTestException extends Error {
     toString() {
         return `code:${this.code}, msg:${this.msg}, detail:${this.detail}`; // 拼接字符串
     }
+    /*
+    返回异常的错误处理
+     */
+    static getExceptionHandler(exception) {
+        switch (exception) {
+            default:
+                return (deviceActions_1.LoginAction.reboot);
+        }
+    }
 }
 exports.AutoTestException = AutoTestException;
 /**
@@ -69,7 +79,8 @@ class LoginException extends AutoTestException {
     constructor(code = 'A9999', detail = '') {
         super(code, detail);
         super.appendMap(new Map([
-            ['L0001', '登录错误'],
+            ['L0001', '系统登录错误'],
+            ['L0002', 'VIP登录错误']
         ]));
         this.check(code, detail);
     }
@@ -111,6 +122,10 @@ class SaleException extends AutoTestException {
         super(code, detail);
         super.appendMap(new Map([
             ['S0003', '支付错误'],
+            ['S0004', '输入错误'],
+            ['S0005', '销售脚本出错'],
+            ['S0006', '取消交易出错'],
+            ['S0007', '销售方式循环异常'],
         ]));
         this.check(code, detail);
     }

@@ -4,6 +4,7 @@ import * as wdio from "webdriverio";
 import {CommonXpath} from "../../static/commonXpath";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {runTimeSettings} from "../../static/settings";
+import {DeviceName} from "../../static/deviceName";
 
 
 /**
@@ -45,10 +46,15 @@ export class Search {
     public async searchNum(num: string) {
         //  查询订单号或会员号
         await this.client.pause(1000);
-        let codeNoText = await this.client.$(CommonXpath.ORDERTEXT);
+        let codeNoText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.widget.EditText');
         await codeNoText.click();
         await this.client.pause(runTimeSettings.generalPauseTime);
-        await PhoneNum.phoneNum(this.client, num);
+        if(DeviceName.getDeviceName()=='a8'){
+           await PhoneNum.phoneNum(this.client, num);
+        }
+        else {
+           codeNoText.setValue(num);
+        }
         await this.client.pause(1000);
         try {
             let ok = await this.client.$(CommonXpath.DETERMINE);
