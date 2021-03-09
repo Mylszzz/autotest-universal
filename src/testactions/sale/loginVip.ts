@@ -43,9 +43,9 @@ export class VipLogin_A8 implements VipLogin {
             await this.client.pause(3000);
 
         } catch (e) {
-
-            LogUtils.loginLog.error(new LoginException('A0001', '没有点击到会员的相关控件').toString());
-          this.vipLogin();
+            let err = new LoginException('A0001', '没有点击到会员的相关控件');
+            LogUtils.loginLog.error(err.toString());
+            throw err;
         }
     }
 }

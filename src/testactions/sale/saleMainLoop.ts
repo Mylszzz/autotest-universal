@@ -3,7 +3,8 @@ import {CsvGenerator} from "./csvGenerator";
 import {Tools} from "../../utils/tools";
 import {LogUtils} from "../../utils/logUtils";
 import {SaleDataPreparation, SingleSaleDataPreparation} from "./saleDataPreparation";
-import {SaleActionInstance} from "../deviceActions";
+import {LoginAction, SaleActionInstance} from "../deviceActions";
+import {ScreenShotUtil} from "../../utils/screenShotUtil";
 
 /**
  * 销售测试用例执行的入口类
@@ -50,6 +51,7 @@ export class SaleMainLoop {
         }
 
         this.client = client;
+        await this.client.setImplicitTimeout(15000);  // 15秒Timeout
     }
 
     /**
@@ -66,9 +68,16 @@ export class SaleMainLoop {
             this.saleInstance = SaleActionInstance.getSaleActionInstance(this.dataInstance.getSaleData(),
                 this.client, this.csvGenerator);
 
-            await this.saleInstance.saleAction();
-
+            try {
+                await this.saleInstance.saleAction();
+            } catch (e) {
+                // let exceptionHandler = AutoTestException.getExceptionHandler(e);
+                // await exceptionHandler(this.client);
+                await ScreenShotUtil.takeScreenShot(this.client, '第【' + i.toString() + '】单销售测试用例出错');
+                await LoginAction.reboot();
+            }
         }
+        await this.client.setImplicitTimeout(10000);  // 10秒Timeout
     }
 
     /**

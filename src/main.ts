@@ -1,5 +1,5 @@
 import {SingleDriver} from "./driver";
-import {LoginAction, LogoutAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
+import {ChangePwd, LoginAction, LogoutAction, RefreshAction, UploadLogAction} from "./testactions/deviceActions";
 import {GlobalUtil} from "./utils/globalUtil";
 import {LogUtils} from "./utils/logUtils";
 import {DeviceName} from "./static/deviceName";
@@ -64,6 +64,20 @@ class Main {
          */
         if (generalSettings.enableRefreshModule) {
             await RefreshAction.refreshAction(this.client);
+        }
+
+        /*
+        修改密码
+         */
+        if (generalSettings.enableChangePwdModule) {
+            await ChangePwd.changePwd(this.client);
+        }
+
+        /*
+        销售总结
+         */
+        if (generalSettings.enableSaleSummary) {
+            // TODO
         }
 
         /*

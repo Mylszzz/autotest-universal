@@ -52,7 +52,7 @@ export class Search {
         if(DeviceName.getDeviceName()=='a8'){
            await PhoneNum.phoneNum(this.client, num);
         }
-        else{
+        else {
            codeNoText.setValue(num);
         }
         await this.client.pause(1000);

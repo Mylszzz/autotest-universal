@@ -6,7 +6,6 @@ const globalUtil_1 = require("./utils/globalUtil");
 const logUtils_1 = require("./utils/logUtils");
 const deviceName_1 = require("./static/deviceName");
 const saleMainLoop_1 = require("./testactions/sale/saleMainLoop");
-const refundAction_1 = require("./testactions/refund/refundAction");
 const settings_1 = require("./static/settings");
 const refundAction_1 = require("./testactions/refund/refundAction");
 class Main {
@@ -56,6 +55,18 @@ class Main {
          */
         if (settings_1.generalSettings.enableRefreshModule) {
             await deviceActions_1.RefreshAction.refreshAction(this.client);
+        }
+        /*
+        修改密码
+         */
+        if (settings_1.generalSettings.enableChangePwdModule) {
+            await deviceActions_1.ChangePwd.changePwd(this.client);
+        }
+        /*
+        销售总结
+         */
+        if (settings_1.generalSettings.enableSaleSummary) {
+            // TODO
         }
         /*
         退出登录
