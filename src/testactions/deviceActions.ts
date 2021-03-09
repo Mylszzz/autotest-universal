@@ -8,7 +8,7 @@ import {DeviceName} from "../static/deviceName";
 import {CancelReturns_A8, CancelReturns_ELO} from "./refund/cancelReturns";
 import {CsvGenerator} from "./sale/csvGenerator";
 import {ChangePassword_A8, ChangePassword_Elo} from "./basicActions/changePassword";
-
+import {SearchAction_A8,SearchAction_ELO} from "./basicActions/searchAction";
 
 /****************************************************************
  *   此文件提供了各种不同模块可以直接调用的静态方法                      *
@@ -180,6 +180,40 @@ export class VipLoginAction {
             this.instance = VipLogin_Elo.getInstance(client);
         }
         await this.instance.vipLogin();
+    }
+}
+
+/**
+ * 用于直接调用查订单的静态方法
+ * 分为扫码查询和查询订单号
+ * 懒汉式单例模式
+ */
+export class SearchAction {
+    private static instance: SearchAction_A8 | SearchAction_ELO;
+
+    private constructor() {
+    }
+
+    // 扫码查订单方法
+    static async searchScreenAction(client: any) {
+        if (DeviceName.getDeviceName() == 'a8' && null == this.instance) {
+            this.instance = SearchAction_A8.getInstance(client);
+        } else if (DeviceName.getDeviceName() == 'elo' && null == this.instance) {
+            this.instance = SearchAction_ELO.getInstance(client);
+        }
+        await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
+        await this.instance.searchScreenAction();
+    }
+
+    // 查询订单号的方法
+    static async searchNumAction(client: any,number:string) {
+        if (DeviceName.getDeviceName() == 'a8' && this.instance == null) {
+            this.instance = SearchAction_A8.getInstance(client);
+        } else if (DeviceName.getDeviceName() == 'elo' && this.instance == null) {
+            this.instance = SearchAction_ELO.getInstance(client);
+        }
+        await client.setImplicitTimeout(10000);  // 设定Timeout为10秒
+        await this.instance.searchNum(number);
     }
 }
 

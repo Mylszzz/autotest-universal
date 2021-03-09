@@ -91,7 +91,7 @@ class RefundOrder {
         await client.pause(1000);
     }
     /**
-     * 出错后的点击操作
+     * 不支持退货后的点击操作
      */
     static async refundError(client) {
         let determine1 = await client.$(buttonXPaths_1.ButtonXPaths_A8.DETERMINE);

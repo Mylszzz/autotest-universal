@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChangePwd = exports.SaleActionInstance = exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
+exports.ChangePwd = exports.SaleActionInstance = exports.SearchAction = exports.VipLoginAction = exports.UploadLogAction = exports.CancelReturns = exports.RefreshAction = exports.LogoutAction = exports.LoginAction = void 0;
 const loginUtil_1 = require("./login/loginUtil");
 const logoutAction_1 = require("./basicActions/logoutAction");
 const refreshAction_1 = require("./basicActions/refreshAction");
@@ -10,6 +10,7 @@ const saleAction_1 = require("./sale/saleAction");
 const deviceName_1 = require("../static/deviceName");
 const cancelReturns_1 = require("./refund/cancelReturns");
 const changePassword_1 = require("./basicActions/changePassword");
+const searchAction_1 = require("./basicActions/searchAction");
 /****************************************************************
  *   此文件提供了各种不同模块可以直接调用的静态方法                      *
  *   在此文件中完成了对设备名的判断, 因而可以在需要的地方直接调用          *
@@ -170,6 +171,38 @@ class VipLoginAction {
     }
 }
 exports.VipLoginAction = VipLoginAction;
+/**
+ * 用于直接调用查订单的静态方法
+ * 分为扫码查询和查询订单号
+ * 懒汉式单例模式
+ */
+class SearchAction {
+    constructor() {
+    }
+    // 扫码查订单方法
+    static async searchScreenAction(client) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && null == this.instance) {
+            this.instance = searchAction_1.SearchAction_A8.getInstance(client);
+        }
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && null == this.instance) {
+            this.instance = searchAction_1.SearchAction_ELO.getInstance(client);
+        }
+        await client.setImplicitTimeout(10000); // 设定Timeout为10秒
+        await this.instance.searchScreenAction();
+    }
+    // 查询订单号的方法
+    static async searchNumAction(client, number) {
+        if (deviceName_1.DeviceName.getDeviceName() == 'a8' && this.instance == null) {
+            this.instance = searchAction_1.SearchAction_A8.getInstance(client);
+        }
+        else if (deviceName_1.DeviceName.getDeviceName() == 'elo' && this.instance == null) {
+            this.instance = searchAction_1.SearchAction_ELO.getInstance(client);
+        }
+        await client.setImplicitTimeout(10000); // 设定Timeout为10秒
+        await this.instance.searchNum(number);
+    }
+}
+exports.SearchAction = SearchAction;
 /**
  * 直接获取 SaleAction 实例的静态方法
  */

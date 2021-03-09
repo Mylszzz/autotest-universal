@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Search_elo = exports.Search_a8 = exports.Search = void 0;
+exports.SearchAction_ELO = exports.SearchAction_A8 = exports.SearchAction = void 0;
 const phoneNum_1 = require("../phoneNum");
 const logUtils_1 = require("../../utils/logUtils");
 const commonXpath_1 = require("../../static/commonXpath");
@@ -10,7 +10,7 @@ const deviceName_1 = require("../../static/deviceName");
 /**
  * 查询操作的基类
  */
-class Search {
+class SearchAction {
     constructor(client, menuBtnXPath, searchBtnXPath) {
         this.menuBtnXPath = buttonXPaths_1.ButtonXPaths_A8.MENU; //
         this.searchBtnXPath = buttonXPaths_1.ButtonXPaths_A8.SEARCH;
@@ -70,7 +70,7 @@ class Search {
     /**
      * 扫码查询订单
      */
-    async searchOrder() {
+    async searchScreenAction() {
         //手动扫码
         let qr = await this.client.$(commonXpath_1.CommonXpath.QR);
         await qr.click();
@@ -88,19 +88,31 @@ class Search {
         }
     }
 }
-exports.Search = Search;
+exports.SearchAction = SearchAction;
 /**
- * a8
+ * A8单例模式
  */
-class Search_a8 extends Search {
+class SearchAction_A8 extends SearchAction {
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new SearchAction_A8(client);
+        }
+        return this.instance;
+    }
 }
-exports.Search_a8 = Search_a8;
+exports.SearchAction_A8 = SearchAction_A8;
 /**
- * elo
+ * ELO单例模式
  */
-class Search_elo extends Search {
+class SearchAction_ELO extends SearchAction {
     constructor(client, menuBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.MENU, searchBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.SEARCH) {
         super(client, menuBtnXPath, searchBtnXPath);
     }
+    static getInstance(client) {
+        if (null == this.instance) {
+            this.instance = new SearchAction_ELO(client);
+        }
+        return this.instance;
+    }
 }
-exports.Search_elo = Search_elo;
+exports.SearchAction_ELO = SearchAction_ELO;

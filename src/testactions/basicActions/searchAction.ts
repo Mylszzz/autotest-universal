@@ -10,7 +10,7 @@ import {DeviceName} from "../../static/deviceName";
 /**
  * 查询操作的基类
  */
-export class Search {
+export class SearchAction {
     client: wdio.BrowserObject;
     menuBtnXPath: string = ButtonXPaths_A8.MENU;  //
     searchBtnXPath: string = ButtonXPaths_A8.SEARCH;
@@ -40,36 +40,29 @@ export class Search {
 
     /**
      * 查询具体的订单
-     * @param {string} num: 订单号，或者会员号
+     * @param {string} num: 订单号
      * @returns {Promise<void>}
      */
     public async searchNum(num: string) {
-        //  查询订单号或会员号
+        //  查询订单号
         await this.client.pause(1000);
         let codeNoText = await this.client.$('//android.webkit.WebView[@content-desc="Ionic App"]/android.widget.EditText');
         await codeNoText.click();
         await this.client.pause(runTimeSettings.generalPauseTime);
         if(DeviceName.getDeviceName()=='a8'){
-           await PhoneNum.phoneNum(this.client, num);
+           await PhoneNum.phoneNum(this.client, num); //A8不能直接赋值，会显示查找无此编号的订单
         }
         else {
-           codeNoText.setValue(num);
+           codeNoText.setValue(num); //ELO直接赋值，因为点击控件有bug，会卡住
         }
         await this.client.pause(1000);
         try {
             let ok = await this.client.$(CommonXpath.DETERMINE);
             await ok.click();
             await this.client.pause(runTimeSettings.generalPauseTime);
-            //查询订单号
-            if (num.length > 15) {
                 let codeNo = await this.client.$('//android.view.View[@content-desc=' + num + ']');
                 await codeNo.click();
                 await this.client.pause(1000);
-            }
-            //查询会员号
-            else {
-
-            }
             LogUtils.search.info("=====" + num + "查询符合预期==");
             LogUtils.search.info("=====查询结束====");
 
@@ -83,7 +76,7 @@ export class Search {
     /**
      * 扫码查询订单
      */
-    public async searchOrder() {
+    public async searchScreenAction() {
         //手动扫码
         let qr = await this.client.$(CommonXpath.QR);
         await qr.click();
@@ -108,17 +101,34 @@ export class Search {
 }
 
 /**
- * a8
+ * A8单例模式
  */
-export class Search_a8 extends Search {
+export class SearchAction_A8 extends SearchAction {
+    private static instance: SearchAction_A8;
+
+    public static getInstance(client: wdio.BrowserObject): SearchAction {
+        if (null == this.instance) {
+            this.instance = new SearchAction_A8(client);
+        }
+        return this.instance;
+    }
 }
 
 /**
- * elo
+ * ELO单例模式
  */
-export class Search_elo extends Search {
+export class SearchAction_ELO extends SearchAction {
+    private static instance: SearchAction_ELO;
+
     public constructor(client: wdio.BrowserObject, menuBtnXPath = ButtonXPaths_Elo.MENU,
                        searchBtnXPath = ButtonXPaths_Elo.SEARCH) {
         super(client, menuBtnXPath, searchBtnXPath);
+    }
+
+    public static getInstance(client: wdio.BrowserObject): SearchAction {
+        if (null == this.instance) {
+            this.instance = new SearchAction_ELO(client);
+        }
+        return this.instance;
     }
 }

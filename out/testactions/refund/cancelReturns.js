@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CancelReturns_ELO = exports.CancelReturns_A8 = exports.CancelReturns = void 0;
 const sift_1 = require("../basicActions/sift");
-const search_1 = require("../basicActions/search");
+const searchAction_1 = require("../basicActions/searchAction");
 const buttonXPaths_1 = require("../../static/buttonXPaths");
 const commonXpath_1 = require("../../static/commonXpath");
 const logUtils_1 = require("../../utils/logUtils");
@@ -23,7 +23,7 @@ class CancelReturns {
      */
     async cancelReturns() {
         logUtils_1.LogUtils.refundLog.info('执行取消退货');
-        await new search_1.Search(this.client).search();
+        await new searchAction_1.Search(this.client).search();
         const orderType = ['一般销售单'];
         const orderState = ['已完成'];
         await new sift_1.Sift(this.client).siftType(new Date().toLocaleDateString(), orderType, orderState);

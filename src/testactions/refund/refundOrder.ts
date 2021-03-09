@@ -99,7 +99,7 @@ export class RefundOrder {
     }
 
     /**
-     * 出错后的点击操作
+     * 不支持退货后的点击操作
      */
     public static async refundError(client: any) {
         let determine1 = await client.$(ButtonXPaths_A8.DETERMINE);

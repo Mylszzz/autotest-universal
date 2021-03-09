@@ -40,7 +40,7 @@ class Main {
             LogUtils.log.info("开始进行销售测试");
             await SaleMainLoop.salePreparation(this.client);
             await SaleMainLoop.saleMainLoop();
-            LogUtils.log.info("销售测试完成")
+            LogUtils.log.info("销售测试完成");
         }
 
         /*
