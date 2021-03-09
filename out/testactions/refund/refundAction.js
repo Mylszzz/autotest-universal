@@ -7,7 +7,7 @@ const refundUtils_1 = require("./refundUtils");
 const logUtils_1 = require("../../utils/logUtils");
 const refundData_1 = require("../../entity/refundData");
 const screenShotUtil_1 = require("../../utils/screenShotUtil");
-const search_1 = require("../basicActions/search");
+const deviceActions_1 = require("../deviceActions");
 const refundOrder_1 = require("./refundOrder");
 const exportCsv_1 = require("../../utils/exportCsv");
 const tools_1 = require("../../utils/tools");
@@ -45,10 +45,8 @@ class RefundAction {
                 let beforeToday = refundOnce.getBeforeToday();
                 let refundData = new refundData_1.RefundData();
                 try {
+                    await deviceActions_1.SearchAction.searchNumAction(this.client, orderNo);
                     if (this.deviceName == 'a8') {
-                        let search_a8 = new search_1.Search_a8(this.client);
-                        await search_a8.search();
-                        await search_a8.searchNum(orderNo);
                         if (beforeToday) {
                             refundData.isSuccess = await refundOrder_1.RefundOrder_a8.refundBeforeOrder(this.client, orderNo);
                         }
@@ -57,10 +55,6 @@ class RefundAction {
                         }
                     }
                     else {
-                        let search_elo = new search_1.Search_elo(this.client);
-                        await search_elo.search();
-                        await search_elo.searchNum(orderNo);
-                        //       await search_elo.search();
                         if (beforeToday) {
                             //进行隔日订单退货，并判断是否成功
                             refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundBeforeOrder(this.client, orderNo);
@@ -73,6 +67,7 @@ class RefundAction {
                 catch (e) {
                     logUtils_1.LogUtils.log.info("===退货出错，执行截屏操作===");
                     await screenShotUtil_1.ScreenShotUtil.takeScreenShot(this.client, orderNo);
+                    await deviceActions_1.LoginAction.reboot();
                 }
                 // //退货数据的赋值，用于输出退货测试数据
                 refundData.refundPrice = refundOnce.getPrice();

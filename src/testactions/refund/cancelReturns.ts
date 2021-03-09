@@ -1,5 +1,5 @@
 import {Sift} from "../basicActions/sift";
-import {Search} from "../basicActions/search";
+import {Search} from "../basicActions/searchAction";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {CommonXpath} from "../../static/commonXpath";

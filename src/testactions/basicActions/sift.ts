@@ -1,4 +1,4 @@
-import {Search} from "./search";
+import {Search} from "./searchAction";
 import {DateUtil} from "../../utils/dateUtil";
 import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
