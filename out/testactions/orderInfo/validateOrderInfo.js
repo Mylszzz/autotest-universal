@@ -23,6 +23,7 @@ class ValidateOrderInfo {
             }
             catch (e) {
                 logUtils_1.LogUtils.log.info(e);
+                throw e;
             }
         }
         logUtils_1.LogUtils.log.info('订单信息获取成功！');
