@@ -74,6 +74,12 @@ export class SaleMainLoop {
                 // let exceptionHandler = AutoTestException.getExceptionHandler(e);
                 // await exceptionHandler(this.client);
                 await ScreenShotUtil.takeScreenShot(this.client, '第【' + i.toString() + '】单销售测试用例出错');
+                /*
+                打印错误日志到csv
+                 */
+                await this.saleInstance.updateAdditionalContent(e.toString().replace(/,/g, ''));
+                await this.saleInstance.generateCsv();
+
                 await LoginAction.reboot();
             }
         }

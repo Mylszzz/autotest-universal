@@ -22,6 +22,7 @@ export class ValidateOrderInfo {
                 await infoMap.set(key, tempValue);  // 更新信息储存map
             } catch (e) {
                 LogUtils.log.info(e);
+                throw e;
             }
         }
         LogUtils.log.info('订单信息获取成功！');

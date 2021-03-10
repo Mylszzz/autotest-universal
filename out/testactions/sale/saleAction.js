@@ -26,6 +26,7 @@ class SaleAction {
         this.priceForCsv = 'unknown';
         this.refundable = false; // 是否需要退货
         this.orderNoForRefund = 'unknown'; // 订单号
+        this.additionalContent = []; // 出错信息
         this.client = client;
         this.seqNum = saleData.seqNum;
         this.paymentInfoMap = saleData.paymentInfoMap;
@@ -47,9 +48,9 @@ class SaleAction {
             }
         }
         catch (e) {
-            let err = new exceptions_1.AutoTestException('L0002', '登录vip失败');
+            let err = new exceptions_1.LoginException('L0002', '登录vip失败');
             logUtils_1.LogUtils.saleLog.error(err.toString());
-            throw err;
+            this.updateAdditionalContent(err.toString().replace(/,/g, ''));
         }
         finally {
             await this.saleMainScript();
@@ -73,7 +74,14 @@ class SaleAction {
             saleOrderNo: this.saleOrderNo,
             priceForCsv: this.priceForCsv
         };
-        this.csvGenerator.printCsv(saleDate, this.seqNum);
+        let tempStr = '';
+        for (let content of this.additionalContent) {
+            tempStr = tempStr + '-' + content;
+        }
+        this.csvGenerator.printCsv(saleDate, this.seqNum, [tempStr]);
+    }
+    updateAdditionalContent(content) {
+        this.additionalContent.push(content);
     }
     /**
      * 判断是否需要退货，并更新到成员变量: isRefundable

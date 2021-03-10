@@ -1,5 +1,5 @@
 import {VipLoginAction} from "../deviceActions";
-import {AutoTestException, SaleException} from "../../utils/exceptions";
+import {AutoTestException, LoginException, SaleException} from "../../utils/exceptions";
 import {LogUtils} from "../../utils/logUtils";
 import {GlobalUtil} from "../../utils/globalUtil";
 import {TouchMethod} from "../../utils/touchMethod";
@@ -37,6 +37,7 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     refundable: boolean = false;  // 是否需要退货
     orderNoForRefund: string = 'unknown';  // 订单号
 
+    additionalContent: string[] = [];  // 出错信息
 
     protected constructor(saleData: ISaleData, client: any, csvGenerator: CsvGenerator) {
         this.client = client;
@@ -60,9 +61,9 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
                 await VipLoginAction.vipLogin(this.client);
             }
         } catch (e) {
-            let err = new AutoTestException('L0002', '登录vip失败');
+            let err = new LoginException('L0002', '登录vip失败');
             LogUtils.saleLog.error(err.toString());
-            throw err;
+            this.updateAdditionalContent(err.toString().replace(/,/g, ''));
         } finally {
             await this.saleMainScript();
         }
@@ -86,13 +87,21 @@ abstract class SaleAction implements ISaleData, ISaleCsv, IRefundable {
     /**
      * 记录销售信息到csv文档
      */
-    protected generateCsv(): void {
+    public generateCsv(): void {
         let saleDate: ISaleCsv = {
             saleTime: this.saleTime,
             saleOrderNo: this.saleOrderNo,
             priceForCsv: this.priceForCsv
         };
-        this.csvGenerator.printCsv(saleDate, this.seqNum);
+        let tempStr: string = '';
+        for (let content of this.additionalContent) {
+            tempStr = tempStr + '-' + content;
+        }
+        this.csvGenerator.printCsv(saleDate, this.seqNum, [tempStr]);
+    }
+
+    public updateAdditionalContent(content: string) {
+        this.additionalContent.push(content);
     }
 
     /**
