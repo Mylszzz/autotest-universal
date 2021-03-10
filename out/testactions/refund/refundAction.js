@@ -63,17 +63,19 @@ class RefundAction {
                             refundData.isSuccess = await refundOrder_1.RefundOrder_elo.refundOrderToday(this.client, orderNo);
                         }
                     }
+                    refundData.refundRemark = refundOrder_2.RefundOrder.getRefundRemark(); //TODO
                 }
                 catch (e) {
                     logUtils_1.LogUtils.log.info("===退货出错，执行截屏操作===");
                     await screenShotUtil_1.ScreenShotUtil.takeScreenShot(this.client, orderNo);
                     await deviceActions_1.LoginAction.reboot();
+                    refundData.refundRemark = '退货出错,' + e.toString(); //TODO
                 }
                 // //退货数据的赋值，用于输出退货测试数据
                 refundData.refundPrice = refundOnce.getPrice();
                 refundData.refundOrderNo = "'" + orderNo;
                 refundData.refundTime = new Date().toLocaleDateString();
-                refundData.refundRemark = refundOrder_2.RefundOrder.getRefundRemark(); //TODO
+                //refundData.refundRemark = RefundOrder.getRefundRemark();//TODO
                 refundDataList.push(refundData);
                 exportCsv_1.ExportCsv.printRefundData(csvOptions_1.CsvOptions.configurationOption(i + 1, headers), refundDataList, filename);
             }

@@ -1,4 +1,4 @@
-import {Search} from "./searchAction";
+import {SearchAction} from "./searchAction";
 import {DateUtil} from "../../utils/dateUtil";
 import {LogUtils} from "../../utils/logUtils";
 import * as wdio from "webdriverio";
@@ -26,7 +26,7 @@ export class Sift {
      * @param orderState 订单状态
      */
     public async siftType(date: string, orderType: any, orderState: any) {
-        await new Search(this.client).search();
+        await new SearchAction(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
         await ccBtn.click();
@@ -62,7 +62,7 @@ export class Sift {
      *
      */
     public async refSift() {
-        await new Search(this.client).search();
+        await new SearchAction(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
         await ccBtn.click();
@@ -100,7 +100,7 @@ export class Sift_A8 extends Sift {
 /**
  * Elo需要更改控件
  */
-export class Sift_elo extends Sift {
+export class Sift_ELO extends Sift {
     public constructor(client: wdio.BrowserObject, funnelBtnXPath = ButtonXPaths_Elo.FUNNEL) {
         super(client, funnelBtnXPath);
     }

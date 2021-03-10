@@ -49,6 +49,7 @@ export class RefundAction {
                 let beforeToday = refundOnce.getBeforeToday();
                 let refundData = new RefundData();
                 try {
+
                     await SearchAction.searchNumAction(this.client,orderNo);
                     if (this.deviceName == 'a8') {
                         if (beforeToday) {
@@ -65,18 +66,20 @@ export class RefundAction {
                         }
 
                     }
+                    refundData.refundRemark = RefundOrder.getRefundRemark();//TODO
 
                 } catch (e) {
                     LogUtils.log.info("===退货出错，执行截屏操作===");
                     await ScreenShotUtil.takeScreenShot(this.client, orderNo);
                     await LoginAction.reboot();
+                    refundData.refundRemark = '退货出错,'+e.toString();//TODO
                 }
 
                 // //退货数据的赋值，用于输出退货测试数据
                 refundData.refundPrice = refundOnce.getPrice();
                 refundData.refundOrderNo = "'" + orderNo;
                 refundData.refundTime = new Date().toLocaleDateString();
-                refundData.refundRemark = RefundOrder.getRefundRemark();//TODO
+                //refundData.refundRemark = RefundOrder.getRefundRemark();//TODO
                 refundDataList.push(refundData);
                 ExportCsv.printRefundData(CsvOptions.configurationOption(i + 1, headers), refundDataList, filename);
             }

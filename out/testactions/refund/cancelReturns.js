@@ -23,9 +23,9 @@ class CancelReturns {
      */
     async cancelReturns() {
         logUtils_1.LogUtils.refundLog.info('执行取消退货');
-        await new searchAction_1.Search(this.client).search();
+        await new searchAction_1.SearchAction(this.client).search();
         const orderType = ['一般销售单'];
-        const orderState = ['已完成'];
+        const orderState = ['已完成', '已部分退'];
         await new sift_1.Sift(this.client).siftType(new Date().toLocaleDateString(), orderType, orderState);
         await this.client.pause(3000);
         let close = await this.client.$(commonXpath_1.CommonXpath.CLOSE);

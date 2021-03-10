@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sift_elo = exports.Sift_A8 = exports.Sift = void 0;
+exports.Sift_ELO = exports.Sift_A8 = exports.Sift = void 0;
 const searchAction_1 = require("./searchAction");
 const dateUtil_1 = require("../../utils/dateUtil");
 const logUtils_1 = require("../../utils/logUtils");
@@ -24,7 +24,7 @@ class Sift {
      * @param orderState 订单状态
      */
     async siftType(date, orderType, orderState) {
-        await new searchAction_1.Search(this.client).search();
+        await new searchAction_1.SearchAction(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
         await ccBtn.click();
@@ -58,7 +58,7 @@ class Sift {
      *
      */
     async refSift() {
-        await new searchAction_1.Search(this.client).search();
+        await new searchAction_1.SearchAction(this.client).search();
         //点击筛选
         let ccBtn = await this.client.$(this.funnelBtnXPath);
         await ccBtn.click();
@@ -95,9 +95,9 @@ exports.Sift_A8 = Sift_A8;
 /**
  * Elo需要更改控件
  */
-class Sift_elo extends Sift {
+class Sift_ELO extends Sift {
     constructor(client, funnelBtnXPath = buttonXPaths_1.ButtonXPaths_Elo.FUNNEL) {
         super(client, funnelBtnXPath);
     }
 }
-exports.Sift_elo = Sift_elo;
+exports.Sift_ELO = Sift_ELO;

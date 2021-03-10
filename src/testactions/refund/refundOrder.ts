@@ -263,7 +263,7 @@ export class RefundOrder_elo extends RefundOrder {
                 await this.refundPass(client, ViewXpaths_ELO.DETERMINE, number);
             }
             //  打印订单耗时
-            await client.pause(90000);
+            await client.pause(80000);
             refundRemark = '';
             await this.refundOk(client, ButtonXPaths_Elo.MENU, ButtonXPaths_Elo.HOME);
             return true;
@@ -293,7 +293,7 @@ export class RefundOrder_elo extends RefundOrder {
             await this.refundThen(client, ButtonXPaths_Elo.CONFIRM, ButtonXPaths_Elo.DETERMINE);
             let number: string = <string>await GlobalUtil.getConfigMap().get('backGoods2');
             await this.refundPass(client, ViewXpaths_ELO.DETERMINE, number);
-            await client.pause(90000);
+            await client.pause(80000);
             LogUtils.log.info("******订单" + orderNo + "隔日整单退款成功******");
             refundRemark = '';
             await this.refundOk(client, ButtonXPaths_Elo.MENU, ButtonXPaths_Elo.HOME);

@@ -1,5 +1,5 @@
 import {Sift} from "../basicActions/sift";
-import {Search} from "../basicActions/searchAction";
+import {SearchAction} from "../basicActions/searchAction";
 import * as wdio from "webdriverio";
 import {ButtonXPaths_A8, ButtonXPaths_Elo} from "../../static/buttonXPaths";
 import {CommonXpath} from "../../static/commonXpath";
@@ -26,9 +26,9 @@ export class CancelReturns {
      */
     public async cancelReturns() {
         LogUtils.refundLog.info('执行取消退货');
-        await new Search(this.client).search();
+        await new SearchAction(this.client).search();
         const orderType: any = ['一般销售单'];
-        const orderState: any = ['已完成'];
+        const orderState: any = ['已完成','已部分退'];
         await new Sift(this.client).siftType(new Date().toLocaleDateString(), orderType, orderState);
         await this.client.pause(3000);
         let close = await this.client.$(CommonXpath.CLOSE);

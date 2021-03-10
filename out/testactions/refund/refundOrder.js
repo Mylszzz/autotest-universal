@@ -257,7 +257,7 @@ class RefundOrder_elo extends RefundOrder {
                 await this.refundPass(client, viewXpaths_1.ViewXpaths_ELO.DETERMINE, number);
             }
             //  打印订单耗时
-            await client.pause(90000);
+            await client.pause(80000);
             refundRemark = '';
             await this.refundOk(client, buttonXPaths_1.ButtonXPaths_Elo.MENU, buttonXPaths_1.ButtonXPaths_Elo.HOME);
             return true;
@@ -287,7 +287,7 @@ class RefundOrder_elo extends RefundOrder {
             await this.refundThen(client, buttonXPaths_1.ButtonXPaths_Elo.CONFIRM, buttonXPaths_1.ButtonXPaths_Elo.DETERMINE);
             let number = await globalUtil_1.GlobalUtil.getConfigMap().get('backGoods2');
             await this.refundPass(client, viewXpaths_1.ViewXpaths_ELO.DETERMINE, number);
-            await client.pause(90000);
+            await client.pause(80000);
             logUtils_1.LogUtils.log.info("******订单" + orderNo + "隔日整单退款成功******");
             refundRemark = '';
             await this.refundOk(client, buttonXPaths_1.ButtonXPaths_Elo.MENU, buttonXPaths_1.ButtonXPaths_Elo.HOME);
